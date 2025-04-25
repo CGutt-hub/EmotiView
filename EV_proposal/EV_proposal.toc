@@ -1,0 +1,20 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{List of figures}{II}{section*.1}%
+\contentsline {section}{List of Acronyms}{III}{section*.2}%
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {section}{\numberline {2}Methods}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Electroencephalography}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Functional Near-Infrared Spectroscopy}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Electrocardiography and Heart Rate Variability}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Electrodermal Activity}{5}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Experimental Setup}{6}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Experimental Design}{6}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Data Analysis and Statistics}{7}{subsection.2.7}%
+\contentsline {paragraph}{Preprocessing and Feature Extraction}{7}{subsection.2.7}%
+\contentsline {paragraph}{Neural-Autonomic Synchrony and Statistical Testing}{7}{subsection.2.7}%
+\contentsline {section}{\numberline {3}Timeline}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Phase 1: Preparation (Months 1-2)}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Phase 2: Data Acquisition and Early Analysis, Writing (Months 3-6)}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Phase 3: Finishing Analysis and Interpretation (Month 7)}{10}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Phase 4: Finalizing and Submission (Months 8-9)}{10}{subsection.3.4}%
+\contentsline {section}{References}{11}{subsection.3.4}%

@@ -44,45 +44,46 @@
   <internal package="biblatex" priority="9" active="0">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>Bachelorarbeit.bcf</file>
+      <file>EV_proposal.bcf</file>
     </provides>
     <requires type="dynamic">
-      <file>Bachelorarbeit.bbl</file>
+      <file>EV_proposal.bbl</file>
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
+      <file>apa.dbx</file>
       <file>blx-compat.def</file>
       <file>biblatex.def</file>
       <file>standard.bbx</file>
-      <file>numeric.bbx</file>
-      <file>numeric-comp.bbx</file>
-      <file>numeric-comp.cbx</file>
+      <file>apa.bbx</file>
+      <file>apa.cbx</file>
       <file>biblatex.cfg</file>
-      <file>german.lbx</file>
-      <file>ngerman.lbx</file>
       <file>english.lbx</file>
+      <file>american.lbx</file>
+      <file>american-apa.lbx</file>
+      <file>english-apa.lbx</file>
     </requires>
   </internal>
   <external package="biblatex" priority="5" active="0">
     <generic>biber</generic>
     <cmdline>
       <binary>biber</binary>
-      <infile>Bachelorarbeit</infile>
+      <infile>EV_proposal</infile>
     </cmdline>
     <input>
-      <file>Bachelorarbeit.bcf</file>
+      <file>EV_proposal.bcf</file>
     </input>
     <output>
-      <file>Bachelorarbeit.bbl</file>
+      <file>EV_proposal.bbl</file>
     </output>
     <provides type="dynamic">
-      <file>Bachelorarbeit.bbl</file>
+      <file>EV_proposal.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>Bachelorarbeit.bcf</file>
+      <file>EV_proposal.bcf</file>
     </requires>
     <requires type="editable">
-      <file>lit.bib</file>
+      <file>resources.bib</file>
     </requires>
   </external>
 </requests>

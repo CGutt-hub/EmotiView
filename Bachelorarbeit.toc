@@ -1,8 +1,0 @@
-\acswitchoff 
-\babel@toc {ngerman}{}\relax 
-\babel@toc {english}{}\relax 
-\contentsline {section}{List of Figures}{II}{}%
-\contentsline {section}{List of Tables}{III}{}%
-\contentsline {section}{Acronyms}{IV}{}%
-\contentsline {section}{Proposal}{1}{}%
-\contentsline {section}{References}{1}{}%

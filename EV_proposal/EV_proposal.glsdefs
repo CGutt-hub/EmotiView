@@ -1,0 +1,812 @@
+\glsdefs@newdocentry{ANS}%
+{%
+name={\acronymfont {\glsentryshort {ANS}}},%
+sort={ANS},%
+type={acronym},%
+first={ANS},%
+firstplural={ANSs},%
+text={ANS},%
+plural={ANSs},%
+description={autonomic nervous system},%
+descriptionplural={autonomic nervous system},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={autonomic nervous system},%
+longplural={autonomic nervous systems},%
+short={ANS},%
+shortplural={ANSs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{PFC}%
+{%
+name={\acronymfont {\glsentryshort {PFC}}},%
+sort={PFC},%
+type={acronym},%
+first={PFC},%
+firstplural={PFCs},%
+text={PFC},%
+plural={PFCs},%
+description={prefrontal cortex},%
+descriptionplural={prefrontal cortex},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={prefrontal cortex},%
+longplural={prefrontal cortexs},%
+short={PFC},%
+shortplural={PFCs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{BIS}%
+{%
+name={\acronymfont {\glsentryshort {BIS}}},%
+sort={BIS},%
+type={acronym},%
+first={BIS},%
+firstplural={BISs},%
+text={BIS},%
+plural={BISs},%
+description={Behavioural Inhibition System},%
+descriptionplural={Behavioural Inhibition System},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Behavioural Inhibition System},%
+longplural={Behavioural Inhibition Systems},%
+short={BIS},%
+shortplural={BISs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{BAS}%
+{%
+name={\acronymfont {\glsentryshort {BAS}}},%
+sort={BAS},%
+type={acronym},%
+first={BAS},%
+firstplural={BASs},%
+text={BAS},%
+plural={BASs},%
+description={Behavioural Approach System},%
+descriptionplural={Behavioural Approach System},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Behavioural Approach System},%
+longplural={Behavioural Approach Systems},%
+short={BAS},%
+shortplural={BASs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{HRV}%
+{%
+name={\acronymfont {\glsentryshort {HRV}}},%
+sort={HRV},%
+type={acronym},%
+first={HRV},%
+firstplural={HRVs},%
+text={HRV},%
+plural={HRVs},%
+description={Heart Rate Variability},%
+descriptionplural={Heart Rate Variability},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Heart Rate Variability},%
+longplural={Heart Rate Variabilitys},%
+short={HRV},%
+shortplural={HRVs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{ECG}%
+{%
+name={\acronymfont {\glsentryshort {ECG}}},%
+sort={ECG},%
+type={acronym},%
+first={ECG},%
+firstplural={ECGs},%
+text={ECG},%
+plural={ECGs},%
+description={Electrocardiography},%
+descriptionplural={Electrocardiography},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Electrocardiography},%
+longplural={Electrocardiographys},%
+short={ECG},%
+shortplural={ECGs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{RMSSD}%
+{%
+name={\acronymfont {\glsentryshort {RMSSD}}},%
+sort={RMSSD},%
+type={acronym},%
+first={RMSSD},%
+firstplural={RMSSDs},%
+text={RMSSD},%
+plural={RMSSDs},%
+description={Root Mean Square of Successive Differences},%
+descriptionplural={Root Mean Square of Successive Differences},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Root Mean Square of Successive Differences},%
+longplural={Root Mean Square of Successive Differencess},%
+short={RMSSD},%
+shortplural={RMSSDs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{EDA}%
+{%
+name={\acronymfont {\glsentryshort {EDA}}},%
+sort={EDA},%
+type={acronym},%
+first={EDA},%
+firstplural={EDAs},%
+text={EDA},%
+plural={EDAs},%
+description={Electrodermal Activity},%
+descriptionplural={Electrodermal Activity},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Electrodermal Activity},%
+longplural={Electrodermal Activitys},%
+short={EDA},%
+shortplural={EDAs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{GSR}%
+{%
+name={\acronymfont {\glsentryshort {GSR}}},%
+sort={GSR},%
+type={acronym},%
+first={GSR},%
+firstplural={GSRs},%
+text={GSR},%
+plural={GSRs},%
+description={Galvanic Skin Response},%
+descriptionplural={Galvanic Skin Response},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Galvanic Skin Response},%
+longplural={Galvanic Skin Responses},%
+short={GSR},%
+shortplural={GSRs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{SCR}%
+{%
+name={\acronymfont {\glsentryshort {SCR}}},%
+sort={SCR},%
+type={acronym},%
+first={SCR},%
+firstplural={SCRs},%
+text={SCR},%
+plural={SCRs},%
+description={Skin Conductance Responses},%
+descriptionplural={Skin Conductance Responses},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Skin Conductance Responses},%
+longplural={Skin Conductance Responsess},%
+short={SCR},%
+shortplural={SCRs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{SCL}%
+{%
+name={\acronymfont {\glsentryshort {SCL}}},%
+sort={SCL},%
+type={acronym},%
+first={SCL},%
+firstplural={SCLs},%
+text={SCL},%
+plural={SCLs},%
+description={Skin Conductance Level},%
+descriptionplural={Skin Conductance Level},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Skin Conductance Level},%
+longplural={Skin Conductance Levels},%
+short={SCL},%
+shortplural={SCLs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{PLV}%
+{%
+name={\acronymfont {\glsentryshort {PLV}}},%
+sort={PLV},%
+type={acronym},%
+first={PLV},%
+firstplural={PLVs},%
+text={PLV},%
+plural={PLVs},%
+description={Phase locking value},%
+descriptionplural={Phase locking value},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Phase locking value},%
+longplural={Phase locking values},%
+short={PLV},%
+shortplural={PLVs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{EEG}%
+{%
+name={\acronymfont {\glsentryshort {EEG}}},%
+sort={EEG},%
+type={acronym},%
+first={EEG},%
+firstplural={EEGs},%
+text={EEG},%
+plural={EEGs},%
+description={Electroencephalography},%
+descriptionplural={Electroencephalography},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Electroencephalography},%
+longplural={Electroencephalographys},%
+short={EEG},%
+shortplural={EEGs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{fNIRS}%
+{%
+name={\acronymfont {\glsentryshort {fNIRS}}},%
+sort={fNIRS},%
+type={acronym},%
+first={fNIRS},%
+firstplural={fNIRSs},%
+text={fNIRS},%
+plural={fNIRSs},%
+description={Functional Near-Infrared Spectroscopy},%
+descriptionplural={Functional Near-Infrared Spectroscopy},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Functional Near-Infrared Spectroscopy},%
+longplural={Functional Near-Infrared Spectroscopys},%
+short={fNIRS},%
+shortplural={fNIRSs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{ROI}%
+{%
+name={\acronymfont {\glsentryshort {ROI}}},%
+sort={ROI},%
+type={acronym},%
+first={ROI},%
+firstplural={ROIs},%
+text={ROI},%
+plural={ROIs},%
+description={regions of interest},%
+descriptionplural={regions of interest},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={regions of interest},%
+longplural={regions of interests},%
+short={ROI},%
+shortplural={ROIs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{SAM}%
+{%
+name={\acronymfont {\glsentryshort {SAM}}},%
+sort={SAM},%
+type={acronym},%
+first={SAM},%
+firstplural={SAMs},%
+text={SAM},%
+plural={SAMs},%
+description={Self-Assessment Manikin},%
+descriptionplural={Self-Assessment Manikin},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Self-Assessment Manikin},%
+longplural={Self-Assessment Manikins},%
+short={SAM},%
+shortplural={SAMs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{HbO2}%
+{%
+name={\acronymfont {\glsentryshort {HbO2}}},%
+sort={HbO2},%
+type={acronym},%
+first={HbO2},%
+firstplural={HbO2s},%
+text={HbO2},%
+plural={HbO2s},%
+description={Oxyhemoglobin},%
+descriptionplural={Oxyhemoglobin},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Oxyhemoglobin},%
+longplural={Oxyhemoglobins},%
+short={HbO2},%
+shortplural={HbO2s},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{HbR}%
+{%
+name={\acronymfont {\glsentryshort {HbR}}},%
+sort={HbR},%
+type={acronym},%
+first={HbR},%
+firstplural={HbRs},%
+text={HbR},%
+plural={HbRs},%
+description={Deoxyhemoglobin},%
+descriptionplural={Deoxyhemoglobin},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Deoxyhemoglobin},%
+longplural={Deoxyhemoglobins},%
+short={HbR},%
+shortplural={HbRs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{NN intervals}%
+{%
+name={\acronymfont {\glsentryshort {NN intervals}}},%
+sort={NN intervals},%
+type={acronym},%
+first={NN intervals},%
+firstplural={NN intervalss},%
+text={NN intervals},%
+plural={NN intervalss},%
+description={Time intervals between consecutive R-peaks},%
+descriptionplural={Time intervals between consecutive R-peaks},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Time intervals between consecutive R-peaks},%
+longplural={Time intervals between consecutive R-peakss},%
+short={NN intervals},%
+shortplural={NN intervalss},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{P wave}%
+{%
+name={\acronymfont {\glsentryshort {P wave}}},%
+sort={P wave},%
+type={acronym},%
+first={P wave},%
+firstplural={P waves},%
+text={P wave},%
+plural={P waves},%
+description={arterial depolarization},%
+descriptionplural={arterial depolarization},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={arterial depolarization},%
+longplural={arterial depolarizations},%
+short={P wave},%
+shortplural={P waves},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{QRS complex}%
+{%
+name={\acronymfont {\glsentryshort {QRS complex}}},%
+sort={QRS complex},%
+type={acronym},%
+first={QRS complex},%
+firstplural={QRS complexs},%
+text={QRS complex},%
+plural={QRS complexs},%
+description={ventricular depolarization},%
+descriptionplural={ventricular depolarization},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={ventricular depolarization},%
+longplural={ventricular depolarizations},%
+short={QRS complex},%
+shortplural={QRS complexs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{T wave}%
+{%
+name={\acronymfont {\glsentryshort {T wave}}},%
+sort={T wave},%
+type={acronym},%
+first={T wave},%
+firstplural={T waves},%
+text={T wave},%
+plural={T waves},%
+description={ventricular repolarization},%
+descriptionplural={ventricular repolarization},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={ventricular repolarization},%
+longplural={ventricular repolarizations},%
+short={T wave},%
+shortplural={T waves},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{PANAS}%
+{%
+name={\acronymfont {\glsentryshort {PANAS}}},%
+sort={PANAS},%
+type={acronym},%
+first={PANAS},%
+firstplural={PANASs},%
+text={PANAS},%
+plural={PANASs},%
+description={Positive and Negative Affection Scale},%
+descriptionplural={Positive and Negative Affection Scale},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Positive and Negative Affection Scale},%
+longplural={Positive and Negative Affection Scales},%
+short={PANAS},%
+shortplural={PANASs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{ICA}%
+{%
+name={\acronymfont {\glsentryshort {ICA}}},%
+sort={ICA},%
+type={acronym},%
+first={ICA},%
+firstplural={ICAs},%
+text={ICA},%
+plural={ICAs},%
+description={Independent Component Analysis},%
+descriptionplural={Independent Component Analysis},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Independent Component Analysis},%
+longplural={Independent Component Analysiss},%
+short={ICA},%
+shortplural={ICAs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{TDDR}%
+{%
+name={\acronymfont {\glsentryshort {TDDR}}},%
+sort={TDDR},%
+type={acronym},%
+first={TDDR},%
+firstplural={TDDRs},%
+text={TDDR},%
+plural={TDDRs},%
+description={temporal derivation distribution repair},%
+descriptionplural={temporal derivation distribution repair},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={temporal derivation distribution repair},%
+longplural={temporal derivation distribution repairs},%
+short={TDDR},%
+shortplural={TDDRs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{DLPFC}%
+{%
+name={\acronymfont {\glsentryshort {DLPFC}}},%
+sort={DLPFC},%
+type={acronym},%
+first={DLPFC},%
+firstplural={DLPFCs},%
+text={DLPFC},%
+plural={DLPFCs},%
+description={dorsolateral prefrontal cortex},%
+descriptionplural={dorsolateral prefrontal cortex},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={dorsolateral prefrontal cortex},%
+longplural={dorsolateral prefrontal cortexs},%
+short={DLPFC},%
+shortplural={DLPFCs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{VMPFC}%
+{%
+name={\acronymfont {\glsentryshort {VMPFC}}},%
+sort={VMPFC},%
+type={acronym},%
+first={VMPFC},%
+firstplural={VMPFCs},%
+text={VMPFC},%
+plural={VMPFCs},%
+description={ventromedial prefrontal cortex},%
+descriptionplural={ventromedial prefrontal cortex},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={ventromedial prefrontal cortex},%
+longplural={ventromedial prefrontal cortexs},%
+short={VMPFC},%
+shortplural={VMPFCs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{ANOVA}%
+{%
+name={\acronymfont {\glsentryshort {ANOVA}}},%
+sort={ANOVA},%
+type={acronym},%
+first={ANOVA},%
+firstplural={ANOVAs},%
+text={ANOVA},%
+plural={ANOVAs},%
+description={Analysis of Variance},%
+descriptionplural={Analysis of Variance},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Analysis of Variance},%
+longplural={Analysis of Variances},%
+short={ANOVA},%
+shortplural={ANOVAs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{FAI}%
+{%
+name={\acronymfont {\glsentryshort {FAI}}},%
+sort={FAI},%
+type={acronym},%
+first={FAI},%
+firstplural={FAIs},%
+text={FAI},%
+plural={FAIs},%
+description={frontal asymmetry index},%
+descriptionplural={frontal asymmetry index},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={frontal asymmetry index},%
+longplural={frontal asymmetry indexs},%
+short={FAI},%
+shortplural={FAIs},%
+counter={page},%
+parent={},%
+%
+}%
+

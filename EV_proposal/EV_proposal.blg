@@ -1,0 +1,26 @@
+[0] Config.pm:307> INFO - This is Biber 2.19
+[4] Config.pm:310> INFO - Logfile is 'EV_proposal.blg'
+[422] biber-MSWIN64:340> INFO - === 
+[797] Biber.pm:419> INFO - Reading 'EV_proposal.bcf'
+[1574] Biber.pm:979> INFO - Found 62 citekeys in bib section 0
+[1641] Biber.pm:4419> INFO - Processing section 0
+[1724] Biber.pm:4610> INFO - Looking for bibtex file 'resources.bib' for section 0
+[2271] bibtex.pm:1713> INFO - LaTeX decoding ...
+[4132] bibtex.pm:1519> INFO - Found BibTeX data source 'resources.bib'
+[5727] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[5727] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[5728] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[5728] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[6100] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[6100] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[6100] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[6101] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[6421] bbl.pm:660> INFO - Writing 'EV_proposal.bbl' with encoding 'UTF-8'
+[6957] bbl.pm:763> INFO - Output to EV_proposal.bbl
+[6958] Biber.pm:131> WARN - ISBN '978-1-4614-1125-3 978-1-4614-1126-0' in entry 'boucseinElectrodermalActivity2012' is invalid - run biber with '--validate_datamodel' for details.
+[6958] Biber.pm:131> WARN - ISBN '978-1-5296-3000-8 978-1-5296-3001-5' in entry 'fieldDiscoveringStatisticsUsing2024' is invalid - run biber with '--validate_datamodel' for details.
+[6958] Biber.pm:131> WARN - I didn't find a database entry for 'pessoaRelationshipEmotionCognition2008' (section 0)
+[6959] Biber.pm:131> WARN - I didn't find a database entry for 'engelBetaBandOscillationsSignalling2001' (section 0)
+[6959] Biber.pm:131> WARN - I didn't find a database entry for 'etkinFunctionalNeuroanatomyAnxiety2011' (section 0)
+[6959] Biber.pm:131> WARN - I didn't find a database entry for 'royFunctionalSpecificityHuman2012' (section 0)
+[6959] Biber.pm:133> INFO - WARNINGS: 6
