@@ -1,6 +1,6 @@
-PWD g:\Meine Ablage\MAP\EV_proposal
+PWD c:\Users\cagat\Desktop\Clones\EmotiView\EV_proposal
 INPUT C:\Users\cagat\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT g:\Meine Ablage\MAP\EV_proposal\EV_proposal.tex
+INPUT c:\Users\cagat\Desktop\Clones\EmotiView\EV_proposal\EV_proposal.tex
 OUTPUT EV_proposal.log
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
@@ -404,9 +404,11 @@ INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-s
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex\latex\caption\ltcaption.sty
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex\latex\caption\ltcaption.sty
-INPUT .\EV_proposal.glsdefs
-INPUT .\EV_proposal.glsdefs
-INPUT EV_proposal.glsdefs
+INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
+INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Users\cagat\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
+INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\base\8r.enc
+OUTPUT EV_proposal.ist
 INPUT .\EV_images\rub.jpg
 INPUT .\EV_images\rub.jpg
 INPUT .\EV_images\rub.jpg
@@ -439,15 +441,10 @@ INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\sym
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
-OUTPUT EV_proposal.ist
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb7t.vf
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
-INPUT C:\Users\cagat\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
-INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\base\8r.enc
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb7t.vf
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
-INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
-INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr7t.tfm
 INPUT C:\Users\cagat\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb7t.tfm
 INPUT .\EV_proposal.toc

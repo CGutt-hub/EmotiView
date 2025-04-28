@@ -1160,6 +1160,139 @@
       \endverb
       \keyw{EEG,ERP,ICA,Matlab,Single-trial,Software,Spectral decomposition}
     \endentry
+    \entry{engelDynamicPredictionsOscillations2001}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=e84732399d798ff6411da37fdb313646}{%
+           family={Engel},
+           familyi={E\bibinitperiod},
+           given={Andreas\bibnamedelima K.},
+           giveni={A\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f8061505ccdcf46f6f9e115f95ce7778}{%
+           family={Fries},
+           familyi={F\bibinitperiod},
+           given={Pascal},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=974000371a3ba2b0a655dec8d315a71a}{%
+           family={Singer},
+           familyi={S\bibinitperiod},
+           given={Wolf},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{6e7a0492edcc2ad9277c0e5ebef66fb6}
+      \strng{fullhash}{d9268af2373e944ef46e808b75c8db71}
+      \strng{bibnamehash}{d9268af2373e944ef46e808b75c8db71}
+      \strng{authorbibnamehash}{d9268af2373e944ef46e808b75c8db71}
+      \strng{authornamehash}{6e7a0492edcc2ad9277c0e5ebef66fb6}
+      \strng{authorfullhash}{d9268af2373e944ef46e808b75c8db71}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Classical theories of sensory processing view the brain as a passive, stimulus-driven device. Newer theories, by contrast, view perception as an active, selective process controlled by top–down influences that include expectations and predictions, derived from experience, attention and working memory. The temporal binding model assumes that synchrony between distributed neurons is required for object representation, response selection, attention and sensorimotor integration. In a 'dynamicist' view of top–down influences on perception, synchrony generated intrinsically by interactions between higher and lower cortical areas could strongly influence perception, enhancing some representations and suppressing others. The firing rate and temporal response properties of neurons can be altered by attentional processes, working memory and behavioural context. For example, attention can enhance synchrony and/or gamma-band oscillations in neurons representing the attended stimulus. Spontaneous fluctuations in ongoing activity could represent not noise, but rather 'bias signals' that prime certain stimulus-evoked responses to allow rapid selection among inputs. Self-generated activity fluctuations during the preparatory period can also predict, for example, the direction, latency or speed of a movement. Contextual modulation can arise from networks of frontal, parietal and limbic areas as well as from sensorimotor areas. These areas can represent information related to goal definition, action planning, working memory and selective attention. Assemblies of neuronal populations implementing these aspects of top–down modulation could then entrain assemblies involved in the representation of new stimuli. A new concept of 'top–down' is proposed in which large-scale dynamics, expressing contextual influences and stored knowledge, can influence local processing. Rather than an anatomical hierarchy, this model proposes that any area could, in principle, modulate activity in any other area to which it is connected.}
+      \field{issn}{1471-0048}
+      \field{journaltitle}{Nature Reviews Neuroscience}
+      \field{langid}{english}
+      \field{month}{10}
+      \field{number}{10}
+      \field{shortjournal}{Nat Rev Neurosci}
+      \field{shorttitle}{Dynamic Predictions}
+      \field{title}{Dynamic Predictions: {{Oscillations}} and Synchrony in Top–down Processing}
+      \field{urlday}{28}
+      \field{urlmonth}{4}
+      \field{urlyear}{2025}
+      \field{volume}{2}
+      \field{year}{2001}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{704\bibrangedash 716}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1038/35094565
+      \endverb
+      \verb{file}
+      \verb C:\Users\cagat\Zotero\storage\PWHXUFKW\Engel et al. - 2001 - Dynamic predictions Oscillations and synchrony in top–down processing.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/35094565
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/35094565
+      \endverb
+      \keyw{Animal Genetics and Genomics,Behavioral Sciences,Biological Techniques,Biomedicine,general,Neurobiology,Neurosciences}
+    \endentry
+    \entry{etkinEmotionalProcessingAnterior2011}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=3a4e56ba0d5abd6bdbe3b32d3dcce4c8}{%
+           family={Etkin},
+           familyi={E\bibinitperiod},
+           given={Amit},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=029c2cfad03fd41eaeaaa623987fb0fc}{%
+           family={Egner},
+           familyi={E\bibinitperiod},
+           given={Tobias},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6d77265268b533eabb8b49818e6e6f0a}{%
+           family={Kalisch},
+           familyi={K\bibinitperiod},
+           given={Raffael},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{af6414a3ddf2435084f2524c83e2e347}
+      \strng{fullhash}{744b14672203d38665469554013df661}
+      \strng{bibnamehash}{744b14672203d38665469554013df661}
+      \strng{authorbibnamehash}{744b14672203d38665469554013df661}
+      \strng{authornamehash}{af6414a3ddf2435084f2524c83e2e347}
+      \strng{authorfullhash}{744b14672203d38665469554013df661}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Negative emotional stimuli activate a broad network of brain regions, including the medial prefrontal (mPFC) and anterior cingulate (ACC) cortices. An early influential view dichotomized these regions into dorsal–caudal cognitive and ventral–rostral affective subdivisions. In this review, we examine a wealth of recent research on negative emotions in animals and humans, using the example of fear or anxiety, and conclude that, contrary to the traditional dichotomy, both subdivisions make key contributions to emotional processing. Specifically, dorsal–caudal regions of the ACC and mPFC are involved in appraisal and expression of negative emotion, whereas ventral–rostral portions of the ACC and mPFC have a regulatory role with respect to limbic regions involved in generating emotional responses. Moreover, this new framework is broadly consistent with emerging data on other negative and positive emotions.}
+      \field{day}{1}
+      \field{issn}{1364-6613}
+      \field{journaltitle}{Trends in Cognitive Sciences}
+      \field{month}{2}
+      \field{number}{2}
+      \field{shortjournal}{Trends in Cognitive Sciences}
+      \field{title}{Emotional Processing in Anterior Cingulate and Medial Prefrontal Cortex}
+      \field{urlday}{28}
+      \field{urlmonth}{4}
+      \field{urlyear}{2025}
+      \field{volume}{15}
+      \field{year}{2011}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{85\bibrangedash 93}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1016/j.tics.2010.11.004
+      \endverb
+      \verb{file}
+      \verb C\:\\Users\\cagat\\Zotero\\storage\\UWXULGKP\\Etkin et al. - 2011 - Emotional processing in anterior cingulate and medial prefrontal cortex.pdf;C\:\\Users\\cagat\\Zotero\\storage\\5L5GCW7J\\S1364661310002524.html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S1364661310002524
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S1364661310002524
+      \endverb
+    \endentry
     \entry{fieldDiscoveringStatisticsUsing2024}{book}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=e455d44d4062027b5d79a7bf3817371e}{%
@@ -2007,7 +2140,7 @@
       \endverb
       \keyw{coherence,deblurring,EcoG,EEG,epilepsy,gamma-band,neural synchrony,phase-locking}
     \endentry
-    \entry{lagunaPowerSpectralDensity1998a}{article}{}
+    \entry{lagunaPowerSpectralDensity1998}{article}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=18f2b28c4b524db2d41fe30ca36440ba}{%
            family={Laguna},
@@ -2061,13 +2194,13 @@
       \verb 10.1109/10.678605
       \endverb
       \verb{file}
-      \verb C:\Users\cagat\Zotero\storage\RQCD6JLS\Laguna et al. - 1998 - Power spectral density of unevenly sampled data by least-square analysis performance and applicatio.pdf
+      \verb C:\Users\cagat\Zotero\storage\8FWTZR22\678605.html
       \endverb
       \verb{urlraw}
-      \verb https://ieeexplore.ieee.org/document/678605/
+      \verb https://ieeexplore.ieee.org/document/678605
       \endverb
       \verb{url}
-      \verb https://ieeexplore.ieee.org/document/678605/
+      \verb https://ieeexplore.ieee.org/document/678605
       \endverb
       \keyw{Data analysis,Dispersion,Fast Fourier transforms,Frequency estimation,Heart rate,Performance analysis,Predictive models,Sampling methods,Signal analysis,Testing}
     \endentry
@@ -2733,6 +2866,62 @@
       \verb https://ieeexplore.ieee.org/document/4122029
       \endverb
       \keyw{Band pass filters,Computer displays,Databases,Detection algorithms,Detectors,Digital filters,Electrocardiography,Filtering,Interference,Noise reduction}
+    \endentry
+    \entry{pessoaRelationshipEmotionCognition2008}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=b9091f9ac3929a82c651b02a265f166c}{%
+           family={Pessoa},
+           familyi={P\bibinitperiod},
+           given={Luiz},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{b9091f9ac3929a82c651b02a265f166c}
+      \strng{fullhash}{b9091f9ac3929a82c651b02a265f166c}
+      \strng{bibnamehash}{b9091f9ac3929a82c651b02a265f166c}
+      \strng{authorbibnamehash}{b9091f9ac3929a82c651b02a265f166c}
+      \strng{authornamehash}{b9091f9ac3929a82c651b02a265f166c}
+      \strng{authorfullhash}{b9091f9ac3929a82c651b02a265f166c}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Neuroscientists often refer to brain areas as being 'affective' or 'cognitive'. In this Opinion article, Luiz Pessoa argues that complex behaviours are based on dynamic coalitions of brain networks and that there are no specifically 'affective' or 'cognitive' brain areas.}
+      \field{issn}{1471-0048}
+      \field{journaltitle}{Nature Reviews Neuroscience}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{number}{2}
+      \field{shortjournal}{Nat Rev Neurosci}
+      \field{title}{On the Relationship between Emotion and Cognition}
+      \field{urlday}{28}
+      \field{urlmonth}{4}
+      \field{urlyear}{2025}
+      \field{volume}{9}
+      \field{year}{2008}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{148\bibrangedash 158}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1038/nrn2317
+      \endverb
+      \verb{file}
+      \verb C:\Users\cagat\Zotero\storage\RP38K7HP\Pessoa - 2008 - On the relationship between emotion and cognition.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/nrn2317
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/nrn2317
+      \endverb
+      \keyw{Animal Genetics and Genomics,Behavioral Sciences,Biological Techniques,Biomedicine,general,Neurobiology,Neurosciences}
     \endentry
     \entry{pintiCurrentStatusIssues2019}{article}{}
       \name{author}{5}{}{%
@@ -5301,6 +5490,139 @@
       \endverb
       \keyw{EEG,ERP,ICA,Matlab,Single-trial,Software,Spectral decomposition}
     \endentry
+    \entry{engelDynamicPredictionsOscillations2001}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=e84732399d798ff6411da37fdb313646}{%
+           family={Engel},
+           familyi={E\bibinitperiod},
+           given={Andreas\bibnamedelima K.},
+           giveni={A\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f8061505ccdcf46f6f9e115f95ce7778}{%
+           family={Fries},
+           familyi={F\bibinitperiod},
+           given={Pascal},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=974000371a3ba2b0a655dec8d315a71a}{%
+           family={Singer},
+           familyi={S\bibinitperiod},
+           given={Wolf},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{6e7a0492edcc2ad9277c0e5ebef66fb6}
+      \strng{fullhash}{d9268af2373e944ef46e808b75c8db71}
+      \strng{bibnamehash}{d9268af2373e944ef46e808b75c8db71}
+      \strng{authorbibnamehash}{d9268af2373e944ef46e808b75c8db71}
+      \strng{authornamehash}{6e7a0492edcc2ad9277c0e5ebef66fb6}
+      \strng{authorfullhash}{d9268af2373e944ef46e808b75c8db71}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Classical theories of sensory processing view the brain as a passive, stimulus-driven device. Newer theories, by contrast, view perception as an active, selective process controlled by top–down influences that include expectations and predictions, derived from experience, attention and working memory. The temporal binding model assumes that synchrony between distributed neurons is required for object representation, response selection, attention and sensorimotor integration. In a 'dynamicist' view of top–down influences on perception, synchrony generated intrinsically by interactions between higher and lower cortical areas could strongly influence perception, enhancing some representations and suppressing others. The firing rate and temporal response properties of neurons can be altered by attentional processes, working memory and behavioural context. For example, attention can enhance synchrony and/or gamma-band oscillations in neurons representing the attended stimulus. Spontaneous fluctuations in ongoing activity could represent not noise, but rather 'bias signals' that prime certain stimulus-evoked responses to allow rapid selection among inputs. Self-generated activity fluctuations during the preparatory period can also predict, for example, the direction, latency or speed of a movement. Contextual modulation can arise from networks of frontal, parietal and limbic areas as well as from sensorimotor areas. These areas can represent information related to goal definition, action planning, working memory and selective attention. Assemblies of neuronal populations implementing these aspects of top–down modulation could then entrain assemblies involved in the representation of new stimuli. A new concept of 'top–down' is proposed in which large-scale dynamics, expressing contextual influences and stored knowledge, can influence local processing. Rather than an anatomical hierarchy, this model proposes that any area could, in principle, modulate activity in any other area to which it is connected.}
+      \field{issn}{1471-0048}
+      \field{journaltitle}{Nature Reviews Neuroscience}
+      \field{langid}{english}
+      \field{month}{10}
+      \field{number}{10}
+      \field{shortjournal}{Nat Rev Neurosci}
+      \field{shorttitle}{Dynamic Predictions}
+      \field{title}{Dynamic Predictions: {{Oscillations}} and Synchrony in Top–down Processing}
+      \field{urlday}{28}
+      \field{urlmonth}{4}
+      \field{urlyear}{2025}
+      \field{volume}{2}
+      \field{year}{2001}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{704\bibrangedash 716}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1038/35094565
+      \endverb
+      \verb{file}
+      \verb C:\Users\cagat\Zotero\storage\PWHXUFKW\Engel et al. - 2001 - Dynamic predictions Oscillations and synchrony in top–down processing.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/35094565
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/35094565
+      \endverb
+      \keyw{Animal Genetics and Genomics,Behavioral Sciences,Biological Techniques,Biomedicine,general,Neurobiology,Neurosciences}
+    \endentry
+    \entry{etkinEmotionalProcessingAnterior2011}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=3a4e56ba0d5abd6bdbe3b32d3dcce4c8}{%
+           family={Etkin},
+           familyi={E\bibinitperiod},
+           given={Amit},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=029c2cfad03fd41eaeaaa623987fb0fc}{%
+           family={Egner},
+           familyi={E\bibinitperiod},
+           given={Tobias},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6d77265268b533eabb8b49818e6e6f0a}{%
+           family={Kalisch},
+           familyi={K\bibinitperiod},
+           given={Raffael},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{af6414a3ddf2435084f2524c83e2e347}
+      \strng{fullhash}{744b14672203d38665469554013df661}
+      \strng{bibnamehash}{744b14672203d38665469554013df661}
+      \strng{authorbibnamehash}{744b14672203d38665469554013df661}
+      \strng{authornamehash}{af6414a3ddf2435084f2524c83e2e347}
+      \strng{authorfullhash}{744b14672203d38665469554013df661}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Negative emotional stimuli activate a broad network of brain regions, including the medial prefrontal (mPFC) and anterior cingulate (ACC) cortices. An early influential view dichotomized these regions into dorsal–caudal cognitive and ventral–rostral affective subdivisions. In this review, we examine a wealth of recent research on negative emotions in animals and humans, using the example of fear or anxiety, and conclude that, contrary to the traditional dichotomy, both subdivisions make key contributions to emotional processing. Specifically, dorsal–caudal regions of the ACC and mPFC are involved in appraisal and expression of negative emotion, whereas ventral–rostral portions of the ACC and mPFC have a regulatory role with respect to limbic regions involved in generating emotional responses. Moreover, this new framework is broadly consistent with emerging data on other negative and positive emotions.}
+      \field{day}{1}
+      \field{issn}{1364-6613}
+      \field{journaltitle}{Trends in Cognitive Sciences}
+      \field{month}{2}
+      \field{number}{2}
+      \field{shortjournal}{Trends in Cognitive Sciences}
+      \field{title}{Emotional Processing in Anterior Cingulate and Medial Prefrontal Cortex}
+      \field{urlday}{28}
+      \field{urlmonth}{4}
+      \field{urlyear}{2025}
+      \field{volume}{15}
+      \field{year}{2011}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{85\bibrangedash 93}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1016/j.tics.2010.11.004
+      \endverb
+      \verb{file}
+      \verb C\:\\Users\\cagat\\Zotero\\storage\\UWXULGKP\\Etkin et al. - 2011 - Emotional processing in anterior cingulate and medial prefrontal cortex.pdf;C\:\\Users\\cagat\\Zotero\\storage\\5L5GCW7J\\S1364661310002524.html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S1364661310002524
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S1364661310002524
+      \endverb
+    \endentry
     \entry{fieldDiscoveringStatisticsUsing2024}{book}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=e455d44d4062027b5d79a7bf3817371e}{%
@@ -6148,7 +6470,7 @@
       \endverb
       \keyw{coherence,deblurring,EcoG,EEG,epilepsy,gamma-band,neural synchrony,phase-locking}
     \endentry
-    \entry{lagunaPowerSpectralDensity1998a}{article}{}
+    \entry{lagunaPowerSpectralDensity1998}{article}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=18f2b28c4b524db2d41fe30ca36440ba}{%
            family={Laguna},
@@ -6202,13 +6524,13 @@
       \verb 10.1109/10.678605
       \endverb
       \verb{file}
-      \verb C:\Users\cagat\Zotero\storage\RQCD6JLS\Laguna et al. - 1998 - Power spectral density of unevenly sampled data by least-square analysis performance and applicatio.pdf
+      \verb C:\Users\cagat\Zotero\storage\8FWTZR22\678605.html
       \endverb
       \verb{urlraw}
-      \verb https://ieeexplore.ieee.org/document/678605/
+      \verb https://ieeexplore.ieee.org/document/678605
       \endverb
       \verb{url}
-      \verb https://ieeexplore.ieee.org/document/678605/
+      \verb https://ieeexplore.ieee.org/document/678605
       \endverb
       \keyw{Data analysis,Dispersion,Fast Fourier transforms,Frequency estimation,Heart rate,Performance analysis,Predictive models,Sampling methods,Signal analysis,Testing}
     \endentry
@@ -6874,6 +7196,62 @@
       \verb https://ieeexplore.ieee.org/document/4122029
       \endverb
       \keyw{Band pass filters,Computer displays,Databases,Detection algorithms,Detectors,Digital filters,Electrocardiography,Filtering,Interference,Noise reduction}
+    \endentry
+    \entry{pessoaRelationshipEmotionCognition2008}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=b9091f9ac3929a82c651b02a265f166c}{%
+           family={Pessoa},
+           familyi={P\bibinitperiod},
+           given={Luiz},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{b9091f9ac3929a82c651b02a265f166c}
+      \strng{fullhash}{b9091f9ac3929a82c651b02a265f166c}
+      \strng{bibnamehash}{b9091f9ac3929a82c651b02a265f166c}
+      \strng{authorbibnamehash}{b9091f9ac3929a82c651b02a265f166c}
+      \strng{authornamehash}{b9091f9ac3929a82c651b02a265f166c}
+      \strng{authorfullhash}{b9091f9ac3929a82c651b02a265f166c}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Neuroscientists often refer to brain areas as being 'affective' or 'cognitive'. In this Opinion article, Luiz Pessoa argues that complex behaviours are based on dynamic coalitions of brain networks and that there are no specifically 'affective' or 'cognitive' brain areas.}
+      \field{issn}{1471-0048}
+      \field{journaltitle}{Nature Reviews Neuroscience}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{number}{2}
+      \field{shortjournal}{Nat Rev Neurosci}
+      \field{title}{On the Relationship between Emotion and Cognition}
+      \field{urlday}{28}
+      \field{urlmonth}{4}
+      \field{urlyear}{2025}
+      \field{volume}{9}
+      \field{year}{2008}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{148\bibrangedash 158}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1038/nrn2317
+      \endverb
+      \verb{file}
+      \verb C:\Users\cagat\Zotero\storage\RP38K7HP\Pessoa - 2008 - On the relationship between emotion and cognition.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/nrn2317
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/nrn2317
+      \endverb
+      \keyw{Animal Genetics and Genomics,Behavioral Sciences,Biological Techniques,Biomedicine,general,Neurobiology,Neurosciences}
     \endentry
     \entry{pintiCurrentStatusIssues2019}{article}{}
       \name{author}{5}{}{%
@@ -8300,10 +8678,6 @@
       \endverb
     \endentry
   \enddatalist
-  \missing{engelBetaBandOscillationsSignalling2001}
-  \missing{etkinFunctionalNeuroanatomyAnxiety2011}
-  \missing{pessoaRelationshipEmotionCognition2008}
-  \missing{royFunctionalSpecificityHuman2012}
 \endrefsection
 \endinput
 
