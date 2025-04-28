@@ -3156,4 +3156,79 @@
     <bcf:citekey order="65" intorder="1">malikHeartRateVariability1996</bcf:citekey>
     <bcf:citekey order="66" intorder="1">benedekDecompositionSkinConductance2010</bcf:citekey>
     <bcf:citekey order="67" intorder="1">boucseinElectrodermalActivity2012</bcf:citekey>
-    <bcf:citekey order="68" intorder="1">cop
+    <bcf:citekey order="68" intorder="1">copeSystemLongtermMeasurement1988</bcf:citekey>
+    <bcf:citekey order="69" intorder="1">scholkmannReviewContinuousWave2014</bcf:citekey>
+    <bcf:citekey order="70" intorder="1">etkinEmotionalProcessingAnterior2011</bcf:citekey>
+    <bcf:citekey order="70" intorder="2">motzkinVentromedialPrefrontalCortex2015</bcf:citekey>
+    <bcf:citekey order="71" intorder="1">lachauxMeasuringPhaseSynchrony1999</bcf:citekey>
+    <bcf:citekey order="72" intorder="1">lagunaPowerSpectralDensity1998</bcf:citekey>
+    <bcf:citekey order="72" intorder="2">shafferOverviewHeartRate2017</bcf:citekey>
+    <bcf:citekey order="73" intorder="1">virtanenSciPy10Fundamental2020</bcf:citekey>
+    <bcf:citekey order="74" intorder="1">virtanenSciPy10Fundamental2020</bcf:citekey>
+    <bcf:citekey order="75" intorder="1">rodriguesMethodsMatterExamination2021</bcf:citekey>
+    <bcf:citekey order="76" intorder="1">cohenAnalyzingNeuralTime2014</bcf:citekey>
+    <bcf:citekey order="77" intorder="1">yucelBestPracticesFNIRS2021</bcf:citekey>
+    <bcf:citekey order="78" intorder="1">gramfortMEGEEGData2013</bcf:citekey>
+    <bcf:citekey order="79" intorder="1">rodriguesMethodsMatterExamination2021</bcf:citekey>
+    <bcf:citekey order="79" intorder="2">allenIssuesAssumptionsRoad2004</bcf:citekey>
+  </bcf:section>
+  <!-- SORTING TEMPLATES -->
+  <bcf:sortingtemplate name="apa">
+    <bcf:sort order="1">
+      <bcf:sortitem order="1">presort</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="2" final="1">
+      <bcf:sortitem order="1">sortkey</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="3">
+      <bcf:sortitem order="1">sortname</bcf:sortitem>
+      <bcf:sortitem order="2">author</bcf:sortitem>
+      <bcf:sortitem order="3">editor</bcf:sortitem>
+      <bcf:sortitem order="4">sorttitle</bcf:sortitem>
+      <bcf:sortitem order="5">title</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="4">
+      <bcf:sortitem order="1">pubstate</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="5">
+      <bcf:sortitem order="1">sortyear</bcf:sortitem>
+      <bcf:sortitem order="2">year</bcf:sortitem>
+      <bcf:sortitem literal="1" order="3">-2000000000</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="6">
+      <bcf:sortitem order="1">month</bcf:sortitem>
+      <bcf:sortitem literal="1" order="2">-2000000000</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="7">
+      <bcf:sortitem order="1">day</bcf:sortitem>
+      <bcf:sortitem literal="1" order="2">-2000000000</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="8">
+      <bcf:sortitem order="1">sorttitle</bcf:sortitem>
+      <bcf:sortitem order="2">title</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="9">
+      <bcf:sortitem order="1">volume</bcf:sortitem>
+      <bcf:sortitem literal="1" order="2">0</bcf:sortitem>
+    </bcf:sort>
+  </bcf:sortingtemplate>
+  <!-- DATALISTS -->
+  <bcf:datalist section="0"
+                name="apa/apasortcite//global/global"
+                type="entry"
+                sortingtemplatename="apa"
+                sortingnamekeytemplatename="apasortcite"
+                labelprefix=""
+                uniquenametemplatename="global"
+                labelalphanametemplatename="global">
+  </bcf:datalist>
+  <bcf:datalist section="0"
+                name="apa/global//global/global"
+                type="entry"
+                sortingtemplatename="apa"
+                sortingnamekeytemplatename="global"
+                labelprefix=""
+                uniquenametemplatename="global"
+                labelalphanametemplatename="global">
+  </bcf:datalist>
+</bcf:controlfile>

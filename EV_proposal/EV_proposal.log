@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.17)  28 APR 2025 16:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.17)  28 APR 2025 16:47
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -716,58 +716,59 @@ Package: enumitem 2025/02/06 v3.11 Customized lists
 \enit@inbox=\box66
 \enit@count@id=\count440
 \enitdp@description=\count441
+) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.sty
+Package: microtype 2025/02/11 v3.2a Micro-typographical refinements (RS)
+\MT@toks=\toks34
+\MT@tempbox=\box67
+\MT@count=\count442
+LaTeX Info: Redefining \noprotrusionifhmode on input line 1087.
+LaTeX Info: Redefining \leftprotrusion on input line 1088.
+\MT@prot@toks=\toks35
+LaTeX Info: Redefining \rightprotrusion on input line 1107.
+LaTeX Info: Redefining \textls on input line 1449.
+\MT@outer@kern=\dimen282
+LaTeX Info: Redefining \microtypecontext on input line 2053.
+LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
+\MT@listname@count=\count443
+ (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype-pdftex.def
+File: microtype-pdftex.def 2025/02/11 v3.2a Definitions specific to pdftex (RS)
+LaTeX Info: Redefining \lsstyle on input line 944.
+LaTeX Info: Redefining \lslig on input line 944.
+\MT@outer@space=\skip88
 )
-c:/Users/cagat/Desktop/Clones/EmotiView/EV_proposal/EV_proposal.tex:48: Undefined control sequence.
-<recently read> \usepackagePackage 
-                                   
-l.48 \usepackagePackage
-                        tracklang: No `datatool' support for dialect `englis...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-c:/Users/cagat/Desktop/Clones/EmotiView/EV_proposal/EV_proposal.tex:48: LaTeX Error: Missing \begin{document}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.48 \usepackagePackage t
-                         racklang: No `datatool' support for dialect `englis...
-You're in trouble here.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-(C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\times.sty
+Package microtype Info: Loading configuration file microtype.cfg.
+ (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.cfg
+File: microtype.cfg 2025/02/11 v3.2a microtype main configuration file (RS)
+)
+LaTeX Info: Redefining \microtypesetup on input line 3065.
+) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\times.sty
 Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyhdr.sty
 Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
-\f@nch@headwidth=\skip88
-\f@nch@offset@elh=\skip89
-\f@nch@offset@erh=\skip90
-\f@nch@offset@olh=\skip91
-\f@nch@offset@orh=\skip92
-\f@nch@offset@elf=\skip93
-\f@nch@offset@erf=\skip94
-\f@nch@offset@olf=\skip95
-\f@nch@offset@orf=\skip96
-\f@nch@height=\skip97
-\f@nch@footalignment=\skip98
-\f@nch@widthL=\skip99
-\f@nch@widthC=\skip100
-\f@nch@widthR=\skip101
-\@temptokenb=\toks34
+\f@nch@headwidth=\skip89
+\f@nch@offset@elh=\skip90
+\f@nch@offset@erh=\skip91
+\f@nch@offset@olh=\skip92
+\f@nch@offset@orh=\skip93
+\f@nch@offset@elf=\skip94
+\f@nch@offset@erf=\skip95
+\f@nch@offset@olf=\skip96
+\f@nch@offset@orf=\skip97
+\f@nch@height=\skip98
+\f@nch@footalignment=\skip99
+\f@nch@widthL=\skip100
+\f@nch@widthC=\skip101
+\f@nch@widthR=\skip102
+\@temptokenb=\toks36
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.sty
 Package: csquotes 2024-04-04 v5.2o context-sensitive quotations (JAW)
-\csq@reset=\count442
-\csq@gtype=\count443
-\csq@glevel=\count444
-\csq@qlevel=\count445
-\csq@maxlvl=\count446
-\csq@tshold=\count447
-\csq@ltx@everypar=\toks35
+\csq@reset=\count444
+\csq@gtype=\count445
+\csq@glevel=\count446
+\csq@qlevel=\count447
+\csq@maxlvl=\count448
+\csq@tshold=\count449
+\csq@ltx@everypar=\toks37
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.def
 File: csquotes.def 2024-04-04 v5.2o csquotes generic definitions (JAW)
 )
@@ -777,66 +778,66 @@ Package csquotes Info: ... configuration file loaded successfully.
 File: csquotes.cfg 
 )) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
 Package: amsmath 2023/05/13 v2.17o AMS math features
-\@mathmargin=\skip102
+\@mathmargin=\skip103
 
 For additional information on amsmath, use the `?' option.
 (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks36
-\ex@=\dimen282
+\@emptytoks=\toks38
+\ex@=\dimen283
 )) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen283
+\pmbraise@=\dimen284
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count448
+\inf@bad=\count450
 LaTeX Info: Redefining \frac on input line 234.
-\uproot@=\count449
-\leftroot@=\count450
+\uproot@=\count451
+\leftroot@=\count452
 LaTeX Info: Redefining \overline on input line 399.
 LaTeX Info: Redefining \colon on input line 410.
-\classnum@=\count451
-\DOTSCASE@=\count452
+\classnum@=\count453
+\DOTSCASE@=\count454
 LaTeX Info: Redefining \ldots on input line 496.
 LaTeX Info: Redefining \dots on input line 499.
 LaTeX Info: Redefining \cdots on input line 620.
-\Mathstrutbox@=\box67
-\strutbox@=\box68
+\Mathstrutbox@=\box68
+\strutbox@=\box69
 LaTeX Info: Redefining \big on input line 722.
 LaTeX Info: Redefining \Big on input line 723.
 LaTeX Info: Redefining \bigg on input line 724.
 LaTeX Info: Redefining \Bigg on input line 725.
-\big@size=\dimen284
+\big@size=\dimen285
 LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
-\macc@depth=\count453
+\macc@depth=\count455
 LaTeX Info: Redefining \bmod on input line 905.
 LaTeX Info: Redefining \pmod on input line 910.
 LaTeX Info: Redefining \smash on input line 940.
 LaTeX Info: Redefining \relbar on input line 970.
 LaTeX Info: Redefining \Relbar on input line 971.
-\c@MaxMatrixCols=\count454
+\c@MaxMatrixCols=\count456
 \dotsspace@=\muskip21
-\c@parentequation=\count455
-\dspbrk@lvl=\count456
-\tag@help=\toks37
-\row@=\count457
-\column@=\count458
-\maxfields@=\count459
-\andhelp@=\toks38
-\eqnshift@=\dimen285
-\alignsep@=\dimen286
-\tagshift@=\dimen287
-\tagwidth@=\dimen288
-\totwidth@=\dimen289
-\lineht@=\dimen290
-\@envbody=\toks39
-\multlinegap=\skip103
-\multlinetaggap=\skip104
-\mathdisplay@stack=\toks40
+\c@parentequation=\count457
+\dspbrk@lvl=\count458
+\tag@help=\toks39
+\row@=\count459
+\column@=\count460
+\maxfields@=\count461
+\andhelp@=\toks40
+\eqnshift@=\dimen286
+\alignsep@=\dimen287
+\tagshift@=\dimen288
+\tagwidth@=\dimen289
+\totwidth@=\dimen290
+\lineht@=\dimen291
+\@envbody=\toks41
+\multlinegap=\skip104
+\multlinetaggap=\skip105
+\mathdisplay@stack=\toks42
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
@@ -852,44 +853,44 @@ Package: amssymb 2013/01/14 v3.01 AMS font symbols
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
 Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
-\col@sep=\dimen291
-\ar@mcellbox=\box69
-\extrarowheight=\dimen292
-\NC@list=\toks41
-\extratabsurround=\skip105
-\backup@length=\skip106
-\ar@cellbox=\box70
+\col@sep=\dimen292
+\ar@mcellbox=\box70
+\extrarowheight=\dimen293
+\NC@list=\toks43
+\extratabsurround=\skip106
+\backup@length=\skip107
+\ar@cellbox=\box71
 )
-\rotheadsize=\dimen293
-\c@nlinenum=\count460
-\TeXr@lab=\toks42
+\rotheadsize=\dimen294
+\c@nlinenum=\count462
+\TeXr@lab=\toks44
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titlesec.sty
 Package: titlesec 2025/01/04 v2.17 Sectioning titles
-\ttl@box=\box71
-\beforetitleunit=\skip107
-\aftertitleunit=\skip108
-\ttl@plus=\dimen294
-\ttl@minus=\dimen295
-\ttl@toksa=\toks43
-\titlewidth=\dimen296
-\titlewidthlast=\dimen297
-\titlewidthfirst=\dimen298
+\ttl@box=\box72
+\beforetitleunit=\skip108
+\aftertitleunit=\skip109
+\ttl@plus=\dimen295
+\ttl@minus=\dimen296
+\ttl@toksa=\toks45
+\titlewidth=\dimen297
+\titlewidthlast=\dimen298
+\titlewidthfirst=\dimen299
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/base\glossaries.sty
 Package: glossaries 2025/03/03 v4.56 (NLCT)
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
 Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
-\XKV@toks=\toks44
-\XKV@tempa@toks=\toks45
+\XKV@toks=\toks46
+\XKV@tempa@toks=\toks47
 )
-\XKV@depth=\count461
+\XKV@depth=\count463
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 )) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/mfirstuc\mfirstuc.sty
 Package: mfirstuc 2022/10/14 v2.08 (NLCT)
-\@glsmfirst=\toks46
-\@glsmrest=\toks47
+\@glsmfirst=\toks48
+\@glsmrest=\toks49
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/xfor\xfor.sty
 Package: xfor 2009/02/05 v1.05 (NLCT)
 ) () (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/tracklang\tracklang.sty
@@ -903,101 +904,101 @@ Package: datatool-base 2025/03/05 v3.0.1 (NLCT)
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/datatool\datatool-l3fp.def
 File: datatool-l3fp.def 2025/03/05 v3.0.1 (NLCT)
 )
-\@dtl@toks=\toks48
-\@dtl@tmpcount=\count462
-\dtl@tmplength=\skip109
-\l__datatool_measure_box=\box72
-\dtl@sortresult=\count463
+\@dtl@toks=\toks50
+\@dtl@tmpcount=\count464
+\dtl@tmplength=\skip110
+\l__datatool_measure_box=\box73
+\dtl@sortresult=\count465
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/datatool\datatool-utf8.ldf
 File: datatool-utf8.ldf 2025/03/05 v3.0.1 (NLCT)
 )
-\@dtl@datatype=\count464
-\l__datatool_tmpa_int=\count465
-\l__datatool_tmpb_int=\count466
-\l__datatool_tmpc_int=\count467
-\l__datatool_tmpd_int=\count468
-\l__datatool_count_int=\count469
-\l__datatool_tmp_datatype_int=\count470
-\l__datatool_tmpa_dim=\dimen299
-\l__datatool_tmpb_dim=\dimen300
-\c_datatool_unknown_int=\count471
-\l__datatool_year_int=\count472
-\l__datatool_month_int=\count473
-\l__datatool_day_int=\count474
-\l__datatool_hour_int=\count475
-\l__datatool_minute_int=\count476
-\l__datatool_second_int=\count477
-\l__datatool_tzhour_int=\count478
-\l__datatool_tzminute_int=\count479
-\l__datatool_julian_int=\count480
-\l__datatool_local_julian_int=\count481
-\l__datatool_prefix_int=\count482
-\l__datatool_suffix_int=\count483
-\@dtl@foreach@level=\count484
+\@dtl@datatype=\count466
+\l__datatool_tmpa_int=\count467
+\l__datatool_tmpb_int=\count468
+\l__datatool_tmpc_int=\count469
+\l__datatool_tmpd_int=\count470
+\l__datatool_count_int=\count471
+\l__datatool_tmp_datatype_int=\count472
+\l__datatool_tmpa_dim=\dimen300
+\l__datatool_tmpb_dim=\dimen301
+\c_datatool_unknown_int=\count473
+\l__datatool_year_int=\count474
+\l__datatool_month_int=\count475
+\l__datatool_day_int=\count476
+\l__datatool_hour_int=\count477
+\l__datatool_minute_int=\count478
+\l__datatool_second_int=\count479
+\l__datatool_tzhour_int=\count480
+\l__datatool_tzminute_int=\count481
+\l__datatool_julian_int=\count482
+\l__datatool_local_julian_int=\count483
+\l__datatool_prefix_int=\count484
+\l__datatool_suffix_int=\count485
+\@dtl@foreach@level=\count486
 
 
 Package tracklang Warning: No `datatool' support for dialect `english'  on input line 9897.
 
-\dtl@codeA=\count485
-\dtl@codeB=\count486
+\dtl@codeA=\count487
+\dtl@codeB=\count488
 )
-\gls@level=\count487
-\@gls@tmpb=\toks49
-\gls@tmplen=\skip110
-\glskeylisttok=\toks50
-\glslabeltok=\toks51
-\glsshorttok=\toks52
-\glslongtok=\toks53
+\gls@level=\count489
+\@gls@tmpb=\toks51
+\gls@tmplen=\skip111
+\glskeylisttok=\toks52
+\glslabeltok=\toks53
+\glsshorttok=\toks54
+\glslongtok=\toks55
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-hypernav.sty
 Package: glossary-hypernav 2025/03/03 v4.56 (NLCT)
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-list.sty
 Package: glossary-list 2025/03/03 v4.56 (NLCT)
-\glslistdottedwidth=\skip111
+\glslistdottedwidth=\skip112
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-long.sty
 Package: glossary-long 2025/03/03 v4.56 (NLCT)
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
 Package: longtable 2023-11-01 v4.19 Multi-page Table package (DPC)
-\LTleft=\skip112
-\LTright=\skip113
-\LTpre=\skip114
-\LTpost=\skip115
-\LTchunksize=\count488
-\LTcapwidth=\dimen301
-\LT@head=\box73
-\LT@firsthead=\box74
-\LT@foot=\box75
-\LT@lastfoot=\box76
-\LT@gbox=\box77
-\LT@cols=\count489
-\LT@rows=\count490
-\c@LT@tables=\count491
-\c@LT@chunks=\count492
-\LT@p@ftn=\toks54
+\LTleft=\skip113
+\LTright=\skip114
+\LTpre=\skip115
+\LTpost=\skip116
+\LTchunksize=\count490
+\LTcapwidth=\dimen302
+\LT@head=\box74
+\LT@firsthead=\box75
+\LT@foot=\box76
+\LT@lastfoot=\box77
+\LT@gbox=\box78
+\LT@cols=\count491
+\LT@rows=\count492
+\c@LT@tables=\count493
+\c@LT@chunks=\count494
+\LT@p@ftn=\toks56
 )
-\glsdescwidth=\skip116
-\glspagelistwidth=\skip117
+\glsdescwidth=\skip117
+\glspagelistwidth=\skip118
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-super.sty
 Package: glossary-super 2025/03/03 v4.56 (NLCT)
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/supertabular\supertabular.sty
 Package: supertabular 2024/07/20 v4.2c the supertabular environment
-\c@tracingst=\count493
-\ST@wd=\dimen302
-\ST@rightskip=\skip118
-\ST@leftskip=\skip119
-\ST@parfillskip=\skip120
-\ST@pageleft=\dimen303
-\ST@headht=\dimen304
-\ST@tailht=\dimen305
-\ST@pagesofar=\dimen306
-\ST@pboxht=\dimen307
-\ST@rowht=\dimen308
-\ST@prevht=\dimen309
-\ST@toadd=\dimen310
-\ST@dimen=\dimen311
-\ST@pbox=\box78
+\c@tracingst=\count495
+\ST@wd=\dimen303
+\ST@rightskip=\skip119
+\ST@leftskip=\skip120
+\ST@parfillskip=\skip121
+\ST@pageleft=\dimen304
+\ST@headht=\dimen305
+\ST@tailht=\dimen306
+\ST@pagesofar=\dimen307
+\ST@pboxht=\dimen308
+\ST@rowht=\dimen309
+\ST@prevht=\dimen310
+\ST@toadd=\dimen311
+\ST@dimen=\dimen312
+\ST@pbox=\box79
 )) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-tree.sty
 Package: glossary-tree 2025/03/03 v4.56 (NLCT)
-\glstreeindent=\skip121
+\glstreeindent=\skip122
 ))
 runsystem(makeindex -s EV_proposal.ist -t EV_proposal.alg -o EV_proposal.acr EV_proposal.acn)...executed safely (allowed).
 
@@ -1010,30 +1011,30 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'english'.
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 148.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 149.
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 ) (EV_proposal.aux)
 \openout1 = `EV_proposal.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 148.
-LaTeX Font Info:    ... okay on input line 148.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 148.
-LaTeX Font Info:    ... okay on input line 148.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 148.
-LaTeX Font Info:    ... okay on input line 148.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 148.
-LaTeX Font Info:    ... okay on input line 148.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 148.
-LaTeX Font Info:    ... okay on input line 148.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 148.
-LaTeX Font Info:    ... okay on input line 148.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 148.
-LaTeX Font Info:    ... okay on input line 148.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 148.
-LaTeX Font Info:    ... okay on input line 148.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 148.
-LaTeX Font Info:    ... okay on input line 148.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
 Package biblatex Info: Trying to load language 'english' -> 'english-apa'...
 Package biblatex Info: ... file 'english-apa.lbx' found.
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/biblatex-apa\english-apa.lbx
@@ -1064,26 +1065,26 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'EV_proposal.bbl' found.
  (EV_proposal.bbl)
-Package biblatex Info: Reference section=0 on input line 148.
-Package biblatex Info: Reference segment=0 on input line 148.
-Package hyperref Info: Link coloring ON on input line 148.
+Package biblatex Info: Reference section=0 on input line 149.
+Package biblatex Info: Reference segment=0 on input line 149.
+Package hyperref Info: Link coloring ON on input line 149.
  (EV_proposal.out) (EV_proposal.out)
 \@outlinefile=\write7
 \openout7 = `EV_proposal.out'.
 
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count494
-\scratchdimen=\dimen312
-\scratchbox=\box79
-\nofMPsegments=\count495
-\nofMParguments=\count496
-\everyMPshowfont=\toks55
-\MPscratchCnt=\count497
-\MPscratchDim=\dimen313
-\MPnumerator=\count498
-\makeMPintoPDFobject=\count499
-\everyMPtoPDFconversion=\toks56
+\scratchcounter=\count496
+\scratchdimen=\dimen313
+\scratchbox=\box80
+\nofMPsegments=\count497
+\nofMParguments=\count498
+\everyMPshowfont=\toks57
+\MPscratchCnt=\count499
+\MPscratchDim=\dimen314
+\MPnumerator=\count500
+\makeMPintoPDFobject=\count501
+\everyMPtoPDFconversion=\toks58
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -1131,44 +1132,63 @@ Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: supertabular package is loaded.
 Package caption Info: End \AtBeginDocument code.
- [1{C:/Users/cagat/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
+LaTeX Info: Redefining \microtypecontext on input line 149.
+Package microtype Info: Applying patch `item' on input line 149.
+Package microtype Info: Applying patch `toc' on input line 149.
+Package microtype Info: Applying patch `eqnum' on input line 149.
 
-\openout5 = `EV_proposal.ist'.
 
-]
-<EV_images/rub.jpg, id=81, 199.8906pt x 84.8387pt>
+Package microtype Warning: Unable to apply patch `footnote' on input line 149.
+
+Package microtype Info: Applying patch `verbatim' on input line 149.
+LaTeX Info: Redefining \microtypesetup on input line 149.
+Package microtype Info: Generating PDF output.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: Automatic font expansion enabled (level 2),
+(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
+Package microtype Info: Using default expansion set `alltext-nott'.
+LaTeX Info: Redefining \showhyphens on input line 149.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of interword spacing.
+Package microtype Info: No adjustment of character kerning.
+(C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-ptm.cfg
+File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
+)
+<EV_images/rub.jpg, id=73, 199.8906pt x 84.8387pt>
 File: EV_images/rub.jpg Graphic file (type jpg)
 <use EV_images/rub.jpg>
-Package pdftex.def Info: EV_images/rub.jpg  used on input line 158.
+Package pdftex.def Info: EV_images/rub.jpg  used on input line 159.
 (pdftex.def)             Requested size: 135.88829pt x 57.67789pt.
 
-Overfull \hbox (45.2961pt too wide) in paragraph at lines 158--159
+Overfull \hbox (45.2961pt too wide) in paragraph at lines 159--160
 [][] 
  []
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 159.
-(C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+(C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 159.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 160.
+ (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 160.
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-Underfull \hbox (badness 10000) in paragraph at lines 195--196
-\OT1/ptm/m/n/12 Work-ing En-vi-ron-ment and
+Underfull \hbox (badness 3872) in paragraph at lines 197--198
+\OT1/ptm/m/n/12 (+20) of Psy-chol-ogy and Neu-ro-
  []
 
+[1
 
-Underfull \hbox (badness 4108) in paragraph at lines 196--197
-\OT1/ptm/m/n/12 of Psy-chol-ogy and Neu-ro-
- []
+\openout5 = `EV_proposal.ist'.
 
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.206 \end{titlepage}
-                      [1 <./EV_images/rub.jpg>] (EV_proposal.toc)
+{C:/Users/cagat/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc} <./EV_images/rub.jpg>] (EV_proposal.toc)
 \tf@toc=\write8
 \openout8 = `EV_proposal.toc'.
 
@@ -1176,27 +1196,74 @@ l.206 \end{titlepage}
 pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.213 \newpage
+l.214 \newpage
                % Start a new page [1] (EV_proposal.lof)
 \tf@lof=\write9
 \openout9 = `EV_proposal.lof'.
 
  [2] (EV_proposal.acr) [3]
-Underfull \hbox (badness 10000) in paragraph at lines 238--239
+Underfull \hbox (badness 10000) in paragraph at lines 239--240
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 241--242
+Underfull \hbox (badness 10000) in paragraph at lines 242--243
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 245--247
+Underfull \hbox (badness 10000) in paragraph at lines 246--248
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 249--250
+Underfull \hbox (badness 10000) in paragraph at lines 250--251
 
- [
+ []
+
+[1]
+Underfull \hbox (badness 10000) in paragraph at lines 253--254
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 256--257
+
+ []
+
+[2] [3] [4] [5]
+<EV_images/EV_cogMeasSetupMod.png, id=432, 656.4525pt x 585.68813pt>
+File: EV_images/EV_cogMeasSetupMod.png Graphic file (type png)
+<use EV_images/EV_cogMeasSetupMod.png>
+Package pdftex.def Info: EV_images/EV_cogMeasSetupMod.png  used on input line 335.
+(pdftex.def)             Requested size: 217.42265pt x 193.98369pt.
+ [6 <./EV_images/EV_cogMeasSetupMod.png>] [7] [8]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 387.
+ (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+) [9] [10] [11] [12] [13] [14] (EV_proposal.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+ ***********
+Package rerunfilecheck Info: File `EV_proposal.out' has not changed.
+(rerunfilecheck)             Checksum: 334B660FF7F4AB61F030AB6C164D9941;3360.
+Package logreq Info: Writing requests to 'EV_proposal.run.xml'.
+\openout1 = `EV_proposal.run.xml'.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 44729 strings out of 474486
+ 887963 string characters out of 5743755
+ 1949542 words of memory out of 5000000
+ 65991 multiletter control sequences out of 15000+600000
+ 588198 words of font info for 245 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 84i,11n,107p,2863b,5183s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on EV_proposal.pdf (18 pages, 1138236 bytes).
+PDF statistics:
+ 776 PDF objects out of 1000 (max. 8388607)
+ 136 named destinations out of 1000 (max. 500000)
+ 38559 words of extra memory for PDF output out of 42996 (max. 10000000)
+
