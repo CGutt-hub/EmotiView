@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber EV_proposal"] 1745851610.56284 "EV_proposal.bcf" "EV_proposal.bbl" "EV_proposal" 1745851676.187 0
-  "EV_proposal.bcf" 1745851675 142822 a525c3dc3529c1bc04b15737a3abc746 "pdflatex"
+["biber EV_proposal"] 1745858342.24035 "EV_proposal.bcf" "EV_proposal.bbl" "EV_proposal" 1745858832.78826 0
+  "EV_proposal.bcf" 1745858832 142822 a525c3dc3529c1bc04b15737a3abc746 "pdflatex"
   "resources.bib" 1745850322 366782 cd24a33f2b3c6077667fc005c169bd7e ""
   (generated)
   "EV_proposal.bbl"
   "EV_proposal.blg"
   (rewritten before read)
-["pdflatex"] 1745851666.67755 "c:/Users/cagat/Desktop/Clones/EmotiView/EV_proposal/EV_proposal.tex" "EV_proposal.pdf" "EV_proposal" 1745851676.18818 0
+["pdflatex"] 1745858822.26679 "c:/Users/cagat/Desktop/Clones/EmotiView/EV_proposal/EV_proposal.tex" "EV_proposal.pdf" "EV_proposal" 1745858832.7898 0
   "C:/Users/cagat/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1745849917 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/cagat/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1742249622 24225046 5cecb68559bd00ed6415a7a9345544ff ""
   "C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -249,16 +249,16 @@
   "C:/Users/cagat/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
   "EV_images/EV_cogMeasSetupMod.png" 1745056646 767155 2689ba0800fe98bf787214a34f49db7a ""
   "EV_images/rub.jpg" 1742910901 35313 3c123f0c8e06d3da399852432a901bb4 ""
-  "EV_proposal.acn" 1745851675 16088 f7ffa0aacf1ae6cef7395b35f4ba069c "pdflatex"
-  "EV_proposal.acr" 1745851670 4840 b00b5c48db45611616f95c325916f5bd ""
-  "EV_proposal.aux" 1745851675 29409 2623b29f9018df06c0a396ca720e21ae "pdflatex"
-  "EV_proposal.bbl" 1745851616 481979 1a2de5d81762dd8785d56612f53740b1 "biber EV_proposal"
-  "EV_proposal.lof" 1745851675 298 f473c56ef66d28aad7436c23b747020c "pdflatex"
-  "EV_proposal.out" 1745851675 3360 334b660ff7f4ab61f030ab6c164d9941 "pdflatex"
-  "EV_proposal.run.xml" 1745851675 2475 51d2e1c03251c2bd10c6e78e47d41d8e "pdflatex"
-  "EV_proposal.tex" 1745851646 47958 516a9d3c3ec9cfbe1b035edd7b705bc3 ""
-  "EV_proposal.toc" 1745851675 1703 ef43dff459d9a2bcd988043804a065c3 "pdflatex"
-  "c:/Users/cagat/Desktop/Clones/EmotiView/EV_proposal/EV_proposal.tex" 1745851646 47958 516a9d3c3ec9cfbe1b035edd7b705bc3 ""
+  "EV_proposal.acn" 1745858832 16718 ca4a618dc4b951bd2871e20227812754 "pdflatex"
+  "EV_proposal.acr" 1745858826 5066 a647677f47872fdad5a5e7dd8952336c ""
+  "EV_proposal.aux" 1745858832 29409 d7abf8f5f8d29b743e9ea980a062d188 "pdflatex"
+  "EV_proposal.bbl" 1745858349 481979 1a2de5d81762dd8785d56612f53740b1 "biber EV_proposal"
+  "EV_proposal.lof" 1745858832 298 cb138a5780a6db10253e866e2a33b0bf "pdflatex"
+  "EV_proposal.out" 1745858832 3360 334b660ff7f4ab61f030ab6c164d9941 "pdflatex"
+  "EV_proposal.run.xml" 1745858832 2475 51d2e1c03251c2bd10c6e78e47d41d8e "pdflatex"
+  "EV_proposal.tex" 1745858820 48534 c478e250a412b88689a3c9046c1939e6 ""
+  "EV_proposal.toc" 1745858832 1703 ef43dff459d9a2bcd988043804a065c3 "pdflatex"
+  "c:/Users/cagat/Desktop/Clones/EmotiView/EV_proposal/EV_proposal.tex" 1745858820 48534 c478e250a412b88689a3c9046c1939e6 ""
   (generated)
   "EV_proposal.acn"
   "EV_proposal.aux"

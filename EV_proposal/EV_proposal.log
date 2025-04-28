@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.17)  28 APR 2025 16:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.17)  28 APR 2025 18:47
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1006,35 +1006,35 @@ runsystem(makeindex -s EV_proposal.ist -t EV_proposal.alg -o EV_proposal.acr EV_
 \glo@acronym@file=\write6
 \openout6 = `EV_proposal.acn'.
 
-Package glossaries Info: Writing glossary file EV_proposal.acn on input line 116.
+Package glossaries Info: Writing glossary file EV_proposal.acn on input line 117.
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'english'.
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 149.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 150.
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 ) (EV_proposal.aux)
 \openout1 = `EV_proposal.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
 Package biblatex Info: Trying to load language 'english' -> 'english-apa'...
 Package biblatex Info: ... file 'english-apa.lbx' found.
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/biblatex-apa\english-apa.lbx
@@ -1065,9 +1065,9 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'EV_proposal.bbl' found.
  (EV_proposal.bbl)
-Package biblatex Info: Reference section=0 on input line 149.
-Package biblatex Info: Reference segment=0 on input line 149.
-Package hyperref Info: Link coloring ON on input line 149.
+Package biblatex Info: Reference section=0 on input line 150.
+Package biblatex Info: Reference segment=0 on input line 150.
+Package hyperref Info: Link coloring ON on input line 150.
  (EV_proposal.out) (EV_proposal.out)
 \@outlinefile=\write7
 \openout7 = `EV_proposal.out'.
@@ -1132,23 +1132,23 @@ Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: supertabular package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \microtypecontext on input line 149.
-Package microtype Info: Applying patch `item' on input line 149.
-Package microtype Info: Applying patch `toc' on input line 149.
-Package microtype Info: Applying patch `eqnum' on input line 149.
+LaTeX Info: Redefining \microtypecontext on input line 150.
+Package microtype Info: Applying patch `item' on input line 150.
+Package microtype Info: Applying patch `toc' on input line 150.
+Package microtype Info: Applying patch `eqnum' on input line 150.
 
 
-Package microtype Warning: Unable to apply patch `footnote' on input line 149.
+Package microtype Warning: Unable to apply patch `footnote' on input line 150.
 
-Package microtype Info: Applying patch `verbatim' on input line 149.
-LaTeX Info: Redefining \microtypesetup on input line 149.
+Package microtype Info: Applying patch `verbatim' on input line 150.
+LaTeX Info: Redefining \microtypesetup on input line 150.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 149.
+LaTeX Info: Redefining \showhyphens on input line 150.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1158,29 +1158,29 @@ File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
 <EV_images/rub.jpg, id=73, 199.8906pt x 84.8387pt>
 File: EV_images/rub.jpg Graphic file (type jpg)
 <use EV_images/rub.jpg>
-Package pdftex.def Info: EV_images/rub.jpg  used on input line 159.
+Package pdftex.def Info: EV_images/rub.jpg  used on input line 160.
 (pdftex.def)             Requested size: 135.88829pt x 57.67789pt.
 
-Overfull \hbox (45.2961pt too wide) in paragraph at lines 159--160
+Overfull \hbox (45.2961pt too wide) in paragraph at lines 160--161
 [][] 
  []
 
 (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 160.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 161.
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 160.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 161.
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-Underfull \hbox (badness 3872) in paragraph at lines 197--198
+Underfull \hbox (badness 3872) in paragraph at lines 198--199
 \OT1/ptm/m/n/12 (+20) of Psy-chol-ogy and Neu-ro-
  []
 
@@ -1196,49 +1196,49 @@ Underfull \hbox (badness 3872) in paragraph at lines 197--198
 pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.214 \newpage
+l.215 \newpage
                % Start a new page [1] (EV_proposal.lof)
 \tf@lof=\write9
 \openout9 = `EV_proposal.lof'.
 
  [2] (EV_proposal.acr) [3]
-Underfull \hbox (badness 10000) in paragraph at lines 239--240
+Underfull \hbox (badness 10000) in paragraph at lines 240--241
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 242--243
+Underfull \hbox (badness 10000) in paragraph at lines 243--244
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 246--248
+Underfull \hbox (badness 10000) in paragraph at lines 247--249
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 250--251
+Underfull \hbox (badness 10000) in paragraph at lines 251--252
 
  []
 
 [1]
-Underfull \hbox (badness 10000) in paragraph at lines 253--254
+Underfull \hbox (badness 10000) in paragraph at lines 254--255
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 256--257
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 
  []
 
 [2] [3] [4] [5]
-<EV_images/EV_cogMeasSetupMod.png, id=432, 656.4525pt x 585.68813pt>
+<EV_images/EV_cogMeasSetupMod.png, id=438, 656.4525pt x 585.68813pt>
 File: EV_images/EV_cogMeasSetupMod.png Graphic file (type png)
 <use EV_images/EV_cogMeasSetupMod.png>
-Package pdftex.def Info: EV_images/EV_cogMeasSetupMod.png  used on input line 335.
+Package pdftex.def Info: EV_images/EV_cogMeasSetupMod.png  used on input line 336.
 (pdftex.def)             Requested size: 217.42265pt x 193.98369pt.
  [6 <./EV_images/EV_cogMeasSetupMod.png>] [7] [8]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 387.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 388.
  (C:\Users\cagat\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [9] [10] [11] [12] [13] [14] (EV_proposal.aux)
@@ -1253,17 +1253,17 @@ Package logreq Info: Writing requests to 'EV_proposal.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 44729 strings out of 474486
- 887963 string characters out of 5743755
+ 44778 strings out of 474486
+ 888525 string characters out of 5743755
  1949542 words of memory out of 5000000
- 65991 multiletter control sequences out of 15000+600000
- 588198 words of font info for 245 fonts, out of 8000000 for 9000
+ 66021 multiletter control sequences out of 15000+600000
+ 589185 words of font info for 258 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,11n,107p,2863b,5183s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/cagat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on EV_proposal.pdf (18 pages, 1138236 bytes).
+Output written on EV_proposal.pdf (18 pages, 1143714 bytes).
 PDF statistics:
- 776 PDF objects out of 1000 (max. 8388607)
- 136 named destinations out of 1000 (max. 500000)
+ 784 PDF objects out of 1000 (max. 8388607)
+ 137 named destinations out of 1000 (max. 500000)
  38559 words of extra memory for PDF output out of 42996 (max. 10000000)
 
