@@ -48,7 +48,7 @@ This repository primarily contains the core research documentation:
 *   **`rawData/pilotData/`**: Placeholder for storing raw experimental data (not version controlled by default due to size, but structure is indicated).
 *   **`EV_results/`**: Directory where the pipeline saves processed data, analysis metrics, and plots.
 
-## Analysis Pipeline (EmotiView Pipeline)
+## Analysis Pipeline
 
 To operationalize the methods outlined in the research proposal, a modular Python-based analysis pipeline has been developed and is located in the `EV_pipelines/` directory. This pipeline is designed to:
 
