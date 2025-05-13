@@ -45,7 +45,6 @@ This repository primarily contains the core research documentation:
 *   **`EV_pipelines/`**: Contains the Python-based analysis pipeline developed to implement the methods described in the proposal. This includes modules for data loading, preprocessing of each modality, feature extraction, synchrony analysis, and basic reporting.
     *   `pilot_orchestrator.py`: The main script for running the analysis on pilot data.
     *   `config.py`: Central configuration file for the pipeline parameters.
-*   **`rawData/pilotData/`**: Placeholder for storing raw experimental data (not version controlled by default due to size, but structure is indicated).
 *   **`EV_results/`**: Directory where the pipeline saves processed data, analysis metrics, and plots.
 
 ## Analysis Pipeline
