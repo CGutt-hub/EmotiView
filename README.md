@@ -41,7 +41,7 @@ A multimodal experimental design is employed, involving:
 This repository primarily contains the core research documentation:
 
 *   **`EV_proposal/EV_proposal.tex`**: The full LaTeX source for the Master's Thesis proposal. This document provides an in-depth description of the research background, aims, hypotheses, detailed methodology, analysis plan, and project timeline.
-*   **`EV_ispsmAbstract/EV_abstract.tex`**: The LaTeX source for a conference-style abstract summarizing the research.
+*   **`EV_abstract/EV_abstract.tex`**: The LaTeX source for a conference-style abstract summarizing the research.
 *   **`EV_pipelines/`**: Contains the Python-based analysis pipeline developed to implement the methods described in the proposal. This includes modules for data loading, preprocessing of each modality, feature extraction, synchrony analysis, and basic reporting.
     *   `pilot_orchestrator.py`: The main script for running the analysis on pilot data.
     *   `config.py`: Central configuration file for the pipeline parameters.
