@@ -1,22 +1,22 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
-[0] Config.pm:310> INFO - Logfile is 'EV_proposal.blg'
-[224] biber-MSWIN64:340> INFO - === 
-[316] Biber.pm:419> INFO - Reading 'EV_proposal.bcf'
-[822] Biber.pm:979> INFO - Found 61 citekeys in bib section 0
-[894] Biber.pm:4419> INFO - Processing section 0
-[927] Biber.pm:4610> INFO - Looking for bibtex file 'resources.bib' for section 0
-[1132] bibtex.pm:1713> INFO - LaTeX decoding ...
-[2055] bibtex.pm:1519> INFO - Found BibTeX data source 'resources.bib'
-[3223] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[3223] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[3223] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'en-US'
-[3223] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
-[3468] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[3469] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[3469] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'en-US'
-[3469] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
-[3603] bbl.pm:660> INFO - Writing 'EV_proposal.bbl' with encoding 'UTF-8'
-[3878] bbl.pm:763> INFO - Output to EV_proposal.bbl
-[3879] Biber.pm:131> WARN - ISBN '978-1-4614-1125-3 978-1-4614-1126-0' in entry 'boucseinElectrodermalActivity2012' is invalid - run biber with '--validate_datamodel' for details.
-[3879] Biber.pm:131> WARN - ISBN '978-1-5296-3000-8 978-1-5296-3001-5' in entry 'fieldDiscoveringStatisticsUsing2024' is invalid - run biber with '--validate_datamodel' for details.
-[3880] Biber.pm:133> INFO - WARNINGS: 2
+[1] Config.pm:310> INFO - Logfile is 'EV_proposal.blg'
+[175] biber-MSWIN64:340> INFO - === 
+[259] Biber.pm:419> INFO - Reading 'EV_proposal.bcf'
+[472] Biber.pm:979> INFO - Found 61 citekeys in bib section 0
+[502] Biber.pm:4419> INFO - Processing section 0
+[517] Biber.pm:4610> INFO - Looking for bibtex file 'resources.bib' for section 0
+[640] bibtex.pm:1713> INFO - LaTeX decoding ...
+[1145] bibtex.pm:1519> INFO - Found BibTeX data source 'resources.bib'
+[1761] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1763] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1763] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[1763] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[1937] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1939] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1939] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[1940] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[2046] bbl.pm:660> INFO - Writing 'EV_proposal.bbl' with encoding 'UTF-8'
+[2405] bbl.pm:763> INFO - Output to EV_proposal.bbl
+[2407] Biber.pm:131> WARN - ISBN '978-1-4614-1125-3 978-1-4614-1126-0' in entry 'boucseinElectrodermalActivity2012' is invalid - run biber with '--validate_datamodel' for details.
+[2407] Biber.pm:131> WARN - ISBN '978-1-5296-3000-8 978-1-5296-3001-5' in entry 'fieldDiscoveringStatisticsUsing2024' is invalid - run biber with '--validate_datamodel' for details.
+[2408] Biber.pm:133> INFO - WARNINGS: 2

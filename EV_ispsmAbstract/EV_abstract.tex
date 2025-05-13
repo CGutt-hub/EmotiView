@@ -1,73 +1,72 @@
-\documentclass[12pt, a4paper]{article} % Standard document class, 12pt font, A4 paper
+\documentclass[12pt, a4paper]{article}
 
 % --- Language and Encoding ---
-\usepackage[utf8]{inputenc} % Handles input encoding (UTF-8 recommended)
-\usepackage[T1]{fontenc}    % Handles font encoding (improves hyphenation and font rendering)
-\usepackage[english]{babel} % Sets language for hyphenation, etc.
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
 
 % --- Bibliography (Included for consistency, though not used in abstract) ---
-\usepackage[backend=biber, style=apa]{biblatex} % Uses biblatex with the biber backend and APA citation style
+\usepackage[backend=biber, style=apa]{biblatex}
 % \addbibresource{resources.bib} % Specify your bibliography file if needed later
 
 % --- Hyperlinks and PDF Metadata ---
-\usepackage{hyperref} % Enables clickable links within the PDF
+\usepackage{hyperref}
 \hypersetup{
-    hidelinks, % Hides the borders/colors around links
-    colorlinks=true, % Colors the link text instead of using borders
-    breaklinks=true, % Allows links to break across lines
-    urlcolor=black, % Color for URLs
-    citecolor=black, % Color for citation links
-    linkcolor=black, % Color for internal links
-    bookmarksopen=false, % Whether PDF bookmarks are initially expanded
-    pdftitle={Temporal Binding of Brain and Body: Neural-Autonomic Phase Synchrony During Emotional Processing}, % PDF metadata: Title
-    pdfauthor={Cagatay Özcan Jagiello Gutt} % PDF metadata: Author
+    hidelinks,
+    colorlinks=true,
+    breaklinks=true,
+    urlcolor=black,
+    citecolor=black,
+    linkcolor=black,
+    bookmarksopen=false,
+    pdftitle={Temporal Binding of Brain and Body: Neural-Autonomic Phase Synchrony During Emotional Processing},
+    pdfauthor={Cagatay Özcan Jagiello Gutt}
 }
 
 % --- Graphics and Page Layout ---
-\usepackage{graphicx} % Allows including images (\includegraphics)
-\usepackage{geometry} % For customizing page margins and layout
-\geometry{margin=1in} % Sets paper size to A4 and all margins to 1 inch
-\usepackage{float} % Improves control over floating elements like figures and tables
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{float}
 
 % --- Captions (Included for consistency) ---
-\usepackage{caption} % For customizing captions of figures and tables
+\usepackage{caption}
 \captionsetup{
-    justification=justified, % Justifies caption text
-    singlelinecheck=false, % Applies justification even to single-line captions
-    labelfont=bf, % Makes the caption label (e.g., "Figure 1:") bold
-    % textfont=bf, % Makes the caption text bold (currently commented out)
-    margin=1.5em, % Sets left/right margin for caption text (matching proposal's compact style)
-    font={stretch=1.0} % Adjusts line spacing within captions (1.0 is normal)
+    justification=justified,
+    singlelinecheck=false,
+    labelfont=bf,
+    margin=1.5em,
+    font={stretch=1.0}
 }
 
 % --- Diagrams and Drawing (Included for consistency) ---
-\usepackage{tikz} % Powerful package for creating graphics programmatically
-\usetikzlibrary{arrows.meta, shapes.geometric, positioning, decorations.pathreplacing} % Loads useful TikZ libraries
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, shapes.geometric, positioning, decorations.pathreplacing}
 
 % --- Text Formatting ---
-\usepackage{ragged2e} % Provides improved text alignment options (e.g., \RaggedRight)
-\usepackage{enumitem} % Provides enhanced control over list environments (enumerate, itemize)
+\usepackage{ragged2e}
+\usepackage{enumitem}
 
 % --- Colors ---
-\usepackage{xcolor} % Enables the use of colors
-\definecolor{rubblue}{RGB}{0,51,160} % Defines a custom color 'rubblue' (example from proposal)
-\definecolor{rubgrey}{RGB}{153,153,153} % Defines a custom color 'rubgrey' (example from proposal)
+\usepackage{xcolor}
+\definecolor{rubblue}{RGB}{0,51,160}
+\definecolor{rubgrey}{RGB}{153,153,153}
 
 % --- Font and General Style Packages (from proposal) ---
-\usepackage{times} % Uses Times New Roman font (matching proposal)
-\usepackage{fancyhdr} % For creating custom headers and footers (matching proposal)
-\usepackage{csquotes} % Provides context-sensitive quotation facilities (e.g., \enquote)
-\usepackage{amsmath} % Enhanced math typesetting (American Mathematical Society)
-\usepackage{amsfonts} % Provides math fonts (American Mathematical Society)
-\usepackage{amssymb} % Provides additional math symbols (American Mathematical Society)
-\usepackage{makecell} % Allows line breaks and formatting within table cells
-\usepackage{setspace} % For adjusting line spacing (\setstretch, \singlespacing, etc.)
+\usepackage{times}
+\usepackage{fancyhdr}
+\usepackage{csquotes}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makecell}
+\usepackage{setspace}
 
 % --- Section Spacing Customization (Included for consistency, though no sections here) ---
-\usepackage{titlesec} % Allows customization of section headings
-\titlespacing*{\section}{0pt}{*1.2}{*0.7} % Adjusts spacing around \section (matching proposal's compact style)
-\titlespacing*{\subsection}{0pt}{*1.2}{*0.7} % Adjusts spacing around \subsection (matching proposal's compact style)
-\titlespacing*{\paragraph}{0pt}{*1}{*0.5} % Adjusts spacing around \paragraph (matching proposal's compact style)
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{*1.2}{*0.7}
+\titlespacing*{\subsection}{0pt}{*1.2}{*0.7}
+\titlespacing*{\paragraph}{0pt}{*1}{*0.5}
 
 % --- Glossaries and Acronyms (REMOVED - Not needed for standalone abstract page) ---
 % \usepackage[acronym, shortcuts]{glossaries}
@@ -76,38 +75,38 @@
 % \renewcommand*{\glsnamefont}[1]{\textbf{\textit{#1}}}
 
 % --- Header/Footer Setup (Matching proposal style, NO page number) ---
-\renewcommand{\headrulewidth}{0.4pt} % Sets the thickness of the header rule line
-\renewcommand{\footrulewidth}{0.4pt} % Sets the thickness of the footer rule line
-\setlength{\headheight}{14.49998pt} % Sets the height reserved for the header
-\addtolength{\topmargin}{-2.49998pt} % Adjusts top margin to compensate for header height changes
-\setlength{\parindent}{0 cm} % Sets paragraph indentation to zero (matching proposal)
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\headheight}{14.49998pt}
+\addtolength{\topmargin}{-2.49998pt}
+\setlength{\parindent}{0 cm}
 
 % --- Custom Colors (Copied from proposal) ---
-\definecolor{borot}{RGB}{226,0,26} % Example custom color
-\definecolor{Grau}{gray}{0.96} % Example custom color (light gray)
+\definecolor{borot}{RGB}{226,0,26}
+\definecolor{Grau}{gray}{0.96}
 
 % --- Custom Commands (Copied from proposal) ---
-\newcommand{\mt}[2][Grau]{\colorbox{#1}{#2}} % Example: Highlight text
-\newcommand{\ts}[1]{\textsl{#1}} % Example: Shortcut for slanted text
-\newcommand{\q}[1]{\glqq #1\grqq} % Example: Shortcut for German-style quotes
+\newcommand{\mt}[2][Grau]{\colorbox{#1}{#2}}
+\newcommand{\ts}[1]{\textsl{#1}}
+\newcommand{\q}[1]{\glqq #1\grqq}
 
 % --- Page Style Setup (using fancyhdr - matching proposal) ---
-\pagestyle{fancy} % Activates the fancy page style
-\fancyhf{} % Clears all existing header and footer fields
-\fancyhead[R]{Neural-Autonomic Synchrony and Embodied Integration} % Use proposal title in header
-\fancyhead[L]{\nouppercase{\leftmark ISPSM Abstract}} % Sets the current section title (lowercase) in the top left header
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{Neural-Autonomic Synchrony and Embodied Integration}
+\fancyhead[L]{\nouppercase{\leftmark Abstract}}
 
 % --- Title, Author, Date Information ---
-\title{Temporal Binding of Brain and Body: Neural-Autonomic Phase Synchrony During Emotional Processing}````''''
-\date{\today} % Use current date, or specify: \date{April 24, 2025}
+\title{Temporal Binding of Brain and Body: Neural-Autonomic Phase Synchrony During Emotional Processing}
+\date{\today}
 
 % --- Start of Document ---
 \begin{document}
 
 % --- Title Block Formatting ---
-{\bfseries\maketitle} % Apply bold series to the output of \maketitle
-\thispagestyle{fancy} % Apply the fancy style to the first page (important!)
-\vspace{-2\baselineskip} % Pull the abstract up (adjust value as needed)
+{\bfseries\maketitle}
+\thispagestyle{fancy}
+\vspace{-2\baselineskip}
 
 % --- Abstract Environment ---
 \begin{abstract}

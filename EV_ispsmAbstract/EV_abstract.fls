@@ -1,6 +1,6 @@
-PWD c:\Users\gutt\Documents\Repos\EmotiView\EV_ispsmAbstract
+PWD d:\repoShaggy\EmotiView\EV_ispsmAbstract
 INPUT C:\Users\gutt\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT c:\Users\gutt\Documents\Repos\EmotiView\EV_ispsmAbstract\EV_abstract.tex
+INPUT d:\repoShaggy\EmotiView\EV_ispsmAbstract\EV_abstract.tex
 OUTPUT EV_abstract.log
 INPUT C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
