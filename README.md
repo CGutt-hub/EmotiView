@@ -63,17 +63,9 @@ While the detailed workings of the pipeline are contained within the `EV_pipelin
 
 ## Project Status
 
-*(Current status of the research project, e.g., "Proposal Phase," "Data Collection Ongoing," "Analysis in Progress," "Thesis Writing Stage.")*
-
-Current Status: Proposal and Initial Pipeline Development Phase.
+Current Status: Piloting and Initial Pipeline Development Phase.
 
 ## Contact Information
 
 Cagatay Özcan Jagiello Gutt
-*Email: [Your Email Address as listed in the proposal, e.g., cagatay.gutt@rub.de]*
-
----
-
-*This document provides a high-level overview of the EmotiView research project. For comprehensive details, the `EV_proposal/EV_proposal.tex` file is the primary reference.*
-
-```
+*ORCID: https://orcid.org/0000-0002-1774-532X*
