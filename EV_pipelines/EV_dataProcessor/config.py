@@ -25,6 +25,8 @@ ICA_N_COMPONENTS = 15
 FNIRS_FILTER_LPASS_HZ = 0.01
 FNIRS_FILTER_HPASS_HZ = 0.1
 FNIRS_BEER_LAMBERT_PPF = 6.0
+FNIRS_USE_SHORT_CHANNEL_REGRESSION = True # Set to False if not using or no short channels
+FNIRS_SHORT_CHANNEL_MAX_DISTANCE_MM = 15.0 # Max distance for a channel to be considered short by MNE-NIRS default
 
 # --- Analysis Configurations ---
 STIMULUS_DURATION_SECONDS = 5.0
@@ -34,13 +36,33 @@ AUTONOMIC_RESAMPLE_SFREQ = 4.0
 DEFAULT_EDA_SAMPLING_RATE_HZ = 1000.0 # Fallback if not found in saved metadata
 
 DEFAULT_EEG_CHANNELS_FOR_PLV = ['Fp1', 'Fp2', 'F3', 'F4']
-DEFAULT_EEG_CHANNELS_FOR_FAI_PSD = ['Fp1', 'Fp2', 'F3', 'F4']
+DEFAULT_EEG_CHANNELS_FOR_FAI_PSD = ['Fp1', 'Fp2', 'F3', 'F4', 'AF3', 'AF4'] # Added AF for more options
 
 FNIRS_ROIS = {
     'DLPFC_L': ['S1_D1', 'S1_D2', 'S2_D1', 'S2_D2'],
     'DLPFC_R': ['S5_D7', 'S5_D8', 'S6_D7', 'S6_D8'],
-    'VMPFC': ['S3_D1', 'S4_D2']
+    'VMPFC': ['S3_D1', 'S4_D2', 'S3_D5', 'S4_D6'] # Example, adjust to your actual layout
 }
+
+# Mapping fNIRS ROIs to EEG channels for guided PLV
+FNIRS_TO_EEG_ROI_MAP = {
+    'DLPFC_L': ['Fp1', 'F3', 'AF3'],
+    'DLPFC_R': ['Fp2', 'F4', 'AF4'],
+    'VMPFC': ['Fpz', 'AFz', 'Fz'] # Example, adjust to your EEG montage
+}
+FNIRS_ROI_ACTIVATION_THRESHOLD_THETA = 0.05 # Example threshold for mean theta (beta coefficient) to consider an ROI active
+
+# --- Correlation Configurations (WP2 & WP3) ---
+# Define pairs of metrics to correlate. Format: (metric1_name, metric2_name, description)
+# Metric names should match columns in the aggregated metrics Excel file.
+# Example PLV names: 'plv_avg_alpha_DLPFC_L_hrv_Positive', 'plv_avg_beta_VMPFC_eda_Negative'
+# Example Questionnaire names: 'BIS_score', 'BAS_drive', 'SAM_valence_Positive'
+CORRELATION_PAIRS = [
+    # Add your specific correlation pairs here based on your hypotheses
+    # Example: ('BIS_score', 'plv_avg_alpha_DLPFC_L_hrv_Positive', 'BIS vs Alpha-HRV PLV (DLPFC_L Pos)'),
+    # Example: ('SAM_valence_Positive', 'plv_avg_alpha_DLPFC_L_hrv_Positive', 'SAM Valence (Pos) vs Alpha-HRV PLV (DLPFC_L Pos)'),
+    # ...
+]
 
 # --- Logging Configuration ---
 MAIN_LOG_LEVEL = "INFO"

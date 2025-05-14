@@ -1,5 +1,7 @@
 import mne
+import os
 import mne_nirs
+from mne_nirs.signal_enhancement import short_channel_regression
 from .. import config # Relative import
 
 class FNIRSPreprocessor:
@@ -27,6 +29,16 @@ class FNIRSPreprocessor:
             self.logger.info(f"FNIRSPreprocessor - Applying Beer-Lambert Law (PPF={config.FNIRS_BEER_LAMBERT_PPF}).")
             raw_haemo = mne_nirs.beer_lambert_law(fnirs_raw_od, ppf=config.FNIRS_BEER_LAMBERT_PPF)
             
+            if config.FNIRS_USE_SHORT_CHANNEL_REGRESSION:
+                try:
+                    # MNE-NIRS can auto-detect short channels based on distance in info
+                    # or you might need to explicitly mark them if names are like 'S1_D1_SC'
+                    self.logger.info("FNIRSPreprocessor - Applying short-channel regression.")
+                    raw_haemo_corrected_short = short_channel_regression(raw_haemo.copy()) # Use .copy()
+                    raw_haemo = raw_haemo_corrected_short
+                except Exception as e_scr:
+                    self.logger.warning(f"FNIRSPreprocessor - Short-channel regression failed or no short channels found: {e_scr}. Continuing without it.")
+
             self.logger.info("FNIRSPreprocessor - Applying TDDR motion artifact correction.")
             corrected_haemo = mne_nirs.temporal_derivative_distribution_repair(raw_haemo.copy())
             

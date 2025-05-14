@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import numpy as np # Added for placeholder metrics
+import re # For parsing column names
 import json # For saving/loading sampling rates
 
 # Import configurations and utilities
@@ -18,8 +19,8 @@ from .analysis.psd_analyzer import PSDAnalyzer
 from .analysis.hrv_analyzer import HRVAnalyzer
 from .analysis.connectivity_analyzer import ConnectivityAnalyzer
 from .analysis.fnirs_glm_analyzer import FNIRSGLMAnalyzer
-# from .analysis.statistics.correlation_analyzer import CorrelationAnalyzer # For group stats later
-# from .analysis.statistics.anova_analyzer import ANOVAAnalyzer # For group stats later
+from .analysis.correlation_analyzer import CorrelationAnalyzer
+from .analysis.anova_analyzer import ANOVAAnalyzer 
 from .reporting.plotting_service import PlottingService
 
 
@@ -90,6 +91,7 @@ def run_participant_analysis(participant_id, p_logger, processed_artifacts, ques
     analysis_metrics = {'participant_id': participant_id}
     if questionnaire_data and isinstance(questionnaire_data, dict): # Ensure it's a dict
         analysis_metrics.update(questionnaire_data)
+    active_fnirs_rois_info = {} # To store results from fNIRS GLM for PLV guidance
 
     # PSD and FAI Analysis
     raw_eeg_obj = processed_artifacts.get('eeg_processed_mne_obj')
@@ -108,6 +110,13 @@ def run_participant_analysis(participant_id, p_logger, processed_artifacts, ques
             processed_artifacts['ecg_rpeaks_times_path'], 
             processed_artifacts['ecg_nn_intervals_path']
         )
+    
+    # fNIRS GLM Analysis (run before PLV if it guides PLV)
+    fnirs_haemo_obj = processed_artifacts.get('fnirs_haemo_mne_obj')
+    if fnirs_haemo_obj:
+        fnirs_glm_analyzer = FNIRSGLMAnalyzer(p_logger)
+        # This now returns a dict which might include 'active_rois_per_condition'
+        active_fnirs_rois_info = fnirs_glm_analyzer.run_glm_and_extract_rois(fnirs_haemo_obj, analysis_metrics, participant_id, analysis_results_dir)
 
     # Connectivity Analysis (PLV)
     if raw_eeg_obj: # Requires preprocessed EEG
@@ -123,13 +132,9 @@ def run_participant_analysis(participant_id, p_logger, processed_artifacts, ques
         conn_analyzer.calculate_all_plv(raw_eeg_obj,
                                         phase_hrv, target_time_hrv,
                                         phasic_eda_signal_for_plv, eda_original_sfreq,
-                                        analysis_metrics)
-    # fNIRS GLM Analysis
-    fnirs_haemo_obj = processed_artifacts.get('fnirs_haemo_mne_obj')
-    if fnirs_haemo_obj:
-        fnirs_glm_analyzer = FNIRSGLMAnalyzer(p_logger)
-        fnirs_glm_analyzer.run_glm_and_extract_rois(fnirs_haemo_obj, analysis_metrics, participant_id, analysis_results_dir)
-
+                                        analysis_metrics,
+                                        active_rois_per_condition=active_fnirs_rois_info.get('active_rois_per_condition'))
+                                        
     # Save metrics
     metrics_df = pd.DataFrame([analysis_metrics])
     metrics_file = os.path.join(analysis_results_dir, f"{participant_id}_pilot_analysis_metrics.csv")
@@ -144,6 +149,161 @@ def run_participant_analysis(participant_id, p_logger, processed_artifacts, ques
 
     p_logger.info(f"Analysis - Stage: End for {participant_id}")
     return analysis_metrics
+
+
+def run_group_level_analysis(aggregated_metrics_file_path, group_results_dir, main_logger):
+    """Runs group-level statistical analyses based on the aggregated metrics."""
+    main_logger.info("===== Group Level Analysis Started =====")
+    os.makedirs(group_results_dir, exist_ok=True)
+
+    if not os.path.exists(aggregated_metrics_file_path):
+        main_logger.error(f"Aggregated metrics file not found: {aggregated_metrics_file_path}. Skipping group analysis.")
+        return
+
+    df_agg = pd.read_excel(aggregated_metrics_file_path)
+    if df_agg.empty:
+        main_logger.warning("Aggregated metrics DataFrame is empty. Skipping group analysis.")
+        return
+
+    anova_analyzer = ANOVAAnalyzer(main_logger)
+    corr_analyzer = CorrelationAnalyzer(main_logger)
+    all_p_values = [] # For FDR correction
+    statistical_results = {} # To store tables
+    plotter = PlottingService(main_logger) # Initialize plotter for group plots
+    
+    # --- WP1: PLV RM ANOVA (Condition x ROI) ---
+    main_logger.info("Group Analysis - WP1: PLV RM ANOVAs")
+    plv_types = [
+        ('alpha', 'hrv', 'Alpha-HRV PLV'),
+        ('beta', 'hrv', 'Beta-HRV PLV'),
+        ('alpha', 'eda', 'Alpha-EDA PLV'),
+        ('beta', 'eda', 'Beta-EDA PLV')
+    ]
+    for band, autonomic, plv_desc in plv_types:
+        plv_cols = [col for col in df_agg.columns if col.startswith(f'plv_avg_{band}_') and f'_{autonomic}_' in col]
+        if not plv_cols:
+            main_logger.warning(f"No PLV columns found for {plv_desc}. Skipping ANOVA.")
+            continue
+
+        df_plv_long = df_agg[['participant_id'] + plv_cols].melt(
+            id_vars='participant_id',
+            value_vars=plv_cols,
+            var_name='plv_metric_full',
+            value_name='plv_value'
+        )
+        df_plv_long.dropna(subset=['plv_value'], inplace=True)
+        if df_plv_long.empty:
+            main_logger.warning(f"No valid data for {plv_desc} after melt and NaN drop. Skipping ANOVA.")
+            continue
+
+        # Parse ROI and Condition from plv_metric_full
+        # Example: plv_avg_alpha_DLPFC_L_hrv_Positive -> ROI=DLPFC_L, Condition=Positive
+        def parse_plv_metric(metric_str, band_in, autonomic_in):
+            pattern = re.compile(f"plv_avg_{band_in}_(.*)_{autonomic_in}_(.*)")
+            match = pattern.match(metric_str)
+            if match:
+                return match.group(1), match.group(2) # roi, condition
+            return None, None
+
+        parsed_cols = df_plv_long['plv_metric_full'].apply(lambda x: pd.Series(parse_plv_metric(x, band, autonomic)))
+        parsed_cols.columns = ['roi', 'condition']
+        df_plv_long = pd.concat([df_plv_long, parsed_cols], axis=1)
+        df_plv_long.dropna(subset=['roi', 'condition'], inplace=True)
+
+        if df_plv_long.empty or df_plv_long['roi'].nunique() < 2 or df_plv_long['condition'].nunique() < 2:
+            main_logger.warning(f"Insufficient data/factors for {plv_desc} ANOVA (ROIs: {df_plv_long['roi'].nunique()}, Conds: {df_plv_long['condition'].nunique()}). Skipping.")
+            continue
+
+        aov_plv = anova_analyzer.perform_rm_anova(df_plv_long, dv='plv_value', within=['condition', 'roi'], subject='participant_id')
+        if aov_plv is not None:
+            main_logger.info(f"ANOVA Results for {plv_desc}:\n{aov_plv}")
+            statistical_results[f'anova_{plv_desc.replace(" ", "_")}'] = aov_plv
+            all_p_values.extend(aov_plv['p-unc'].dropna().tolist())
+            aov_plv.to_csv(os.path.join(group_results_dir, f"anova_results_{band}_{autonomic}_plv.csv"))
+            # Store long format data for plotting
+
+    # --- WP4: FAI RM ANOVA (Condition x Hemisphere Pair) ---
+    main_logger.info("Group Analysis - WP4: FAI RM ANOVA")
+    fai_cols = [col for col in df_agg.columns if col.startswith('fai_alpha_')]
+    if fai_cols:
+        df_fai_long = df_agg[['participant_id'] + fai_cols].melt(
+            id_vars='participant_id',
+            value_vars=fai_cols,
+            var_name='fai_metric_full',
+            value_name='fai_value'
+        )
+        df_fai_long.dropna(subset=['fai_value'], inplace=True)
+
+        def parse_fai_metric(metric_str): # fai_alpha_F4_F3_Positive
+            match = re.match(r"fai_alpha_(F[p|AF]?\d_F[p|AF]?\d)_(.*)", metric_str)
+            if match:
+                return match.group(1), match.group(2) # pair, condition
+            return None, None
+        
+        parsed_fai_cols = df_fai_long['fai_metric_full'].apply(lambda x: pd.Series(parse_fai_metric(x)))
+        parsed_fai_cols.columns = ['hemisphere_pair', 'condition']
+        df_fai_long = pd.concat([df_fai_long, parsed_fai_cols], axis=1)
+        df_fai_long.dropna(subset=['hemisphere_pair', 'condition'], inplace=True)
+
+        if df_fai_long.empty or df_fai_long['hemisphere_pair'].nunique() < 2 or df_fai_long['condition'].nunique() < 2:
+            main_logger.warning(f"Insufficient data/factors for FAI ANOVA (Pairs: {df_fai_long['hemisphere_pair'].nunique()}, Conds: {df_fai_long['condition'].nunique()}). Skipping.")
+        else:
+            aov_fai = anova_analyzer.perform_rm_anova(df_fai_long, dv='fai_value', within=['condition', 'hemisphere_pair'], subject='participant_id')
+            if aov_fai is not None:
+                main_logger.info(f"ANOVA Results for FAI:\n{aov_fai}")
+                statistical_results['anova_fai'] = aov_fai
+                all_p_values.extend(aov_fai['p-unc'].dropna().tolist())
+                aov_fai.to_csv(os.path.join(group_results_dir, "anova_results_fai.csv"))
+    else:
+        main_logger.warning("No FAI columns found for group analysis.")
+
+    # --- WP2 & WP3: Correlations ---
+    main_logger.info("Group Analysis - WP2 & WP3: Correlations")
+    # Use correlation pairs defined in config.py
+    correlation_pairs_to_run = config.CORRELATION_PAIRS
+
+    all_corr_results = []
+    for var1_name, var2_name, desc_name in correlation_pairs_to_run:
+        if var1_name in df_agg.columns and var2_name in df_agg.columns:
+            corr_res = corr_analyzer.calculate_correlation(df_agg[var1_name], df_agg[var2_name], name1=var1_name, name2=var2_name)
+            if corr_res and 'p-val' in corr_res:
+                main_logger.info(f"Correlation {desc_name}: r={corr_res.get('r', np.nan):.3f}, p={corr_res.get('p-val', np.nan):.3f}")
+                all_p_values.append(corr_res['p-val'])
+                corr_res['description'] = desc_name
+                all_corr_results.append(corr_res)
+        else:
+            main_logger.warning(f"Skipping correlation for '{desc_name}': one or both variables not found in aggregated data.")
+            
+    if all_corr_results:
+        df_corr_results = pd.DataFrame(all_corr_results)
+        statistical_results['correlations'] = df_corr_results
+        df_corr_results.to_csv(os.path.join(group_results_dir, "correlation_results.csv"), index=False)
+
+    # --- FDR Correction ---
+    if all_p_values:
+        valid_p_values = [p for p in all_p_values if pd.notna(p)]
+        if valid_p_values:
+            from pingouin import multicomp
+            reject_fdr, pvals_corrected_fdr = multicomp(valid_p_values, method='fdr_bh')
+            fdr_results_df = pd.DataFrame({'original_p': valid_p_values, 'corrected_p_fdr': pvals_corrected_fdr, 'reject_fdr': reject_fdr})
+            main_logger.info(f"FDR Correction Results (Benjamini-Hochberg):\n{fdr_results_df}")
+            statistical_results['fdr_correction'] = fdr_results_df
+            fdr_results_df.to_csv(os.path.join(group_results_dir, "fdr_corrected_pvalues.csv"), index=False)
+    else:
+        main_logger.info("No p-values collected for FDR correction.")
+
+    # Save all statistical results to a single Excel file with multiple sheets
+    excel_writer = pd.ExcelWriter(os.path.join(group_results_dir, "all_statistical_group_results.xlsx"), engine='openpyxl')
+    for sheet_name, df_stat in statistical_results.items():
+        df_stat.to_excel(excel_writer, sheet_name=sheet_name.replace(" ", "_").replace("/", "_")[:30], index=False) # Sheet names have length limit
+    excel_writer.close()
+    main_logger.info(f"All group statistical results saved to Excel file in {group_results_dir}")
+
+    # --- Group Level Plotting ---
+    main_logger.info("Group Analysis - Generating Plots")
+    plotter.generate_group_plots(df_agg, statistical_results, group_results_dir)
+
+    main_logger.info("===== Group Level Analysis Finished =====")
 
 
 def run_pilot_pipeline():
@@ -197,6 +357,11 @@ def run_pilot_pipeline():
         q_excel_path = os.path.join(config.RESULTS_BASE_DIR, config.AGGREGATED_QUESTIONNAIRE_EXCEL_FILENAME)
         q_df.to_excel(q_excel_path, index=False)
         utils.main_logger.info(f"Aggregated questionnaires saved to: {q_excel_path}")
+
+    # Run group-level analysis if aggregated metrics were produced
+    if os.path.exists(os.path.join(config.RESULTS_BASE_DIR, "pilot_all_participants_metrics.xlsx")):
+        group_results_output_dir = os.path.join(config.RESULTS_BASE_DIR, "group_level_stats")
+        run_group_level_analysis(os.path.join(config.RESULTS_BASE_DIR, "pilot_all_participants_metrics.xlsx"), group_results_output_dir, utils.main_logger)
 
     utils.main_logger.info("===== EmotiView Pilot Data Pipeline Finished =====")
     utils.main_logger.info(f"Main log file: {utils.main_log_file_path}")

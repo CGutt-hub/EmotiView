@@ -17,13 +17,16 @@ class FNIRSGLMAnalyzer:
             analysis_metrics (dict): Dictionary to store/update results.
             participant_id (str): Participant ID for saving files.
             analysis_results_dir (str): Directory to save any GLM output like contrasts.
+        Returns:
+            dict: Potentially containing 'active_rois_per_condition' if GLM is successful.
         """
         if fnirs_haemo_processed is None:
             self.logger.warning("FNIRSGLMAnalyzer - No processed fNIRS data provided. Skipping GLM.")
-            return
+            return {}
 
         self.logger.info("FNIRSGLMAnalyzer - Starting fNIRS GLM analysis.")
         try:
+            active_rois_per_condition = {}
             events_fnirs, event_id_fnirs = mne.events_from_annotations(fnirs_haemo_processed, verbose=False)
             if not events_fnirs.size: # Check if events_fnirs is empty
                 self.logger.warning("FNIRSGLMAnalyzer - No events found from annotations. Skipping GLM.")
