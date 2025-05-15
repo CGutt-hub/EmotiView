@@ -62,7 +62,7 @@ While the detailed workings of the pipeline are contained within the `EV_pipelin
 
 ## Project Status
 
-Current Status: Piloting and Initial Pipeline Development Phase.
+Piloting and Initial Pipeline Development.
 
 ## Contact Information
 
