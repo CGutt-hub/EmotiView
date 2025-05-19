@@ -1,5 +1,7 @@
 import mne
 import numpy as np
+import pandas as pd
+from mne.time_frequency import psd_array_welch
 from .. import config # Relative import
 
 class PSDAnalyzer:
@@ -7,68 +9,122 @@ class PSDAnalyzer:
         self.logger = logger
         self.logger.info("PSDAnalyzer initialized.")
 
-    def calculate_psd_and_fai(self, raw_eeg, analysis_metrics):
+    def _calculate_psd_for_epochs(self, epochs, sfreq, band_freqs, condition_name_logging=""):
+        """Helper to compute PSD for given epochs and band."""
+        try:
+            psds, freqs = epochs.compute_psd(
+                method='welch', fmin=band_freqs[0], fmax=band_freqs[1],
+                n_fft=int(sfreq), n_overlap=int(sfreq * 0.5), # Adjust n_fft and n_overlap as needed
+                average='mean', verbose=False).get_data(return_freqs=True)
+            
+            # psds shape is (n_epochs_averaged_to_1, n_channels, n_freqs)
+            # We want mean power per channel across the frequency band
+            mean_power_per_channel = np.mean(psds, axis=2).squeeze() # Squeeze to remove first dim if 1
+            return mean_power_per_channel
+        except Exception as e:
+            self.logger.error(f"PSDAnalyzer - Error computing PSD for band {band_freqs} {condition_name_logging}: {e}", exc_info=True)
+            return None
+
+
+    def calculate_psd_and_fai(self, raw_eeg_processed, events, event_id_map):
         """
         Calculates Power Spectral Density (PSD) for alpha and beta bands,
-        and Frontal Asymmetry Index (FAI) for alpha band.
-        Updates the analysis_metrics dictionary.
+        and Frontal Asymmetry Index (FAI) for alpha band for each condition.
+
         Args:
-            raw_eeg (mne.io.Raw): Preprocessed EEG raw object.
-            analysis_metrics (dict): Dictionary to store results.
+            raw_eeg_processed (mne.io.Raw): Processed MNE Raw object for EEG.
+            events (np.ndarray): MNE events array from mne.events_from_annotations.
+            event_id_map (dict): Mapping from condition names to event codes.
+
+        Returns:
+            tuple: (psd_results, fai_results)
+                   psd_results (dict): {'condition': {'band': {'channel': power}}}
+                   fai_results (dict): {'condition': {'pair_name': fai_value}}
         """
-        if raw_eeg is None:
-            self.logger.warning("PSDAnalyzer - No EEG data provided. Skipping PSD and FAI.")
-            return
+        if raw_eeg_processed is None:
+            self.logger.warning("PSDAnalyzer - No processed EEG data provided. Skipping PSD and FAI calculation.")
+            return {}, {}
+        if events is None or not events.size or event_id_map is None or not event_id_map:
+            self.logger.warning("PSDAnalyzer - Events or event_id_map not provided or empty. Skipping PSD and FAI calculation.")
+            return {}, {}
 
         self.logger.info("PSDAnalyzer - Calculating PSD and FAI.")
+        sfreq = raw_eeg_processed.info['sfreq']
+        
+        # Use bands from config
+        alpha_band = config.FAI_ALPHA_BAND # Assuming FAI alpha band is primary alpha
+        beta_band = config.PLV_EEG_BANDS.get('Beta', (13.0, 30.0)) # Get Beta band from PLV config or default
+
+        fai_pairs_config = config.FAI_ELECTRODE_PAIRS # e.g., [('Fp1', 'Fp2'), ('F3', 'F4')]
+
+        psd_results = {} # To store all PSD values: condition -> band -> channel -> power
+        fai_results = {} # To store FAI values: condition -> pair_name -> fai
+
+        # Channels to pick for PSD calculation (superset for FAI and general PSD)
+        all_fai_channels = list(set(ch for pair in fai_pairs_config for ch in pair))
+        # You might want a broader set of channels for general PSD reporting if needed
+        # For now, focus on channels relevant to FAI
+        psd_picks = [ch for ch in all_fai_channels if ch in raw_eeg_processed.ch_names]
+        
+        if not psd_picks:
+            self.logger.warning(f"PSDAnalyzer - None of the FAI channels found in EEG data: {all_fai_channels}")
+            return {}, {}
+        self.logger.info(f"PSDAnalyzer - Will calculate PSD for FAI-relevant channels: {psd_picks}")
+
         try:
-            # Assuming events are annotated for epoching, or use fixed-length epochs
-            events, event_id = mne.events_from_annotations(raw_eeg, verbose=False)
-            
-            psd_picks = [ch for ch in config.DEFAULT_EEG_CHANNELS_FOR_FAI_PSD if ch in raw_eeg.ch_names]
-            if not psd_picks:
-                self.logger.warning(f"PSDAnalyzer - None of the default FAI/PSD channels found in EEG data: {config.DEFAULT_EEG_CHANNELS_FOR_FAI_PSD}")
-                return
+            for condition_name, event_code in event_id_map.items():
+                if condition_name.lower() in ["bad_stim", "boundary", "edge"]:
+                    self.logger.debug(f"PSDAnalyzer - Skipping non-experimental condition '{condition_name}'.")
+                    continue
+                
+                self.logger.debug(f"PSDAnalyzer - Processing PSD/FAI for condition: {condition_name}")
+                psd_results[condition_name] = {'Alpha': {}, 'Beta': {}}
+                fai_results[condition_name] = {}
 
-            self.logger.info(f"PSDAnalyzer - Calculating PSD for channels: {psd_picks}")
-
-            # Iterate through conditions to calculate condition-specific PSD and FAI
-            for condition_name, event_code in event_id.items():
-                self.logger.debug(f"PSDAnalyzer - Processing condition: {condition_name}")
                 try:
-                    # Create epochs for the specific condition
-                    condition_epochs = mne.Epochs(raw_eeg, events, event_id={condition_name: event_code},
-                                                  tmin=-0.2, tmax=config.STIMULUS_DURATION_SECONDS, baseline=(None, 0),
-                                                  preload=True, verbose=False)
-                    if len(condition_epochs) == 0:
-                        self.logger.info(f"PSDAnalyzer - No epochs found for condition '{condition_name}'. Skipping PSD/FAI for this condition.")
+                    epochs = mne.Epochs(raw_eeg_processed, events, event_id={condition_name: event_code},
+                                        tmin=0.0, tmax=config.ANALYSIS_EPOCH_TIMES[1], # Use full epoch duration
+                                        baseline=None, preload=True, picks=psd_picks, verbose=False)
+
+                    if len(epochs) == 0:
+                        self.logger.info(f"PSDAnalyzer - No epochs for condition '{condition_name}'.")
                         continue
 
-                    psds_alpha_cond, _ = condition_epochs.compute_psd(fmin=8, fmax=13, method='welch', picks=psd_picks, verbose=False).get_data(return_freqs=True)
-                    psds_beta_cond, _ = condition_epochs.compute_psd(fmin=13, fmax=30, method='welch', picks=psd_picks, verbose=False).get_data(return_freqs=True)
+                    # Alpha PSD
+                    alpha_power_per_channel = self._calculate_psd_for_epochs(epochs, sfreq, alpha_band, f"Alpha, Cond: {condition_name}")
+                    if alpha_power_per_channel is not None:
+                        for ch_idx, ch_name in enumerate(epochs.ch_names):
+                            psd_results[condition_name]['Alpha'][ch_name] = alpha_power_per_channel[ch_idx]
+                        
+                        # Calculate FAI using these alpha powers
+                        for ch_left, ch_right in fai_pairs_config: # Iterate through configured pairs
+                            pair_name = f"{ch_right}_vs_{ch_left}" # e.g., Fp2_vs_Fp1
+                            power_left = psd_results[condition_name]['Alpha'].get(ch_left)
+                            power_right = psd_results[condition_name]['Alpha'].get(ch_right)
 
-                    # Store mean power per channel for this condition
-                    condition_alpha_powers = {}
-                    for ch_idx, ch_name_picked in enumerate(psd_picks): # Iterate over actual picked channels
-                        # psds_alpha_cond shape: (n_epochs, n_channels, n_freqs)
-                        mean_alpha_power = np.mean(psds_alpha_cond[:, ch_idx, :])
-                        mean_beta_power = np.mean(psds_beta_cond[:, ch_idx, :])
-                        analysis_metrics[f'alpha_power_{ch_name_picked}_{condition_name}'] = mean_alpha_power
-                        analysis_metrics[f'beta_power_{ch_name_picked}_{condition_name}'] = mean_beta_power
-                        condition_alpha_powers[ch_name_picked] = mean_alpha_power
+                            if power_left is not None and power_right is not None:
+                                if power_left > 1e-12 and power_right > 1e-12: # Avoid log(0) or log(negative)
+                                    fai_val = np.log(power_right) - np.log(power_left)
+                                    fai_results[condition_name][pair_name] = fai_val
+                                    self.logger.info(f"PSDAnalyzer - FAI {pair_name} for {condition_name}: {fai_val:.4f}")
+                                else:
+                                    self.logger.warning(f"PSDAnalyzer - Zero/tiny power for FAI {pair_name}, {condition_name}. FAI is NaN.")
+                                    fai_results[condition_name][pair_name] = np.nan
+                            else:
+                                self.logger.warning(f"PSDAnalyzer - Missing alpha power for FAI {pair_name}, {condition_name}. FAI is NaN.")
+                                fai_results[condition_name][pair_name] = np.nan
+                    
+                    # Beta PSD
+                    beta_power_per_channel = self._calculate_psd_for_epochs(epochs, sfreq, beta_band, f"Beta, Cond: {condition_name}")
+                    if beta_power_per_channel is not None:
+                        for ch_idx, ch_name in enumerate(epochs.ch_names):
+                            psd_results[condition_name]['Beta'][ch_name] = beta_power_per_channel[ch_idx]
 
-                    # FAI Calculation (Alpha band) for this condition
-                    for pair in [('F4','F3'), ('Fp2','Fp1'), ('AF4', 'AF3')]: # Added AF pair
-                        r_ch, l_ch = pair
-                        r_pow = condition_alpha_powers.get(r_ch, np.nan)
-                        l_pow = condition_alpha_powers.get(l_ch, np.nan)
-                        if not np.isnan(r_pow) and not np.isnan(l_pow) and l_pow > 1e-9 and r_pow > 1e-9: # ensure powers are positive for log
-                            analysis_metrics[f'fai_alpha_{r_ch}_{l_ch}_{condition_name}'] = np.log(r_pow) - np.log(l_pow)
-                        else:
-                            analysis_metrics[f'fai_alpha_{r_ch}_{l_ch}_{condition_name}'] = np.nan
                 except Exception as e_cond:
                     self.logger.error(f"PSDAnalyzer - Error processing condition '{condition_name}': {e_cond}", exc_info=True)
 
             self.logger.info("PSDAnalyzer - PSD and FAI calculation completed.")
+            return psd_results, fai_results
         except Exception as e:
             self.logger.error(f"PSDAnalyzer - Error calculating PSD/FAI: {e}", exc_info=True)
+            return {}, {}

@@ -1,76 +1,91 @@
-import os
+# --- General Configuration ---
+BASE_OUTPUT_DIR = "EV_Processed_Data"
+LOG_LEVEL = "INFO" # DEBUG, INFO, WARNING, ERROR, CRITICAL
 
-# --- Path Configurations ---
-BASE_REPO_PATH = r"D:\repoShaggy\EmotiView" # Adjust if your repo is elsewhere
-PARTICIPANT_DATA_BASE_DIR = os.path.join(BASE_REPO_PATH, "rawData", "pilotData")
-RESULTS_BASE_DIR = os.path.join(BASE_REPO_PATH, "EV_results")
-LOG_DIR = os.path.join(BASE_REPO_PATH, "logs", "pilot_runs") # Specific logs for pilot
+# --- Data Loading Configuration ---
+# Define expected file extensions or naming patterns if needed
+# e.g., EEG_FILE_EXTENSION = ".vhdr"
+# This can be used by the DataLoader to be more specific.
+# For now, assuming generic names like 'eeg', 'fnirs', etc. in filenames.
 
-# --- Filename Configurations ---
-QUESTIONNAIRE_TXT_FILENAME = "questionnaire.txt"
-AGGREGATED_QUESTIONNAIRE_EXCEL_FILENAME = "pilot_aggregated_questionnaires.xlsx"
-COMBINED_LSL_STREAM_FILENAME_SUFFIX = "_combined_lsl.vhdr" # Assumes BrainVision format from LSL
-FNIRS_RAW_FILENAME_SUFFIX = "_fnirs.nirs" # Assumes NIRx format
+# --- Preprocessing Configuration ---
+# EEG
+EEG_FILTER_BAND = (1., 40.) # Bandpass filter for EEG data (Hz)
+ICA_N_COMPONENTS = 15       # Number of ICA components
+ICA_RANDOM_STATE = 42       # Random state for ICA for reproducibility
+ICA_ACCEPT_LABELS = ["brain", "other"] # Labels from mne_icalabel to keep
+ICA_REJECT_THRESHOLD = 0.7 # Probability threshold to reject a component if not in accept_labels
 
-# --- Data Loading & Channel Configurations ---
-# These indices are for the combined LSL stream (e.g., from a BrainVision file)
-COMBINED_EDA_CHANNEL_INDEX = 6
-COMBINED_ECG_CHANNEL_INDEX = 7
-COMBINED_EEG_START_CHANNEL_INDEX = 8
+# ECG/HRV
+ECG_SAMPLING_RATE_DEFAULT = 1000 # Default if not found in data, Hz
+ECG_CLEAN_METHOD = 'neurokit'    # Method for cleaning ECG (e.g., 'neurokit', 'biosppy')
+ECG_PEAK_DETECTION_METHOD = 'neurokit' # Method for R-peak detection
+ECG_FILTER_BAND = (5., 35.) # Bandpass filter for ECG data (Hz) - used if cleaning involves filtering
 
-# --- Preprocessing Configurations ---
-EEG_LPASS_HZ = 0.5
-EEG_HPASS_HZ = 40.0
-ICA_N_COMPONENTS = 15
-FNIRS_FILTER_LPASS_HZ = 0.01
-FNIRS_FILTER_HPASS_HZ = 0.1
-FNIRS_BEER_LAMBERT_PPF = 6.0
-FNIRS_USE_SHORT_CHANNEL_REGRESSION = True # Set to False if not using or no short channels
-FNIRS_SHORT_CHANNEL_MAX_DISTANCE_MM = 15.0 # Max distance for a channel to be considered short by MNE-NIRS default
+# EDA
+EDA_SAMPLING_RATE_DEFAULT = 1000 # Default if not found in data, Hz
+# NeuroKit's eda_process handles decomposition, so specific filter params might be internal to it.
+# If custom filtering is needed before nk.eda_process, add params here.
 
-# --- Analysis Configurations ---
-STIMULUS_DURATION_SECONDS = 5.0
-PLV_EPOCH_TMIN_RELATIVE_TO_ONSET = 0.0
-PLV_EPOCH_TMAX_RELATIVE_TO_ONSET = 5.0
-AUTONOMIC_RESAMPLE_SFREQ = 4.0
-DEFAULT_EDA_SAMPLING_RATE_HZ = 1000.0 # Fallback if not found in saved metadata
-
-DEFAULT_EEG_CHANNELS_FOR_PLV = ['Fp1', 'Fp2', 'F3', 'F4']
-DEFAULT_EEG_CHANNELS_FOR_FAI_PSD = ['Fp1', 'Fp2', 'F3', 'F4', 'AF3', 'AF4'] # Added AF for more options
-
+# fNIRS
+FNIRS_OD_TO_CONC_METHOD = 'beer_lambert_law' # Method for OD to concentration conversion
+FNIRS_FILTER_BAND = (0.01, 0.1) # Bandpass filter for fNIRS data (Hz)
+FNIRS_MOTION_CORRECTION_METHOD = 'tddr' # Motion correction method (e.g., 'tddr', 'savgol', None)
+FNIRS_MOTION_CORRECTION_PARAMS = {'window': 20, 'polyorder': 3, 'deriv': 2} # Parameters for savgol/tddr
+FNIRS_BEER_LAMBERT_PPF = [6.0, 6.0] # Partial pathlength factors for HbO and HbR
+FNIRS_SHORT_CHANNEL_REGRESSION = True # Whether to perform short channel regression
+# fNIRS GLM related
+FNIRS_HRF_MODEL = 'spm' # Hemodynamic Response Function model for GLM
+FNIRS_CONTRASTS = { # Define contrasts for fNIRS GLM
+    'Emotion_vs_Neutral': {'Positive': 0.5, 'Negative': 0.5, 'Neutral': -1.0},
+    'Positive_vs_Neutral': {'Positive': 1.0, 'Neutral': -1.0},
+    'Negative_vs_Neutral': {'Negative': 1.0, 'Neutral': -1.0},
+    # Add more contrasts as needed
+}
+FNIRS_ACTIVATION_P_THRESHOLD = 0.05 # p-value threshold for considering an fNIRS channel/ROI active from GLM contrast
+# Define your fNIRS ROIs by listing the fNIRS channel names (including chromophore) that belong to each ROI.
+# IMPORTANT: Replace these example channel names with your actual fNIRS channel names.
 FNIRS_ROIS = {
-    'DLPFC_L': ['S1_D1', 'S1_D2', 'S2_D1', 'S2_D2'],
-    'DLPFC_R': ['S5_D7', 'S5_D8', 'S6_D7', 'S6_D8'],
-    'VMPFC': ['S3_D1', 'S4_D2', 'S3_D5', 'S4_D6'] # Example, adjust to your actual layout
+    'dlPFC_L': ['S1_D1 hbo', 'S1_D2 hbo', 'S2_D1 hbo', 'S2_D3 hbo'], # Dorsolateral Prefrontal Cortex Left
+    'dlPFC_R': ['S3_D4 hbo', 'S3_D5 hbo', 'S4_D4 hbo', 'S4_D6 hbo'], # Dorsolateral Prefrontal Cortex Right
+    'mPFC': ['S7_D7 hbo', 'S7_D8 hbo', 'S8_D7 hbo', 'S8_D9 hbo'],    # Medial Prefrontal / Frontopolar
+    'Parietal_L': ['S5_D10 hbo', 'S5_D11 hbo', 'S6_D10 hbo'],      # Left Parietal
+    'Parietal_R': ['S9_D12 hbo', 'S9_D13 hbo', 'S10_D12 hbo'],     # Right Parietal
+    # Add HbR channels to these lists if you analyze them separately or combined for ROI definition
+}
+FNIRS_ROI_TO_EEG_CHANNELS_MAP = { # Example mapping, adjust to your setup
+    'dlPFC_L': ['F3', 'F7', 'AF3', 'F5'], 'dlPFC_R': ['F4', 'F8', 'AF4', 'F6'],
+    'mPFC': ['Fp1', 'Fpz', 'Fp2', 'AFz', 'Fz'], # Medial PFC often maps to midline frontal EEG
+    'Parietal_L': ['P3', 'P7', 'CP5', 'TP7'], 'Parietal_R': ['P4', 'P8', 'CP6', 'TP8'],
 }
 
-# Mapping fNIRS ROIs to EEG channels for guided PLV
-FNIRS_TO_EEG_ROI_MAP = {
-    'DLPFC_L': ['Fp1', 'F3', 'AF3'],
-    'DLPFC_R': ['Fp2', 'F4', 'AF4'],
-    'VMPFC': ['Fpz', 'AFz', 'Fz'] # Example, adjust to your EEG montage
+# --- Analysis Configuration ---
+# General
+ANALYSIS_EPOCH_TIMES = (-0.5, 4.0) # Epoch start and end times relative to event onset (seconds)
+ANALYSIS_BASELINE_TIMES = (-0.5, 0.0) # Baseline period for correction relative to event onset (seconds)
+
+# PLV Analysis
+PLV_RESAMPLE_SFREQ_AUTONOMIC = 4 # Hz, resampling frequency for continuous autonomic signals for PLV
+DEFAULT_EEG_CHANNELS_FOR_PLV = ['F3', 'F4', 'Fp1', 'Fp2', 'C3', 'C4'] # Fallback if fNIRS guidance fails
+EEG_CHANNEL_SELECTION_STRATEGY_FOR_PLV = 'mapping' # 'mapping', 'nearest', 'predefined'
+PLV_EEG_BANDS = {'Alpha': (8, 13), 'Beta': (13, 30)} # EEG bands for PLV
+
+# FAI Analysis
+FAI_ALPHA_BAND = (8, 13) # Hz, alpha band for FAI calculation
+
+# --- Reporting Configuration ---
+REPORTING_FIGURE_FORMAT = 'png'
+REPORTING_DPI = 300
+
+# --- Event Processing Configuration ---
+EVENT_TYPE_MAPPING = {
+    # Example: map raw event markers to meaningful condition names
+    # 'stim_positive_start': 'Positive',
+    # 'stim_negative_start': 'Negative',
+    # 'stim_neutral_start': 'Neutral',
+    # 'button_press': 'Response'
 }
-FNIRS_ROI_ACTIVATION_THRESHOLD_THETA = 0.05 # Example threshold for mean theta (beta coefficient) to consider an ROI active
-
-# --- Correlation Configurations (WP2 & WP3) ---
-# Define pairs of metrics to correlate. Format: (metric1_name, metric2_name, description)
-# Metric names should match columns in the aggregated metrics Excel file.
-# Example PLV names: 'plv_avg_alpha_DLPFC_L_hrv_Positive', 'plv_avg_beta_VMPFC_eda_Negative'
-# Example Questionnaire names: 'BIS_score', 'BAS_drive', 'SAM_valence_Positive'
-CORRELATION_PAIRS = [
-    # Add your specific correlation pairs here based on your hypotheses
-    # Example: ('BIS_score', 'plv_avg_alpha_DLPFC_L_hrv_Positive', 'BIS vs Alpha-HRV PLV (DLPFC_L Pos)'),
-    # Example: ('SAM_valence_Positive', 'plv_avg_alpha_DLPFC_L_hrv_Positive', 'SAM Valence (Pos) vs Alpha-HRV PLV (DLPFC_L Pos)'),
-    # ...
-]
-
-# --- Logging Configuration ---
-MAIN_LOG_LEVEL = "INFO"
-PARTICIPANT_LOG_LEVEL = "DEBUG"
-
-# --- Plotting Configuration ---
-EEG_PSD_FMAX = EEG_HPASS_HZ
-
-# Ensure base directories exist
-os.makedirs(RESULTS_BASE_DIR, exist_ok=True)
-os.makedirs(LOG_DIR, exist_ok=True)
+EVENT_DURATION_DEFAULT = 4.0 # Default duration for events if not specified (seconds)
+BASELINE_MARKER_START = "Baseline_Start" # Marker name for baseline start
+BASELINE_MARKER_END = "Baseline_End"     # Marker name for baseline end
+BASELINE_DURATION_FALLBACK_SEC = 60.0    # Fallback baseline duration if markers not found

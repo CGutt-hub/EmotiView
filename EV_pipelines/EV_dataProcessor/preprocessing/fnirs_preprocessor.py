@@ -1,8 +1,10 @@
 import mne
-import os
 import mne_nirs
 from mne_nirs.signal_enhancement import short_channel_regression
-from .. import config # Relative import
+from mne_nirs.channels import get_long_channels, get_short_channels
+import os
+import numpy as np
+from .. import config
 
 class FNIRSPreprocessor:
     def __init__(self, logger):
@@ -11,61 +13,80 @@ class FNIRSPreprocessor:
 
     def process(self, fnirs_raw_od):
         """
-        Processes raw fNIRS optical density data.
+        Preprocesses raw fNIRS optical density data to haemoglobin concentration.
         Args:
             fnirs_raw_od (mne.io.Raw): Raw fNIRS optical density data.
         Returns:
-            mne.io.Raw: Preprocessed haemoglobin concentration data, or None if error.
+            mne.io.Raw: Preprocessed fNIRS haemoglobin concentration data, or None if error.
         """
         if fnirs_raw_od is None:
             self.logger.warning("FNIRSPreprocessor - No raw fNIRS OD data provided. Skipping.")
             return None
 
+        self.logger.info("FNIRSPreprocessor - Starting fNIRS preprocessing.")
         try:
-            self.logger.info("FNIRSPreprocessor - Starting fNIRS preprocessing.")
+            # Ensure data is loaded
             if hasattr(fnirs_raw_od, '_data') and fnirs_raw_od._data is None and fnirs_raw_od.preload is False:
                 fnirs_raw_od.load_data(verbose=False)
 
             self.logger.info(f"FNIRSPreprocessor - Applying Beer-Lambert Law (PPF={config.FNIRS_BEER_LAMBERT_PPF}).")
-            raw_haemo = mne_nirs.beer_lambert_law(fnirs_raw_od, ppf=config.FNIRS_BEER_LAMBERT_PPF)
+            raw_haemo = mne_nirs.beer_lambert_law(fnirs_raw_od.copy(), ppf=config.FNIRS_BEER_LAMBERT_PPF, remove_od=True)
             
-            if config.FNIRS_USE_SHORT_CHANNEL_REGRESSION:
+            if config.FNIRS_SHORT_CHANNEL_REGRESSION:
                 try:
-                    # MNE-NIRS can auto-detect short channels based on distance in info
-                    # or you might need to explicitly mark them if names are like 'S1_D1_SC'
-                    self.logger.info("FNIRSPreprocessor - Applying short-channel regression.")
-                    raw_haemo_corrected_short = short_channel_regression(raw_haemo.copy()) # Use .copy()
-                    raw_haemo = raw_haemo_corrected_short
+                    # Check if there are any short channels defined
+                    short_chs = get_short_channels(raw_haemo)
+                    long_chs = get_long_channels(raw_haemo)
+                    if not short_chs.empty and not long_chs.empty:
+                        self.logger.info(f"FNIRSPreprocessor - Found {len(short_chs)} short channels. Applying short-channel regression.")
+                        # Ensure raw_haemo includes both long and short for regression
+                        raw_haemo_corrected_short = short_channel_regression(raw_haemo.copy())
+                        raw_haemo = raw_haemo_corrected_short
+                    else:
+                        self.logger.info("FNIRSPreprocessor - No short channels found or defined. Skipping short-channel regression.")
                 except Exception as e_scr:
-                    self.logger.warning(f"FNIRSPreprocessor - Short-channel regression failed or no short channels found: {e_scr}. Continuing without it.")
-
-            self.logger.info("FNIRSPreprocessor - Applying TDDR motion artifact correction.")
-            corrected_haemo = mne_nirs.temporal_derivative_distribution_repair(raw_haemo.copy())
+                    self.logger.warning(f"FNIRSPreprocessor - Short-channel regression failed: {e_scr}. Continuing without it.", exc_info=True)
             
-            self.logger.info(f"FNIRSPreprocessor - Applying band-pass filter ({config.FNIRS_FILTER_LPASS_HZ}-{config.FNIRS_FILTER_HPASS_HZ} Hz).")
-            corrected_haemo.filter(config.FNIRS_FILTER_LPASS_HZ, config.FNIRS_FILTER_HPASS_HZ,
-                                   h_trans_bandwidth=0.02,
-                                   l_trans_bandwidth=0.002,
+            if config.FNIRS_MOTION_CORRECTION_METHOD == 'tddr':
+                self.logger.info("FNIRSPreprocessor - Applying TDDR motion artifact correction.")
+                # TDDR might be sensitive to NaNs or Infs if present
+                if np.any(np.isnan(raw_haemo.get_data())) or np.any(np.isinf(raw_haemo.get_data())):
+                    self.logger.warning("FNIRSPreprocessor - NaN or Inf values found in data before TDDR. Attempting to interpolate.")
+                    raw_haemo.interpolate_bads(reset_bads=True, mode='accurate', verbose=False) # General interpolation
+                
+                corrected_haemo = mne_nirs.temporal_derivative_distribution_repair(raw_haemo.copy())
+            # Add other motion correction methods like 'savgol' if needed
+            # elif config.FNIRS_MOTION_CORRECTION_METHOD == 'savgol':
+            #     self.logger.info("FNIRSPreprocessor - Applying Savitzky-Golay filter for motion artifact correction.")
+            #     # Example: corrected_haemo = raw_haemo.copy().filter(..., method='savgol', h_freq=None, l_freq=None, **config.FNIRS_MOTION_CORRECTION_PARAMS)
+            #     corrected_haemo = raw_haemo # Placeholder if savgol not fully implemented here
+            else:
+                self.logger.info("FNIRSPreprocessor - No specific motion correction method applied beyond initial processing.")
+                corrected_haemo = raw_haemo # Pass through if no method or 'none'
+
+            self.logger.info(f"FNIRSPreprocessor - Applying band-pass filter ({config.FNIRS_FILTER_BAND[0]}-{config.FNIRS_FILTER_BAND[1]} Hz).")
+            corrected_haemo.filter(l_freq=config.FNIRS_FILTER_BAND[0], h_freq=config.FNIRS_FILTER_BAND[1],
+                                   h_trans_bandwidth='auto', # MNE default or specify
+                                   l_trans_bandwidth='auto', # MNE default or specify
                                    fir_design='firwin', verbose=False)
             
-            self.logger.info("FNIRSPreprocessor - fNIRS preprocessing completed successfully.")
+            self.logger.info("FNIRSPreprocessor - fNIRS preprocessing completed.")
             return corrected_haemo
-            
         except Exception as e:
             self.logger.error(f"FNIRSPreprocessor - Error during fNIRS preprocessing: {e}", exc_info=True)
             return None
 
-    def save_preprocessed_data(self, processed_fnirs_data, participant_id, output_dir):
-        if processed_fnirs_data is None:
-            self.logger.warning("FNIRSPreprocessor - No processed fNIRS data to save.")
+    def save_preprocessed_data(self, fnirs_haemo_obj, participant_id, output_dir):
+        """Saves the preprocessed fNIRS haemoglobin data to a .fif file."""
+        if fnirs_haemo_obj is None:
+            self.logger.warning("FNIRSPreprocessor - No processed fNIRS object to save.")
             return None
+        
         try:
-            os.makedirs(output_dir, exist_ok=True)
-            filename = f"{participant_id}_fnirs_haemo_preprocessed.fif"
-            filepath = os.path.join(output_dir, filename)
-            processed_fnirs_data.save(filepath, overwrite=True, verbose=False)
-            self.logger.info(f"FNIRSPreprocessor - Preprocessed fNIRS data saved to {filepath}")
-            return filepath
+            output_path = os.path.join(output_dir, f"{participant_id}_fnirs_haemo_proc_raw.fif")
+            fnirs_haemo_obj.save(output_path, overwrite=True, verbose=False)
+            self.logger.info(f"FNIRSPreprocessor - Processed fNIRS data saved to: {output_path}")
+            return output_path
         except Exception as e:
-            self.logger.error(f"FNIRSPreprocessor - Error saving preprocessed fNIRS data: {e}", exc_info=True)
+            self.logger.error(f"FNIRSPreprocessor - Error saving processed fNIRS data for {participant_id}: {e}", exc_info=True)
             return None

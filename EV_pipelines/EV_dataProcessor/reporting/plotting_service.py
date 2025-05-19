@@ -1,179 +1,126 @@
-import os
 import matplotlib.pyplot as plt
-import mne
-from .. import config # Relative import
-import pandas as pd
 import seaborn as sns
+import numpy as np
+import os
+from .. import config
 
 class PlottingService:
-    def __init__(self, logger):
+    def __init__(self, logger, output_dir_base):
         self.logger = logger
-        self.logger.info("PlottingService initialized.")
+        self.output_dir_base = output_dir_base
+        os.makedirs(self.output_dir_base, exist_ok=True)
+        self.logger.info(f"PlottingService initialized. Plots will be saved in subdirectories of: {self.output_dir_base}")
 
-    def plot_eeg_psd(self, raw_eeg, participant_id, output_dir):
-        """Plots and saves EEG Power Spectral Density."""
-        if raw_eeg is None:
-            self.logger.warning("PlottingService - No EEG data to plot PSD.")
-            return
+    def _save_plot(self, fig, participant_id, plot_name, subdirectory="general"):
+        """Helper function to save plots."""
+        participant_plot_dir = os.path.join(self.output_dir_base, participant_id, subdirectory)
+        os.makedirs(participant_plot_dir, exist_ok=True)
+        plot_path = os.path.join(participant_plot_dir, f"{plot_name}.{config.REPORTING_FIGURE_FORMAT}")
         try:
-            self.logger.info(f"PlottingService - Generating EEG PSD plot for {participant_id}.")
-            fig = raw_eeg.compute_psd(picks='eeg', fmax=config.EEG_PSD_FMAX, n_fft=2048).plot(show=False, average=True)
-            plot_path = os.path.join(output_dir, f"{participant_id}_eeg_psd.png")
             fig.savefig(plot_path)
             plt.close(fig)
-            self.logger.info(f"PlottingService - EEG PSD plot saved to {plot_path}")
+            self.logger.info(f"Plot saved: {plot_path}")
+            return plot_path
         except Exception as e:
-            self.logger.error(f"PlottingService - Error plotting EEG PSD for {participant_id}: {e}", exc_info=True)
-
-    def plot_fnirs_glm_contrast(self, contrast_evoked, participant_id, contrast_name, output_dir):
-        """Plots and saves fNIRS GLM contrast (e.g., topomap). Conceptual."""
-        if contrast_evoked is None:
-            self.logger.warning(f"PlottingService - No fNIRS contrast data for {contrast_name} to plot.")
-            return
-        try:
-            self.logger.info(f"PlottingService - Generating fNIRS GLM contrast plot for {participant_id} - {contrast_name}.")
-            # Example: This assumes contrast_evoked is an MNE Evoked object
-            # fig = contrast_evoked.plot_topomap(ch_type='hbo', show=False, times='peaks') # Adjust as needed
-            # plot_path = os.path.join(output_dir, f"{participant_id}_fnirs_contrast_{contrast_name}_hbo_topo.png")
-            # fig.savefig(plot_path)
-            # plt.close(fig)
-            # self.logger.info(f"PlottingService - fNIRS contrast plot saved to {plot_path}")
-            self.logger.info("PlottingService - fNIRS GLM contrast plotting is conceptual and needs implementation.")
-        except Exception as e:
-            self.logger.error(f"PlottingService - Error plotting fNIRS contrast for {participant_id}: {e}", exc_info=True)
-
-    def plot_group_plv_by_condition_roi(self, df_plv_long, band, autonomic, output_dir):
-        """Plots group-averaged PLV by condition and ROI."""
-        if df_plv_long.empty:
-            self.logger.warning(f"PlottingService - No {band}-{autonomic} PLV data for group plot.")
-            return
-        try:
-            self.logger.info(f"PlottingService - Generating group {band}-{autonomic} PLV plot.")
-            
-            fig, ax = plt.subplots(figsize=(10, 6))
-            sns.barplot(data=df_plv_long, x='condition', y='plv_value', hue='roi', ax=ax, errorbar='ci') # Use errorbar for confidence intervals
-            ax.set_title(f'Group Average {band.capitalize()}-{autonomic.upper()} PLV by Condition and ROI')
-            ax.set_ylabel('Average PLV')
-            ax.set_xlabel('Condition')
-            plt.tight_layout()
-            
-            plot_path = os.path.join(output_dir, f"group_plv_{band}_{autonomic}_condition_roi.png")
-            fig.savefig(plot_path)
+            self.logger.error(f"Failed to save plot {plot_name} for {participant_id}: {e}")
             plt.close(fig)
-            self.logger.info(f"PlottingService - Group {band}-{autonomic} PLV plot saved to {plot_path}")
-        except Exception as e:
-            self.logger.error(f"PlottingService - Error plotting group {band}-{autonomic} PLV: {e}", exc_info=True)
+            return None
 
-    def plot_group_fai_by_condition_pair(self, df_fai_long, output_dir):
-        """Plots group-averaged FAI by condition and hemisphere pair."""
-        if df_fai_long.empty:
-            self.logger.warning("PlottingService - No FAI data for group plot.")
-            return
-        try:
-            self.logger.info("PlottingService - Generating group FAI plot.")
+    def plot_plv_results(self, participant_id, plv_df, analysis_name="plv_summary"):
+        """
+        Plots PLV results, e.g., averaged PLV per condition.
+        plv_df: DataFrame with columns like 'condition', 'modality_pair', 'eeg_band', 'plv_mean', 'plv_std_err'.
+        """
+        fig, ax = plt.subplots()
+        if plv_df is not None and not plv_df.empty:
+            # Example: Bar plot of mean PLV by condition, hue by modality_pair/eeg_band
+            # This requires plv_df to be structured appropriately.
+            try:
+                sns.barplot(data=plv_df, x='condition', y='plv', hue='modality_pair', errorbar='sd', ax=ax) # 'plv' should be the value column
+                ax.set_title(f"Average PLV by Condition - {participant_id}")
+                ax.set_ylabel("Mean PLV")
+                plt.xticks(rotation=45, ha='right')
+                fig.tight_layout()
+            except Exception as e:
+                self.logger.warning(f"Could not generate detailed PLV plot for {participant_id} due to: {e}. Plotting placeholder.")
+                ax.text(0.5, 0.5, "PLV Plot (Data Error)", ha='center', va='center')
+        else:
+            ax.text(0.5, 0.5, "PLV Plot (No Data)", ha='center', va='center')
+            ax.set_title(f"PLV Data - {participant_id}")
 
-            fig, ax = plt.subplots(figsize=(10, 6))
-            sns.barplot(data=df_fai_long, x='condition', y='fai_value', hue='hemisphere_pair', ax=ax, errorbar='ci') # Use errorbar
-            ax.set_title('Group Average FAI by Condition and Hemisphere Pair')
-            ax.set_ylabel('Average FAI (log difference)')
-            ax.set_xlabel('Condition')
-            plt.axhline(0, color='grey', linestyle='--') # Add line at 0 for FAI
-            plt.tight_layout()
+        plot_name = f"{analysis_name}"
+        self._save_plot(fig, participant_id, plot_name, subdirectory="plv_plots")
 
-            plot_path = os.path.join(output_dir, "group_fai_condition_pair.png")
-            fig.savefig(plot_path)
-            plt.close(fig)
-            self.logger.info(f"PlottingService - Group FAI plot saved to {plot_path}")
-        except Exception as e:
-            self.logger.error(f"PlottingService - Error plotting group FAI: {e}", exc_info=True)
-
-    def plot_group_correlations(self, df_agg, correlation_results_df, output_dir):
-        """Plots scatter plots for group correlations."""
-        if correlation_results_df.empty or df_agg.empty:
-            self.logger.warning("PlottingService - No correlation results or aggregated data for group correlation plots.")
-            return
-        try:
-            self.logger.info("PlottingService - Generating group correlation plots.")
-
-            # Filter for correlations that were actually computed and have a p-value (even if not significant before FDR)
-            computed_corrs = correlation_results_df.dropna(subset=['p-val'])
-
-            for index, row in computed_corrs.iterrows():
-                var1_name = row['name1']
-                var2_name = row['name2']
-                desc = row['description']
-                r_val = row['r']
-                p_val = row['p-val'] # Use original p-val for plotting label
-
-                if var1_name in df_agg.columns and var2_name in df_agg.columns:
-                    fig, ax = plt.subplots(figsize=(8, 6))
-                    sns.regplot(data=df_agg, x=var1_name, y=var2_name, ax=ax)
-                    ax.set_title(f'{desc}\n(r={r_val:.3f}, p={p_val:.3f})')
-                    ax.set_xlabel(var1_name)
-                    ax.set_ylabel(var2_name)
-                    plt.tight_layout()
-
-                    # Sanitize filename
-                    safe_desc = re.sub(r'[\\/*?:"<>|]', '', desc).replace(' ', '_')[:50] # Basic sanitization
-                    plot_path = os.path.join(output_dir, f"corr_{safe_desc}.png")
-                    fig.savefig(plot_path)
-                    plt.close(fig)
-                    self.logger.info(f"PlottingService - Correlation plot saved to {plot_path}")
-                else:
-                     self.logger.warning(f"PlottingService - Could not plot correlation for '{desc}': variables not found in aggregated data.")
-
-        except Exception as e:
-            self.logger.error(f"PlottingService - Error plotting group correlations: {e}", exc_info=True)
-
-    def generate_group_plots(self, aggregated_metrics_df, statistical_results, output_dir):
-        """Orchestrates generation of all group-level plots."""
-        if aggregated_metrics_df.empty:
-            self.logger.info("PlottingService - No aggregated metrics for group plots.")
-            return
-        self.logger.info("PlottingService - Generating group plots (conceptual).")
+    def plot_correlation(self, participant_id, x_data, y_data, x_label, y_label, title, analysis_name, corr_results=None):
+        """
+        Plots a scatter plot for correlation analysis with regression line and stats.
+        corr_results: DataFrame row from pingouin's pg.corr or a similar dict.
+        """
+        fig, ax = plt.subplots()
+        plot_title = f"{title} - {participant_id}"
         
-        # PLV Plots
-        plv_types = [('alpha', 'hrv'), ('beta', 'hrv'), ('alpha', 'eda'), ('beta', 'eda')]
-        for band, autonomic in plv_types:
-             plv_cols = [col for col in aggregated_metrics_df.columns if col.startswith(f'plv_avg_{band}_') and f'_{autonomic}_' in col]
-             if plv_cols:
-                df_plv_long = aggregated_metrics_df[['participant_id'] + plv_cols].melt(
-                    id_vars='participant_id', value_vars=plv_cols, var_name='plv_metric_full', value_name='plv_value'
-                ).dropna(subset=['plv_value'])
-                # Re-parse ROI and Condition - this is slightly inefficient but keeps plotting service independent
-                def parse_plv_metric(metric_str, band_in, autonomic_in):
-                    pattern = re.compile(f"plv_avg_{band_in}_(.*)_{autonomic_in}_(.*)")
-                    match = pattern.match(metric_str)
-                    if match: return match.group(1), match.group(2)
-                    return None, None
-                parsed_cols = df_plv_long['plv_metric_full'].apply(lambda x: pd.Series(parse_plv_metric(x, band, autonomic)))
-                parsed_cols.columns = ['roi', 'condition']
-                df_plv_long = pd.concat([df_plv_long, parsed_cols], axis=1).dropna(subset=['roi', 'condition'])
-                
-                if not df_plv_long.empty:
-                     self.plot_group_plv_by_condition_roi(df_plv_long, band, autonomic, output_dir)
+        if corr_results is not None:
+            r_val = corr_results.get('r', np.nan)
+            p_val = corr_results.get('p-val', np.nan)
+            n_val = corr_results.get('n', len(x_data) if x_data is not None else 'N/A')
+            if isinstance(r_val, pd.Series): r_val = r_val.iloc[0] # Handle if full df row passed
+            if isinstance(p_val, pd.Series): p_val = p_val.iloc[0]
+            plot_title += f"\n(n={n_val}, r={r_val:.3f}, p={p_val:.3f})"
 
-        # FAI Plots
-        fai_cols = [col for col in aggregated_metrics_df.columns if col.startswith('fai_alpha_')]
-        if fai_cols:
-            df_fai_long = aggregated_metrics_df[['participant_id'] + fai_cols].melt(
-                id_vars='participant_id', value_vars=fai_cols, var_name='fai_metric_full', value_name='fai_value'
-            ).dropna(subset=['fai_value'])
-            # Re-parse Pair and Condition
-            def parse_fai_metric(metric_str):
-                match = re.match(r"fai_alpha_(F[p|AF]?\d_F[p|AF]?\d)_(.*)", metric_str)
-                if match: return match.group(1), match.group(2)
-                return None, None
-            parsed_fai_cols = df_fai_long['fai_metric_full'].apply(lambda x: pd.Series(parse_fai_metric(x)))
-            parsed_fai_cols.columns = ['hemisphere_pair', 'condition']
-            df_fai_long = pd.concat([df_fai_long, parsed_fai_cols], axis=1).dropna(subset=['hemisphere_pair', 'condition'])
+        sns.scatterplot(x=x_data, y=y_data, ax=ax)
+        # Optional: Add regression line
+        # sns.regplot(x=x_data, y=y_data, ax=ax, scatter=False, color='red')
+        ax.set_xlabel(x_label)
+        ax.set_ylabel(y_label)
+        ax.set_title(f"{title} - {participant_id}")
+        ax.set_title(plot_title) # Set the potentially longer title
+        plot_name = f"correlation_{analysis_name}"
+        fig.tight_layout()
+        self._save_plot(fig, participant_id, plot_name, subdirectory="correlation_plots")
 
-            if not df_fai_long.empty:
-                self.plot_group_fai_by_condition_pair(df_fai_long, output_dir)
+    def plot_anova_results(self, participant_id, anova_results_df, data_for_plot_df, dv_col, factor_col, title, analysis_name):
+        """
+        Visualizes ANOVA results (e.g., bar plot of means with error bars).
+        anova_results_df: DataFrame from pingouin's ANOVA.
+        data_for_plot_df: DataFrame in long format with dv_col, factor_col, and subject_id for plotting means.
+        """
+        fig, ax = plt.subplots()
+        plot_title = f"{title} - {participant_id}"
 
-        # Correlation Plots
-        correlation_results_df = statistical_results.get('correlations')
-        if correlation_results_df is not None:
-             self.plot_group_correlations(aggregated_metrics_df, correlation_results_df, output_dir)
+        if data_for_plot_df is not None and not data_for_plot_df.empty:
+            sns.barplot(data=data_for_plot_df, x=factor_col, y=dv_col, errorbar='se', ax=ax, capsize=.1)
+            ax.set_ylabel(f"Mean {dv_col}")
+            
+            # Add ANOVA stats to the plot title or as text
+            if anova_results_df is not None and not anova_results_df.empty:
+                # Find the row for the main effect of factor_col
+                effect_row = anova_results_df[anova_results_df['Source'] == factor_col]
+                if not effect_row.empty:
+                    f_val = effect_row['F'].iloc[0]
+                    p_val = effect_row['p-unc'].iloc[0]
+                    p_corr_val = effect_row.get('p-corr-fdr', p_val) # Use corrected if available
+                    df1 = effect_row['ddof1'].iloc[0]
+                    df2 = effect_row['ddof2'].iloc[0]
+                    plot_title += f"\n{factor_col}: F({df1},{df2})={f_val:.2f}, p={p_val:.3f}"
+                    if 'p-corr-fdr' in effect_row:
+                        plot_title += f", p_fdr={p_corr_val:.3f}"
+        else:
+            ax.text(0.5, 0.5, "ANOVA Plot (No Data for Means)", ha='center', va='center')
+        ax.set_title(plot_title)
+        fig.tight_layout()
+        plot_name = f"anova_{analysis_name}"
+        self._save_plot(fig, participant_id, plot_name, subdirectory="anova_plots")
 
-        self.logger.info("PlottingService - Group plot generation finished.")
+    def plot_fnirs_contrast_results(self, participant_id, contrast_name, contrast_obj_or_path, analysis_name="fnirs_contrast"):
+        """
+        Placeholder for plotting fNIRS contrast results (e.g., topographic maps).
+        contrast_obj_or_path: MNE contrast object or path to saved contrast DataFrame.
+        """
+        fig, ax = plt.subplots()
+        # In a real implementation, you would load the contrast object/data
+        # and use mne_nirs.visualisation.plot_glm_surface_projection or similar
+        # This requires sensor locations in the fNIRS info object.
+        ax.text(0.5, 0.5, f"fNIRS Contrast Plot\n{contrast_name}\n(Placeholder)", ha='center', va='center', fontsize=10)
+        ax.set_title(f"fNIRS Contrast: {contrast_name} - {participant_id}")
+        plot_name = f"{analysis_name}_{contrast_name.replace(' ', '_')}"
+        self._save_plot(fig, participant_id, plot_name, subdirectory="fnirs_glm_plots")

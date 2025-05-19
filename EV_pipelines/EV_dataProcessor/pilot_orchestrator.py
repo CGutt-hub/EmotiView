@@ -1,370 +1,721 @@
 import os
+import mne
 import pandas as pd
-import numpy as np # Added for placeholder metrics
-import re # For parsing column names
-import json # For saving/loading sampling rates
-
-# Import configurations and utilities
-from .. import config
-from .. import utils
-
-# Import modular components
-from .data_handling.data_loader import DataLoader
-from .data_handling.questionnaire_parser import QuestionnaireParser
+import numpy as np
+import logging # For main logger
+from . import config
 from .preprocessing.eeg_preprocessor import EEGPreprocessor
 from .preprocessing.ecg_preprocessor import ECGPreprocessor
 from .preprocessing.eda_preprocessor import EDAPreprocessor
 from .preprocessing.fnirs_preprocessor import FNIRSPreprocessor
-from .analysis.psd_analyzer import PSDAnalyzer
-from .analysis.hrv_analyzer import HRVAnalyzer
-from .analysis.connectivity_analyzer import ConnectivityAnalyzer
-from .analysis.fnirs_glm_analyzer import FNIRSGLMAnalyzer
-from .analysis.correlation_analyzer import CorrelationAnalyzer
-from .analysis.anova_analyzer import ANOVAAnalyzer 
+from .analysis.analysis_service import AnalysisService
 from .reporting.plotting_service import PlottingService
+from .utils.data_loader import DataLoader
+from .utils.event_processor import EventProcessor
+from .utils.participant_logger import ParticipantLogger
+from .utils import select_eeg_channels_by_fnirs_rois, apply_fdr_correction
 
+# Constants for data types
+DATA_TYPES = ['eeg', 'fnirs', 'ecg', 'eda', 'events', 'survey']
+EMOTIONAL_CONDITIONS = ['Positive', 'Negative', 'Neutral'] # As per proposal, adjust if needed
 
-def run_participant_preprocessing(participant_id, p_logger, data_loader):
-    """Handles data loading and preprocessing for a single participant."""
-    p_logger.info(f"Preprocessing - Stage: Start for {participant_id}")
-    participant_raw_data_path = os.path.join(config.PARTICIPANT_DATA_BASE_DIR, participant_id)
-    preprocessed_output_dir = os.path.join(config.RESULTS_BASE_DIR, participant_id, "preprocessed")
-    os.makedirs(preprocessed_output_dir, exist_ok=True)
+# Define homologous frontal pairs for FAI (example, adjust based on actual cap layout and proposal)
+# These should be actual channel names present in your EEG data.
+FAI_ELECTRODE_PAIRS = [('Fp1', 'Fp2'), ('F3', 'F4'), ('F7', 'F8')]
 
-    loaded_streams = data_loader.load_participant_streams(participant_id, participant_raw_data_path)
-    processed_data_artifacts = {} # To store paths or MNE objects of processed data
-
-    # EEG Preprocessing
-    if loaded_streams.get('eeg') and loaded_streams.get('eeg_sfreq'):
-        eeg_prep = EEGPreprocessor(p_logger)
-        processed_eeg = eeg_prep.process(loaded_streams['eeg'], loaded_streams['eeg_sfreq'])
-        if processed_eeg:
-            eeg_file_path = os.path.join(preprocessed_output_dir, f"{participant_id}_eeg_preprocessed.fif")
-            processed_eeg.save(eeg_file_path, overwrite=True, verbose=False)
-            p_logger.info(f"Preprocessing - EEG saved to {eeg_file_path}")
-            processed_data_artifacts['eeg_processed_mne_obj'] = processed_eeg # Keep in memory for analysis
-
-    # fNIRS Preprocessing
-    if loaded_streams.get('fnirs_od'):
-        fnirs_prep = FNIRSPreprocessor(p_logger)
-        processed_fnirs_haemo = fnirs_prep.process(loaded_streams['fnirs_od'])
-        if processed_fnirs_haemo:
-            fnirs_file_path = fnirs_prep.save_preprocessed_data(processed_fnirs_haemo, participant_id, preprocessed_output_dir)
-            if fnirs_file_path:
-                processed_data_artifacts['fnirs_haemo_mne_obj'] = processed_fnirs_haemo # Keep for analysis
-
-    # ECG Preprocessing
-    if loaded_streams.get('ecg_signal') is not None and loaded_streams.get('ecg_sfreq') is not None:
-        ecg_prep = ECGPreprocessor(p_logger)
-        nn_path, rpeaks_path = ecg_prep.process_and_save(loaded_streams['ecg_signal'], loaded_streams['ecg_sfreq'], participant_id, preprocessed_output_dir)
-        if nn_path: processed_data_artifacts['ecg_nn_intervals_path'] = nn_path
-        if rpeaks_path: processed_data_artifacts['ecg_rpeaks_times_path'] = rpeaks_path
-
-    # EDA Preprocessing
-    if loaded_streams.get('eda_signal') is not None and loaded_streams.get('eda_sfreq') is not None:
-        eda_prep = EDAPreprocessor(p_logger)
-        phasic_eda_path = eda_prep.process_and_save(loaded_streams['eda_signal'], loaded_streams['eda_sfreq'], participant_id, preprocessed_output_dir)
-        if phasic_eda_path: processed_data_artifacts['eda_phasic_path'] = phasic_eda_path
-
-    # Save sampling rates
-    sampling_rates_info = {
-        "eeg_sampling_rate": loaded_streams.get('eeg_sfreq'),
-        "ecg_sampling_rate": loaded_streams.get('ecg_sfreq'),
-        "eda_sampling_rate": loaded_streams.get('eda_sfreq'), # This is original, before resampling for PLV
-        "fnirs_sampling_rate": loaded_streams.get('fnirs_sfreq')
+def create_output_directories(base_dir, participant_id):
+    """Creates necessary output directories for a participant."""
+    dirs = {
+        'base_participant': os.path.join(base_dir, participant_id),
+        'raw_data_copied': os.path.join(base_dir, participant_id, 'raw_data_copied'),
+        'preprocessed_data': os.path.join(base_dir, participant_id, 'preprocessed_data'),
+        'analysis_results': os.path.join(base_dir, participant_id, 'analysis_results'),
+        'plots_root': os.path.join(base_dir, participant_id, 'plots') # Root for all plots for this participant
     }
-    sampling_rates_file = os.path.join(preprocessed_output_dir, f"{participant_id}_sampling_rates.json")
-    with open(sampling_rates_file, 'w') as f_sr: json.dump(sampling_rates_info, f_sr, indent=4)
-    p_logger.info(f"Preprocessing - Sampling rates info saved to {sampling_rates_file}")
-    processed_data_artifacts['sampling_rates'] = sampling_rates_info # Make available for analysis
+    for path in dirs.values():
+        os.makedirs(path, exist_ok=True)
+    return dirs
 
-    p_logger.info(f"Preprocessing - Stage: End for {participant_id}")
+def process_participant_data(participant_id, participant_files, output_dirs, global_output_base_dir, p_logger):
+    """
+    Main processing pipeline for a single participant.
+    Includes loading, preprocessing, analysis, and reporting.
+    """
+    p_logger.info(f"Starting processing for participant: {participant_id}")
+
+    # --- Output Subdirectories ---
+    preproc_results_dir = output_dirs['preprocessed_data']
+    analysis_results_dir = output_dirs['analysis_results']
+    # Plots will be saved by PlottingService in subdirs of output_dirs['plots_root']
+
+    # --- Initialize Services ---
+    data_loader = DataLoader(p_logger)
+    event_processor = EventProcessor(p_logger)
+    analysis_service = AnalysisService(p_logger)
+    plotting_service = PlottingService(p_logger, output_dirs['plots_root'])
+
+
+    # Dictionary to store paths and objects for this participant
+    processed_data_artifacts = {
+        'participant_id': participant_id,
+        'log_file': p_logger.handlers[0].baseFilename if p_logger.handlers else None, # Get log file path
+        'raw_data_paths': {},
+        'event_times_df': None,
+        'preprocessed_data_paths': {},
+        'mne_objects': {'raw': {}, 'epochs': {}}, # Store raw and epoched MNE objects
+        'analysis_outputs': {'metrics': {}, 'stats': {}, 'dataframes': {}}
+    }
+
+    # --- Data Loading ---
+    p_logger.info("--- Loading Data ---")
+    # Use the DataLoader instance to load all data for the participant
+    # The DataLoader's load_all_data method should populate baseline_start/end_time_sec if found
+    loaded_data_package = data_loader.load_all_data(participant_id, participant_files)
+
+    raw_eeg_mne = loaded_data_package.get('eeg_raw')
+    eeg_sampling_rate = loaded_data_package.get('eeg_sfreq')
+    processed_data_artifacts['mne_objects']['raw']['eeg'] = raw_eeg_mne
+    
+    fnirs_od_mne = loaded_data_package.get('fnirs_raw_od')
+    fnirs_sampling_rate = loaded_data_package.get('fnirs_sfreq')
+    processed_data_artifacts['mne_objects']['raw']['fnirs_od'] = fnirs_od_mne
+
+    ecg_data_raw = loaded_data_package.get('ecg_data')
+    ecg_sampling_rate = loaded_data_package.get('ecg_sfreq')
+    
+    eda_data_raw = loaded_data_package.get('eda_data')
+    eda_sampling_rate = loaded_data_package.get('eda_sfreq')
+    
+    # Load survey data (for WP2)
+    survey_df = data_loader.load_survey_data(participant_files.get('survey'), participant_id) # Keep this separate if not in load_all_data
+    processed_data_artifacts['analysis_outputs']['dataframes']['survey_data_raw'] = survey_df
+
+
+    # --- Event Processing ---
+    event_file_path = participant_files.get('events')
+    if event_file_path:
+        events_df_raw = event_processor.process_event_log(event_file_path)
+        if events_df_raw is not None and not events_df_raw.empty:
+            # Store baseline times if DataLoader populated them
+            processed_data_artifacts['baseline_start_time_sec'] = loaded_data_package.get('baseline_start_time_sec')
+            processed_data_artifacts['baseline_end_time_sec'] = loaded_data_package.get('baseline_end_time_sec')
+            
+            ref_sfreq_for_events = eeg_sampling_rate if eeg_sampling_rate else (fnirs_sampling_rate if fnirs_sampling_rate else None)
+            if ref_sfreq_for_events:
+                 if 'onset_time_sec' in events_df_raw.columns: 
+                    events_df_raw['onset_sample'] = (events_df_raw['onset_time_sec'] * ref_sfreq_for_events).astype(int)
+                 else:
+                    p_logger.warning("Event file loaded but 'onset_time_sec' column missing. Cannot calculate 'onset_sample'.")
+                    events_df_raw = None 
+            else:
+                p_logger.warning("Cannot determine reference sampling rate for event 'onset_sample' calculation.")
+                events_df_raw = None
+
+            processed_data_artifacts['event_times_df'] = events_df_raw
+            if events_df_raw is not None:
+                event_csv_path = os.path.join(preproc_results_dir, f"{participant_id}_event_times_processed.csv")
+                events_df_raw.to_csv(event_csv_path, index=False)
+                processed_data_artifacts['preprocessed_data_paths']['event_times_csv'] = event_csv_path
+                p_logger.info(f"Processed event times saved to: {event_csv_path}")
+        else:
+            p_logger.warning("Event processing did not return a valid DataFrame.")
+    else:
+        p_logger.warning("No event file found or loaded.")
+
+    # --- Preprocessing Stage ---
+    p_logger.info("--- Preprocessing Stage ---")
+    # EEG
+    if raw_eeg_mne:
+        eeg_preprocessor = EEGPreprocessor(p_logger)
+        raw_eeg_processed = eeg_preprocessor.process(raw_eeg_mne.copy()) # Process a copy
+        processed_data_artifacts['mne_objects']['raw']['eeg_processed'] = raw_eeg_processed
+        if raw_eeg_processed:
+            eeg_processed_path = os.path.join(preproc_results_dir, f"{participant_id}_eeg_processed_raw.fif")
+            raw_eeg_processed.save(eeg_processed_path, overwrite=True, verbose=False)
+            processed_data_artifacts['preprocessed_data_paths']['eeg_processed_fif'] = eeg_processed_path
+            p_logger.info(f"Processed EEG data saved to: {eeg_processed_path}")
+    else:
+        p_logger.warning("No EEG data loaded. Skipping EEG preprocessing.")
+
+    # fNIRS
+    if fnirs_od_mne:
+        fnirs_preprocessor = FNIRSPreprocessor(p_logger)
+        fnirs_haemo_processed = fnirs_preprocessor.process(fnirs_od_mne.copy()) # Process a copy
+        processed_data_artifacts['mne_objects']['raw']['fnirs_haemo_processed'] = fnirs_haemo_processed
+        if fnirs_haemo_processed:
+            fnirs_haemo_path = fnirs_preprocessor.save_preprocessed_data(fnirs_haemo_processed, participant_id, preproc_results_dir)
+            if fnirs_haemo_path:
+                processed_data_artifacts['preprocessed_data_paths']['fnirs_haemo_fif'] = fnirs_haemo_path
+            p_logger.info("fNIRS data preprocessed to haemoglobin concentration.")
+    else:
+        p_logger.warning("No fNIRS data loaded. Skipping fNIRS preprocessing.")
+
+    # ECG
+    if ecg_data_raw is not None and ecg_sampling_rate is not None:
+        ecg_preprocessor = ECGPreprocessor(p_logger)
+        # For overall NN-intervals (e.g., if no baseline period is strictly defined for some analyses)
+        nn_intervals_ms_overall, _, rpeaks_samples_overall = ecg_preprocessor.preprocess_ecg_neurokit(
+            ecg_data_raw, ecg_sampling_rate, participant_id, preproc_results_dir
+        )
+        processed_data_artifacts['analysis_outputs']['metrics']['ecg_nn_intervals_ms_overall'] = nn_intervals_ms_overall
+        processed_data_artifacts['ecg_rpeaks_samples_overall'] = rpeaks_samples_overall # Store for potential trial-wise HRV
+
+        # For WP3: Baseline RMSSD - requires segmenting ECG first
+        baseline_start_sec = processed_data_artifacts.get('baseline_start_time_sec')
+        baseline_end_sec = processed_data_artifacts.get('baseline_end_time_sec')
+
+        if baseline_start_sec is not None and baseline_end_sec is not None and baseline_start_sec < baseline_end_sec:
+            p_logger.info(f"Attempting to extract baseline ECG segment: {baseline_start_sec:.2f}s to {baseline_end_sec:.2f}s")
+            start_sample_baseline = int(baseline_start_sec * ecg_sampling_rate)
+            end_sample_baseline = int(baseline_end_sec * ecg_sampling_rate)
+            if start_sample_baseline < end_sample_baseline and end_sample_baseline <= len(ecg_data_raw):
+                ecg_baseline_segment = ecg_data_raw[start_sample_baseline:end_sample_baseline]
+                nn_intervals_ms_baseline, _, _ = ecg_preprocessor.preprocess_ecg_neurokit(
+                    ecg_baseline_segment, ecg_sampling_rate, f"{participant_id}_baseline", preproc_results_dir 
+                )
+                processed_data_artifacts['analysis_outputs']['metrics']['ecg_nn_intervals_ms_baseline'] = nn_intervals_ms_baseline
+            else:
+                p_logger.warning("Baseline ECG segment indices are invalid or out of bounds.")
+        
+        if nn_intervals_ms_overall is not None:
+             p_logger.info(f"ECG preprocessed (overall). Found {len(nn_intervals_ms_overall)} NN intervals.")
+    else:
+        p_logger.warning("No ECG data loaded or sampling rate missing. Skipping ECG preprocessing.")
+
+    # EDA
+    if eda_data_raw is not None and eda_sampling_rate is not None:
+        eda_preprocessor = EDAPreprocessor(p_logger)
+        phasic_eda_path, tonic_eda_path = eda_preprocessor.preprocess_eda(
+            eda_data_raw, eda_sampling_rate, participant_id, preproc_results_dir
+        )
+        processed_data_artifacts['preprocessed_data_paths']['phasic_eda_csv'] = phasic_eda_path
+        processed_data_artifacts['preprocessed_data_paths']['tonic_eda_csv'] = tonic_eda_path
+        if phasic_eda_path:
+            p_logger.info("EDA preprocessed. Phasic and Tonic components saved.")
+    else:
+        p_logger.warning("No EDA data loaded or sampling rate missing. Skipping EDA preprocessing.")
+
+    # --- Analysis Stage ---
+    p_logger.info("--- Starting Analysis Stage ---")
+    events_df = processed_data_artifacts.get('event_times_df')
+    if events_df is None or events_df.empty or 'onset_sample' not in events_df.columns:
+        p_logger.error("Event data is missing or invalid for epoching. Cannot proceed with epoch-based analysis.")
+        return processed_data_artifacts
+
+    # Map conditions to event_ids for MNE
+    event_id_map = {name: i+1 for i, name in enumerate(EMOTIONAL_CONDITIONS)}
+    if 'condition' not in events_df.columns:
+        p_logger.error("Events DataFrame missing 'condition' column for epoching.")
+        return processed_data_artifacts
+        
+    events_df['condition_id'] = events_df['condition'].map(event_id_map).fillna(0).astype(int) 
+    
+    mne_events_df = events_df[events_df['condition_id'] > 0][['onset_sample', 'condition_id']].copy()
+    if mne_events_df.empty:
+        p_logger.error("No valid events found after mapping conditions for epoching.")
+        return processed_data_artifacts
+
+    mne_events_df.insert(1, 'prev_event_id', 0) 
+    mne_events_array = mne_events_df.values.astype(int)
+
+    # Epoch EEG
+    raw_eeg_proc = processed_data_artifacts['mne_objects']['raw'].get('eeg_processed')
+    if raw_eeg_proc:
+        try:
+            epochs_eeg = mne.Epochs(raw_eeg_proc, mne_events_array, event_id=event_id_map, 
+                                    tmin=config.ANALYSIS_EPOCH_TIMES[0], tmax=config.ANALYSIS_EPOCH_TIMES[1],
+                                    baseline=config.ANALYSIS_BASELINE_TIMES, preload=True, verbose=False,
+                                    picks='eeg', on_missing='warning') 
+            processed_data_artifacts['mne_objects']['epochs']['eeg'] = epochs_eeg
+            p_logger.info(f"EEG data epoched: {len(epochs_eeg)} epochs created across {len(epochs_eeg.event_id)} conditions.")
+        except Exception as e:
+            p_logger.error(f"Failed to epoch EEG data: {e}", exc_info=True)
+
+    # Epoch fNIRS
+    raw_fnirs_proc = processed_data_artifacts['mne_objects']['raw'].get('fnirs_haemo_processed')
+    if raw_fnirs_proc:
+        try:
+            epochs_fnirs = mne.Epochs(raw_fnirs_proc, mne_events_array, event_id=event_id_map,
+                                      tmin=config.ANALYSIS_EPOCH_TIMES[0], tmax=config.ANALYSIS_EPOCH_TIMES[1],
+                                      baseline=config.ANALYSIS_BASELINE_TIMES, preload=True, verbose=False,
+                                      on_missing='warning')
+            processed_data_artifacts['mne_objects']['epochs']['fnirs'] = epochs_fnirs
+            p_logger.info(f"fNIRS data epoched: {len(epochs_fnirs)} epochs created across {len(epochs_fnirs.event_id)} conditions.")
+        except Exception as e:
+            p_logger.error(f"Failed to epoch fNIRS data: {e}", exc_info=True)
+
+    # --- Work Package 1: Emotional Modulation of Synchrony ---
+    p_logger.info("--- WP1: Emotional Modulation of Synchrony ---")
+    fnirs_epochs = processed_data_artifacts['mne_objects']['epochs'].get('fnirs')
+    eeg_epochs = processed_data_artifacts['mne_objects']['epochs'].get('eeg')
+    rpeaks_samples_overall = processed_data_artifacts.get('ecg_rpeaks_samples_overall')
+    phasic_eda_csv_path = processed_data_artifacts['preprocessed_data_paths'].get('phasic_eda_csv')
+    
+    # 1. fNIRS GLM to identify ROIs
+    active_fnirs_roi_names_for_eeg_guidance = []
+    if fnirs_epochs and raw_eeg_proc: 
+        fnirs_glm_output = analysis_service.run_fnirs_glm_and_contrasts(
+            fnirs_epochs, events_df, event_id_map # Pass event_id_map used for epoching
+        )
+        processed_data_artifacts['analysis_outputs']['stats']['fnirs_glm_output'] = fnirs_glm_output
+        # Plot per-participant fNIRS contrast results (placeholder plot for now)
+        if fnirs_glm_output and 'contrast_results' in fnirs_glm_output:
+            for contrast_name_plot, contrast_df_plot in fnirs_glm_output['contrast_results'].items():
+                if contrast_df_plot is not None and not contrast_df_plot.empty:
+                    # Pass the DataFrame to the plotting function
+                    plotting_service.plot_fnirs_contrast_results(participant_id, contrast_name_plot, contrast_df_plot, f"participant_fnirs_contrast_{contrast_name_plot}")
+
+        active_fnirs_roi_names_for_eeg_guidance = fnirs_glm_output.get('active_rois_for_eeg_guidance', [])
+        
+        # 2. fNIRS-Guided EEG Channel Selection
+        eeg_channels_for_plv_wp1 = select_eeg_channels_by_fnirs_rois(
+            raw_eeg_proc.info, active_fnirs_roi_names_for_eeg_guidance, p_logger
+        )
+        if not eeg_channels_for_plv_wp1: 
+            eeg_channels_for_plv_wp1 = [ch for ch in config.DEFAULT_EEG_CHANNELS_FOR_PLV if ch in raw_eeg_proc.ch_names]
+        p_logger.info(f"Using EEG channels for WP1 PLV: {eeg_channels_for_plv_wp1}")
+    elif raw_eeg_proc: 
+        eeg_channels_for_plv_wp1 = [ch for ch in config.DEFAULT_EEG_CHANNELS_FOR_PLV if ch in raw_eeg_proc.ch_names]
+        p_logger.info(f"No fNIRS epochs for GLM. Using default EEG channels for WP1 PLV: {eeg_channels_for_plv_wp1}")
+    else:
+        eeg_channels_for_plv_wp1 = []
+        p_logger.warning("No EEG data available for PLV channel selection.")
+
+    # 3. Calculate PLV per trial, then average per condition
+    all_trial_plv_results = []
+    if eeg_epochs and eeg_channels_for_plv_wp1 and \
+       (rpeaks_samples_overall is not None or phasic_eda_csv_path):
+        p_logger.info("Calculating trial-wise PLV for WP1...")
+        for condition_name, _ in event_id_map.items(): # Iterate through defined conditions
+            try:
+                eeg_epochs_condition = eeg_epochs[condition_name]
+            except KeyError:
+                p_logger.warning(f"No epochs found for condition '{condition_name}' in EEG data. Skipping PLV for this condition.")
+                continue
+
+            for i in range(len(eeg_epochs_condition)): 
+                current_eeg_epoch = eeg_epochs_condition[i]
+                eeg_trial_data_multichannel = current_eeg_epoch.get_data(picks=eeg_channels_for_plv_wp1) 
+                if eeg_trial_data_multichannel.size == 0:
+                    p_logger.warning(f"WP1 PLV: Empty EEG data for trial {i}, condition {condition_name}. Skipping trial.")
+                    continue
+                eeg_trial_data_avg = eeg_trial_data_multichannel.mean(axis=0).ravel() 
+                eeg_trial_sfreq = current_eeg_epoch.info['sfreq']
+                
+                trial_start_time_sec = (current_eeg_epoch.events[0,0] / raw_eeg_proc.info['sfreq']) + current_eeg_epoch.tmin
+                trial_end_time_sec = trial_start_time_sec + (len(eeg_trial_data_avg) / eeg_trial_sfreq)
+
+                # EEG-HRV PLV for this trial
+                if rpeaks_samples_overall is not None and ecg_sampling_rate is not None:
+                    trial_rpeak_times_sec_abs = [r_idx / ecg_sampling_rate for r_idx in rpeaks_samples_overall]
+                    trial_rpeaks_in_window_abs_times = [
+                        t for t in trial_rpeak_times_sec_abs if trial_start_time_sec <= t < trial_end_time_sec
+                    ]
+                    if len(trial_rpeaks_in_window_abs_times) >= 2:
+                        nn_intervals_trial_ms = np.diff(trial_rpeaks_in_window_abs_times) * 1000
+                        _, cont_hrv_signal_trial = analysis_service.interpolate_nn_intervals(
+                            nn_intervals_trial_ms, original_sfreq=ecg_sampling_rate, 
+                            target_sfreq=config.PLV_RESAMPLE_SFREQ_AUTONOMIC
+                        )
+                        if cont_hrv_signal_trial is not None:
+                            hrv_segment_for_plv = analysis_service.resample_signal(
+                                cont_hrv_signal_trial, config.PLV_RESAMPLE_SFREQ_AUTONOMIC, eeg_trial_sfreq
+                            )
+                            if hrv_segment_for_plv is not None and len(hrv_segment_for_plv) >= len(eeg_trial_data_avg):
+                                 hrv_segment_for_plv = hrv_segment_for_plv[:len(eeg_trial_data_avg)] 
+                            elif hrv_segment_for_plv is not None: 
+                                 hrv_segment_for_plv = np.pad(hrv_segment_for_plv, (0, len(eeg_trial_data_avg) - len(hrv_segment_for_plv)), 'edge')
+
+                            if hrv_segment_for_plv is not None and len(hrv_segment_for_plv) == len(eeg_trial_data_avg):
+                                for band_name, band_freqs in config.PLV_EEG_BANDS.items():
+                                    plv_val = analysis_service.calculate_plv(eeg_trial_data_avg, hrv_segment_for_plv, eeg_trial_sfreq, band_freqs)
+                                    if plv_val is not None:
+                                        all_trial_plv_results.append({
+                                            'participant_id': participant_id, 'condition': condition_name, 'trial': i,
+                                            'modality_pair': 'EEG-HRV', 'eeg_band': band_name, 'plv': plv_val
+                                        })
+                # EEG-EDA PLV for this trial
+                if phasic_eda_csv_path:
+                    phasic_eda_df = pd.read_csv(phasic_eda_csv_path)
+                    phasic_eda_full_signal = phasic_eda_df['EDA_Phasic'].values
+                    eda_original_sfreq = eda_sampling_rate if eda_sampling_rate else config.EDA_SAMPLING_RATE_DEFAULT
+                    
+                    start_sample_eda_trial = int(trial_start_time_sec * eda_original_sfreq)
+                    end_sample_eda_trial = int(trial_end_time_sec * eda_original_sfreq)
+
+                    if start_sample_eda_trial < end_sample_eda_trial and end_sample_eda_trial <= len(phasic_eda_full_signal) and start_sample_eda_trial >=0 :
+                        eda_trial_segment_raw = phasic_eda_full_signal[start_sample_eda_trial:end_sample_eda_trial]
+                        
+                        if eda_trial_segment_raw.size > 0:
+                            eda_segment_for_plv = analysis_service.resample_signal(
+                                eda_trial_segment_raw, eda_original_sfreq, eeg_trial_sfreq 
+                            )
+                            if eda_segment_for_plv is not None and len(eda_segment_for_plv) >= len(eeg_trial_data_avg):
+                                eda_segment_for_plv = eda_segment_for_plv[:len(eeg_trial_data_avg)]
+                            elif eda_segment_for_plv is not None:
+                                eda_segment_for_plv = np.pad(eda_segment_for_plv, (0, len(eeg_trial_data_avg) - len(eda_segment_for_plv)), 'edge')
+
+                            if eda_segment_for_plv is not None and len(eda_segment_for_plv) == len(eeg_trial_data_avg):
+                                for band_name, band_freqs in config.PLV_EEG_BANDS.items():
+                                    plv_val = analysis_service.calculate_plv(eeg_trial_data_avg, eda_segment_for_plv, eeg_trial_sfreq, band_freqs)
+                                    if plv_val is not None:
+                                        all_trial_plv_results.append({
+                                            'participant_id': participant_id, 'condition': condition_name, 'trial': i,
+                                            'modality_pair': 'EEG-EDA', 'eeg_band': band_name, 'plv': plv_val
+                                        })
+                        else:
+                            p_logger.warning(f"WP1 PLV: EDA trial segment empty for trial {i}, condition {condition_name}.")
+                    else:
+                        p_logger.warning(f"WP1 PLV: EDA trial segment indices out of bounds for trial {i}, condition {condition_name}.")
+        
+        trial_plv_df = pd.DataFrame(all_trial_plv_results)
+        processed_data_artifacts['analysis_outputs']['dataframes']['trial_plv_wp1'] = trial_plv_df
+        if not trial_plv_df.empty:
+            p_logger.info(f"Calculated {len(trial_plv_df)} trial-wise PLV values for WP1.")
+            avg_plv_wp1_df = trial_plv_df.groupby(['participant_id', 'condition', 'modality_pair', 'eeg_band'])['plv'].mean().reset_index()
+            processed_data_artifacts['analysis_outputs']['dataframes']['avg_plv_wp1'] = avg_plv_wp1_df
+            
+            plotting_service.plot_plv_results(participant_id, avg_plv_wp1_df, "wp1_avg_plv")
+            p_logger.info("ANOVA for WP1 PLV will be performed at the group level.")
+
+
+    # --- Work Package 2: Synchrony and Subjective Arousal ---
+    p_logger.info("--- WP2: Synchrony and Subjective Arousal ---")
+    survey_data_raw = processed_data_artifacts['analysis_outputs']['dataframes'].get('survey_data_raw')
+    trial_plv_df_wp1 = processed_data_artifacts['analysis_outputs']['dataframes'].get('trial_plv_wp1')
+
+    if survey_data_raw is not None and not survey_data_raw.empty and \
+       trial_plv_df_wp1 is not None and not trial_plv_df_wp1.empty:
+        
+        # This merge requires survey_data_raw to have 'condition' and 'trial' (or equivalent)
+        # to match with trial_plv_df_wp1.
+        # Example: if survey has 'Condition' and 'TrialNum' and PLV df has 'condition' and 'trial'
+        # merged_wp2_df = pd.merge(trial_plv_df_wp1, survey_data_raw, 
+        #                          left_on=['condition', 'trial'], 
+        #                          right_on=['Condition', 'TrialNum'], # Adjust column names
+        #                          how='inner')
+        # if not merged_wp2_df.empty and 'sam_arousal' in merged_wp2_df.columns:
+        #     processed_data_artifacts['analysis_outputs']['dataframes']['merged_plv_arousal_wp2'] = merged_wp2_df
+        #     p_logger.info(f"WP2: Merged PLV and SAM arousal data for {participant_id}. N={len(merged_wp2_df)}")
+        # else:
+        #     p_logger.warning(f"WP2: Could not merge PLV and SAM arousal data, or 'sam_arousal' missing. Check column names and trial identifiers.")
+        
+        # For now, storing the raw components for group-level merging and correlation
+        if 'sam_arousal' in survey_data_raw.columns:
+            processed_data_artifacts['analysis_outputs']['metrics']['wp2_has_sam_arousal'] = True
+    else:
+        p_logger.info("Skipping WP2 prep due to missing survey or PLV data for this participant.")
+
+
+    # --- Work Package 3: Baseline Vagal Tone and Task-Related Synchrony ---
+    p_logger.info("--- WP3: Baseline Vagal Tone and Task-Related Synchrony ---")
+    nn_intervals_baseline = processed_data_artifacts['analysis_outputs']['metrics'].get('ecg_nn_intervals_ms_baseline')
+    if nn_intervals_baseline is not None:
+        baseline_rmssd = analysis_service.calculate_rmssd(nn_intervals_baseline)
+        processed_data_artifacts['analysis_outputs']['metrics']['baseline_rmssd'] = baseline_rmssd
+        if baseline_rmssd is not None:
+            p_logger.info(f"Calculated baseline RMSSD: {baseline_rmssd:.2f} ms")
+            avg_plv_df_wp1 = processed_data_artifacts['analysis_outputs']['dataframes'].get('avg_plv_wp1')
+            if avg_plv_df_wp1 is not None and not avg_plv_df_wp1.empty:
+                plv_negative_series = avg_plv_df_wp1[
+                    (avg_plv_df_wp1['condition'] == 'Negative') &
+                    (avg_plv_df_wp1['modality_pair'] == 'EEG-HRV') & 
+                    (avg_plv_df_wp1['eeg_band'] == 'Alpha')         
+                ]['plv']
+                if not plv_negative_series.empty:
+                    avg_plv_negative = plv_negative_series.mean() # This is per participant
+                    processed_data_artifacts['analysis_outputs']['metrics']['wp3_avg_plv_negative_alpha_hrv'] = avg_plv_negative
+                    p_logger.info(f"WP3: Participant {participant_id} - Baseline RMSSD: {baseline_rmssd:.2f}, Avg PLV (Alpha-HRV-Negative): {avg_plv_negative:.3f}")
+    # Actual correlation for WP3 will be done at group level.
+
+
+    # --- Work Package 4: Frontal Asymmetry and Branch-Specific Synchrony ---
+    p_logger.info("--- WP4: Frontal Asymmetry and Branch-Specific Synchrony ---")
+    fai_results_list = []
+    if eeg_epochs:
+        for left_elec, right_elec in FAI_ELECTRODE_PAIRS:
+            if left_elec not in eeg_epochs.ch_names or right_elec not in eeg_epochs.ch_names:
+                p_logger.warning(f"FAI: Electrodes {left_elec} or {right_elec} not found in EEG data. Skipping pair.")
+                continue
+
+            power_left_obj = analysis_service.calculate_band_power(eeg_epochs, config.FAI_ALPHA_BAND, picks=[left_elec])
+            power_right_obj = analysis_service.calculate_band_power(eeg_epochs, config.FAI_ALPHA_BAND, picks=[right_elec])
+
+            if power_left_obj is not None and power_right_obj is not None:
+                power_left = power_left_obj[0] 
+                power_right = power_right_obj[0]
+                fai_value = analysis_service.calculate_fai(power_right, power_left)
+                if fai_value is not None:
+                    fai_results_list.append({'participant_id': participant_id, 'pair': f"{left_elec}-{right_elec}", 'fai': fai_value})
+                    p_logger.info(f"FAI for {left_elec}-{right_elec}: {fai_value:.3f}")
+        
+        fai_df = pd.DataFrame(fai_results_list)
+        processed_data_artifacts['analysis_outputs']['dataframes']['fai_wp4'] = fai_df
+        if not fai_df.empty:
+            p_logger.info("Calculated FAI for specified electrode pairs.")
+            # Store FAI for F4-F3 pair for group correlation example
+            fai_f4f3_series = fai_df[fai_df['pair'] == 'F4-F3']['fai']
+            if not fai_f4f3_series.empty:
+                 processed_data_artifacts['analysis_outputs']['metrics']['wp4_fai_f4f3'] = fai_f4f3_series.iloc[0]
+    # Actual correlation for WP4 will be done at group level.
+
+    p_logger.info("--- Analysis Stage Complete for Participant ---")
     return processed_data_artifacts
 
 
-def run_participant_analysis(participant_id, p_logger, processed_artifacts, questionnaire_data):
-    """Handles analysis for a single participant using preprocessed data artifacts."""
-    p_logger.info(f"Analysis - Stage: Start for {participant_id}")
-    analysis_results_dir = os.path.join(config.RESULTS_BASE_DIR, participant_id, "analysis")
-    os.makedirs(analysis_results_dir, exist_ok=True)
-    
-    analysis_metrics = {'participant_id': participant_id}
-    if questionnaire_data and isinstance(questionnaire_data, dict): # Ensure it's a dict
-        analysis_metrics.update(questionnaire_data)
-    active_fnirs_rois_info = {} # To store results from fNIRS GLM for PLV guidance
+def main_orchestrator(data_root_dir, output_base_dir, participant_ids=None):
+    """
+    Main orchestrator for processing multiple participants.
+    """
+    main_log_file = os.path.join(output_base_dir, "orchestrator_log.txt")
+    os.makedirs(output_base_dir, exist_ok=True)
+    logging.basicConfig(
+        level=getattr(logging, config.LOG_LEVEL.upper(), logging.INFO),
+        format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
+        handlers=[
+            logging.FileHandler(main_log_file, mode='w'), 
+            logging.StreamHandler()
+        ]
+    )
+    main_logger = logging.getLogger("MainOrchestrator")
+    main_logger.info("--- EmotiView Data Processor Starting ---")
 
-    # PSD and FAI Analysis
-    raw_eeg_obj = processed_artifacts.get('eeg_processed_mne_obj')
-    if raw_eeg_obj:
-        psd_analyzer = PSDAnalyzer(p_logger)
-        psd_analyzer.calculate_psd_and_fai(raw_eeg_obj, analysis_metrics)
-
-    # HRV Analysis
-    hrv_analyzer = HRVAnalyzer(p_logger)
-    if processed_artifacts.get('ecg_nn_intervals_path'):
-        hrv_analyzer.calculate_hrv_metrics(processed_artifacts['ecg_nn_intervals_path'], analysis_metrics)
+    if participant_ids is None: 
+        participant_ids = [d for d in os.listdir(data_root_dir) if os.path.isdir(os.path.join(data_root_dir, d))]
+        if not participant_ids:
+            main_logger.error(f"No participant subdirectories found in {data_root_dir}.")
+            return []
+        main_logger.info(f"Found {len(participant_ids)} potential participants: {participant_ids}")
     
-    phase_hrv, target_time_hrv = None, None
-    if processed_artifacts.get('ecg_rpeaks_times_path') and processed_artifacts.get('ecg_nn_intervals_path'):
-        phase_hrv, target_time_hrv = hrv_analyzer.get_hrv_phase_signal(
-            processed_artifacts['ecg_rpeaks_times_path'], 
-            processed_artifacts['ecg_nn_intervals_path']
-        )
-    
-    # fNIRS GLM Analysis (run before PLV if it guides PLV)
-    fnirs_haemo_obj = processed_artifacts.get('fnirs_haemo_mne_obj')
-    if fnirs_haemo_obj:
-        fnirs_glm_analyzer = FNIRSGLMAnalyzer(p_logger)
-        # This now returns a dict which might include 'active_rois_per_condition'
-        active_fnirs_rois_info = fnirs_glm_analyzer.run_glm_and_extract_rois(fnirs_haemo_obj, analysis_metrics, participant_id, analysis_results_dir)
+    all_participants_summary = []
 
-    # Connectivity Analysis (PLV)
-    if raw_eeg_obj: # Requires preprocessed EEG
-        conn_analyzer = ConnectivityAnalyzer(p_logger)
-        phasic_eda_signal_for_plv = None
-        eda_original_sfreq = processed_artifacts.get('sampling_rates', {}).get('eda_sampling_rate')
-        if processed_artifacts.get('eda_phasic_path') and eda_original_sfreq:
-            try:
-                phasic_eda_signal_for_plv = pd.read_csv(processed_artifacts['eda_phasic_path'])['EDA_Phasic'].values
-            except Exception as e:
-                p_logger.warning(f"Could not load phasic EDA for PLV: {e}")
+    for p_id in participant_ids:
+        main_logger.info(f"--- Processing participant: {p_id} ---")
+        participant_output_dirs = create_output_directories(output_base_dir, p_id)
         
-        conn_analyzer.calculate_all_plv(raw_eeg_obj,
-                                        phase_hrv, target_time_hrv,
-                                        phasic_eda_signal_for_plv, eda_original_sfreq,
-                                        analysis_metrics,
-                                        active_rois_per_condition=active_fnirs_rois_info.get('active_rois_per_condition'))
-                                        
-    # Save metrics
-    metrics_df = pd.DataFrame([analysis_metrics])
-    metrics_file = os.path.join(analysis_results_dir, f"{participant_id}_pilot_analysis_metrics.csv")
-    metrics_df.to_csv(metrics_file, index=False)
-    p_logger.info(f"Analysis - Metrics saved to {metrics_file}")
+        p_log_manager = ParticipantLogger(participant_output_dirs['base_participant'], p_id, config.LOG_LEVEL)
+        participant_logger_instance = p_log_manager.get_logger()
+        
+        try:
+            temp_data_loader = DataLoader(participant_logger_instance) 
+            participant_files = temp_data_loader.find_participant_files(p_id, data_root_dir, DATA_TYPES)
+            
+            if not any(val for val in participant_files.values() if val is not None):
+                participant_logger_instance.warning(f"No data files found for participant {p_id} in {data_root_dir}. Skipping.")
+                all_participants_summary.append({
+                    'participant_id': p_id, 'status': 'no_data_found', 
+                    'log_file': p_log_manager.log_file_path
+                })
+                continue
 
-    # Plotting
-    plotter = PlottingService(p_logger)
-    if raw_eeg_obj:
-        plotter.plot_eeg_psd(raw_eeg_obj, participant_id, analysis_results_dir)
-    # plotter.plot_fnirs_glm_contrast(...) # Add if GLM analyzer saves contrast objects
+            processed_artifacts = process_participant_data(
+                p_id, participant_files, participant_output_dirs, output_base_dir, participant_logger_instance
+            )
+            all_participants_summary.append(processed_artifacts) 
+            participant_logger_instance.info(f"--- Successfully processed participant: {p_id} ---")
+        except Exception as e:
+            participant_logger_instance.error(f"--- CRITICAL ERROR processing participant {p_id}: {e} ---", exc_info=True)
+            all_participants_summary.append({
+                'participant_id': p_id, 'status': 'error', 'error_message': str(e),
+                'log_file': p_log_manager.log_file_path
+            })
+        finally:
+            p_log_manager.close_handlers() 
 
-    p_logger.info(f"Analysis - Stage: End for {participant_id}")
-    return analysis_metrics
-
-
-def run_group_level_analysis(aggregated_metrics_file_path, group_results_dir, main_logger):
-    """Runs group-level statistical analyses based on the aggregated metrics."""
-    main_logger.info("===== Group Level Analysis Started =====")
+    main_logger.info("--- EmotiView Data Processor Finished ---")
+    
+    # --- Aggregate results across participants and Run Group-Level Analyses ---
+    group_analysis_service = AnalysisService(main_logger)
+    group_plotting_service = PlottingService(main_logger, os.path.join(output_base_dir, "_GROUP_PLOTS"))
+    group_results_dir = os.path.join(output_base_dir, "_GROUP_RESULTS")
     os.makedirs(group_results_dir, exist_ok=True)
 
-    if not os.path.exists(aggregated_metrics_file_path):
-        main_logger.error(f"Aggregated metrics file not found: {aggregated_metrics_file_path}. Skipping group analysis.")
-        return
-
-    df_agg = pd.read_excel(aggregated_metrics_file_path)
-    if df_agg.empty:
-        main_logger.warning("Aggregated metrics DataFrame is empty. Skipping group analysis.")
-        return
-
-    anova_analyzer = ANOVAAnalyzer(main_logger)
-    corr_analyzer = CorrelationAnalyzer(main_logger)
-    all_p_values = [] # For FDR correction
-    statistical_results = {} # To store tables
-    plotter = PlottingService(main_logger) # Initialize plotter for group plots
-    
-    # --- WP1: PLV RM ANOVA (Condition x ROI) ---
-    main_logger.info("Group Analysis - WP1: PLV RM ANOVAs")
-    plv_types = [
-        ('alpha', 'hrv', 'Alpha-HRV PLV'),
-        ('beta', 'hrv', 'Beta-HRV PLV'),
-        ('alpha', 'eda', 'Alpha-EDA PLV'),
-        ('beta', 'eda', 'Beta-EDA PLV')
+    # WP1: ANOVA on PLV
+    all_avg_plv_wp1_dfs = [
+        res['analysis_outputs']['dataframes']['avg_plv_wp1'] 
+        for res in all_participants_summary 
+        if isinstance(res, dict) and res.get('analysis_outputs', {}).get('dataframes', {}).get('avg_plv_wp1') is not None
     ]
-    for band, autonomic, plv_desc in plv_types:
-        plv_cols = [col for col in df_agg.columns if col.startswith(f'plv_avg_{band}_') and f'_{autonomic}_' in col]
-        if not plv_cols:
-            main_logger.warning(f"No PLV columns found for {plv_desc}. Skipping ANOVA.")
-            continue
-
-        df_plv_long = df_agg[['participant_id'] + plv_cols].melt(
-            id_vars='participant_id',
-            value_vars=plv_cols,
-            var_name='plv_metric_full',
-            value_name='plv_value'
-        )
-        df_plv_long.dropna(subset=['plv_value'], inplace=True)
-        if df_plv_long.empty:
-            main_logger.warning(f"No valid data for {plv_desc} after melt and NaN drop. Skipping ANOVA.")
-            continue
-
-        # Parse ROI and Condition from plv_metric_full
-        # Example: plv_avg_alpha_DLPFC_L_hrv_Positive -> ROI=DLPFC_L, Condition=Positive
-        def parse_plv_metric(metric_str, band_in, autonomic_in):
-            pattern = re.compile(f"plv_avg_{band_in}_(.*)_{autonomic_in}_(.*)")
-            match = pattern.match(metric_str)
-            if match:
-                return match.group(1), match.group(2) # roi, condition
-            return None, None
-
-        parsed_cols = df_plv_long['plv_metric_full'].apply(lambda x: pd.Series(parse_plv_metric(x, band, autonomic)))
-        parsed_cols.columns = ['roi', 'condition']
-        df_plv_long = pd.concat([df_plv_long, parsed_cols], axis=1)
-        df_plv_long.dropna(subset=['roi', 'condition'], inplace=True)
-
-        if df_plv_long.empty or df_plv_long['roi'].nunique() < 2 or df_plv_long['condition'].nunique() < 2:
-            main_logger.warning(f"Insufficient data/factors for {plv_desc} ANOVA (ROIs: {df_plv_long['roi'].nunique()}, Conds: {df_plv_long['condition'].nunique()}). Skipping.")
-            continue
-
-        aov_plv = anova_analyzer.perform_rm_anova(df_plv_long, dv='plv_value', within=['condition', 'roi'], subject='participant_id')
-        if aov_plv is not None:
-            main_logger.info(f"ANOVA Results for {plv_desc}:\n{aov_plv}")
-            statistical_results[f'anova_{plv_desc.replace(" ", "_")}'] = aov_plv
-            all_p_values.extend(aov_plv['p-unc'].dropna().tolist())
-            aov_plv.to_csv(os.path.join(group_results_dir, f"anova_results_{band}_{autonomic}_plv.csv"))
-            # Store long format data for plotting
-
-    # --- WP4: FAI RM ANOVA (Condition x Hemisphere Pair) ---
-    main_logger.info("Group Analysis - WP4: FAI RM ANOVA")
-    fai_cols = [col for col in df_agg.columns if col.startswith('fai_alpha_')]
-    if fai_cols:
-        df_fai_long = df_agg[['participant_id'] + fai_cols].melt(
-            id_vars='participant_id',
-            value_vars=fai_cols,
-            var_name='fai_metric_full',
-            value_name='fai_value'
-        )
-        df_fai_long.dropna(subset=['fai_value'], inplace=True)
-
-        def parse_fai_metric(metric_str): # fai_alpha_F4_F3_Positive
-            match = re.match(r"fai_alpha_(F[p|AF]?\d_F[p|AF]?\d)_(.*)", metric_str)
-            if match:
-                return match.group(1), match.group(2) # pair, condition
-            return None, None
-        
-        parsed_fai_cols = df_fai_long['fai_metric_full'].apply(lambda x: pd.Series(parse_fai_metric(x)))
-        parsed_fai_cols.columns = ['hemisphere_pair', 'condition']
-        df_fai_long = pd.concat([df_fai_long, parsed_fai_cols], axis=1)
-        df_fai_long.dropna(subset=['hemisphere_pair', 'condition'], inplace=True)
-
-        if df_fai_long.empty or df_fai_long['hemisphere_pair'].nunique() < 2 or df_fai_long['condition'].nunique() < 2:
-            main_logger.warning(f"Insufficient data/factors for FAI ANOVA (Pairs: {df_fai_long['hemisphere_pair'].nunique()}, Conds: {df_fai_long['condition'].nunique()}). Skipping.")
-        else:
-            aov_fai = anova_analyzer.perform_rm_anova(df_fai_long, dv='fai_value', within=['condition', 'hemisphere_pair'], subject='participant_id')
-            if aov_fai is not None:
-                main_logger.info(f"ANOVA Results for FAI:\n{aov_fai}")
-                statistical_results['anova_fai'] = aov_fai
-                all_p_values.extend(aov_fai['p-unc'].dropna().tolist())
-                aov_fai.to_csv(os.path.join(group_results_dir, "anova_results_fai.csv"))
-    else:
-        main_logger.warning("No FAI columns found for group analysis.")
-
-    # --- WP2 & WP3: Correlations ---
-    main_logger.info("Group Analysis - WP2 & WP3: Correlations")
-    # Use correlation pairs defined in config.py
-    correlation_pairs_to_run = config.CORRELATION_PAIRS
-
-    all_corr_results = []
-    for var1_name, var2_name, desc_name in correlation_pairs_to_run:
-        if var1_name in df_agg.columns and var2_name in df_agg.columns:
-            corr_res = corr_analyzer.calculate_correlation(df_agg[var1_name], df_agg[var2_name], name1=var1_name, name2=var2_name)
-            if corr_res and 'p-val' in corr_res:
-                main_logger.info(f"Correlation {desc_name}: r={corr_res.get('r', np.nan):.3f}, p={corr_res.get('p-val', np.nan):.3f}")
-                all_p_values.append(corr_res['p-val'])
-                corr_res['description'] = desc_name
-                all_corr_results.append(corr_res)
-        else:
-            main_logger.warning(f"Skipping correlation for '{desc_name}': one or both variables not found in aggregated data.")
+    if all_avg_plv_wp1_dfs:
+        group_plv_data_wp1 = pd.concat(all_avg_plv_wp1_dfs, ignore_index=True)
+        if not group_plv_data_wp1.empty:
+            main_logger.info(f"WP1: Aggregated PLV data from {group_plv_data_wp1['participant_id'].nunique()} participants for group ANOVA.")
+            # Example ANOVA: PLV ~ condition, for Alpha band, EEG-HRV
+            df_for_anova_wp1 = group_plv_data_wp1[
+                (group_plv_data_wp1['eeg_band'] == 'Alpha') & 
+                (group_plv_data_wp1['modality_pair'] == 'EEG-HRV')
+            ].copy() # Use .copy() to avoid SettingWithCopyWarning
             
-    if all_corr_results:
-        df_corr_results = pd.DataFrame(all_corr_results)
-        statistical_results['correlations'] = df_corr_results
-        df_corr_results.to_csv(os.path.join(group_results_dir, "correlation_results.csv"), index=False)
+            if not df_for_anova_wp1.empty:
+                anova_results_wp1 = group_analysis_service.run_repeated_measures_anova(
+                   data_df=df_for_anova_wp1, dv='plv', 
+                   within='condition', subject='participant_id'
+                )
+                main_logger.info(f"Group ANOVA results for PLV (WP1, Alpha, EEG-HRV):\n{anova_results_wp1}")
+                if anova_results_wp1 is not None and not anova_results_wp1.empty:
+                    # --- FDR Correction for ANOVA p-values ---
+                    # Example: Correct p-values for the 'Source' column (main effects, interactions)
+                    p_values_to_correct_wp1 = anova_results_wp1['p-unc'].dropna().tolist()
+                    if p_values_to_correct_wp1:
+                        reject_fdr_wp1, pval_corr_fdr_wp1 = apply_fdr_correction(p_values_to_correct_wp1, alpha=0.05)
+                        # Add corrected p-values back to the DataFrame (aligning by original index)
+                        fdr_series_pval = pd.Series(pval_corr_fdr_wp1, index=anova_results_wp1.dropna(subset=['p-unc']).index)
+                        fdr_series_reject = pd.Series(reject_fdr_wp1, index=anova_results_wp1.dropna(subset=['p-unc']).index)
+                        anova_results_wp1['p-corr-fdr'] = fdr_series_pval
+                        anova_results_wp1['reject_fdr'] = fdr_series_reject
+                        main_logger.info(f"WP1 ANOVA with FDR correction:\n{anova_results_wp1}")
+                    
+                    if 'p-unc' in anova_results_wp1.columns:
+                        # Apply FDR to relevant p-values (e.g., for the 'condition' factor)
+                        p_values_condition_effect = anova_results_wp1[anova_results_wp1['Source'] == 'condition']['p-unc'].dropna()
+                        if not p_values_condition_effect.empty:
+                            reject_fdr, pval_corr_fdr = apply_fdr_correction(p_values_condition_effect.tolist(), alpha=0.05)
+                            # Add these back carefully if needed, or report separately
+                            main_logger.info(f"WP1 ANOVA 'condition' effect (Source specific FDR): p-values={p_values_condition_effect.tolist()}, FDR corrected reject={reject_fdr}, p-corr={pval_corr_fdr}")
+                    
+                    anova_results_wp1.to_csv(os.path.join(group_results_dir, "group_anova_wp1_plv_alpha_hrv.csv"))
+                    group_plotting_service.plot_anova_results("GROUP", anova_results_wp1, df_for_anova_wp1, 'plv', 'condition', "WP1: PLV (Alpha, HRV) by Condition", "wp1_plv_alpha_hrv")
 
-    # --- FDR Correction ---
-    if all_p_values:
-        valid_p_values = [p for p in all_p_values if pd.notna(p)]
-        if valid_p_values:
-            from pingouin import multicomp
-            reject_fdr, pvals_corrected_fdr = multicomp(valid_p_values, method='fdr_bh')
-            fdr_results_df = pd.DataFrame({'original_p': valid_p_values, 'corrected_p_fdr': pvals_corrected_fdr, 'reject_fdr': reject_fdr})
-            main_logger.info(f"FDR Correction Results (Benjamini-Hochberg):\n{fdr_results_df}")
-            statistical_results['fdr_correction'] = fdr_results_df
-            fdr_results_df.to_csv(os.path.join(group_results_dir, "fdr_corrected_pvalues.csv"), index=False)
-    else:
-        main_logger.info("No p-values collected for FDR correction.")
+    # WP2: Correlation (Synchrony vs. Subjective Arousal)
+    # First, collect all trial-level PLV and survey data
+    all_trial_plv_wp1_dfs = [
+        res['analysis_outputs']['dataframes']['trial_plv_wp1']
+        for res in all_participants_summary
+        if isinstance(res, dict) and res.get('analysis_outputs', {}).get('dataframes', {}).get('trial_plv_wp1') is not None
+    ]
+    all_survey_dfs = [
+        res['analysis_outputs']['dataframes']['survey_data_raw']
+        for res in all_participants_summary
+        if isinstance(res, dict) and res.get('analysis_outputs', {}).get('dataframes', {}).get('survey_data_raw') is not None
+    ]
 
-    # Save all statistical results to a single Excel file with multiple sheets
-    excel_writer = pd.ExcelWriter(os.path.join(group_results_dir, "all_statistical_group_results.xlsx"), engine='openpyxl')
-    for sheet_name, df_stat in statistical_results.items():
-        df_stat.to_excel(excel_writer, sheet_name=sheet_name.replace(" ", "_").replace("/", "_")[:30], index=False) # Sheet names have length limit
-    excel_writer.close()
-    main_logger.info(f"All group statistical results saved to Excel file in {group_results_dir}")
+    if all_trial_plv_wp1_dfs and all_survey_dfs:
+        group_trial_plv_df = pd.concat(all_trial_plv_wp1_dfs, ignore_index=True)
+        group_survey_df = pd.concat(all_survey_dfs, ignore_index=True)
 
-    # --- Group Level Plotting ---
-    main_logger.info("Group Analysis - Generating Plots")
-    plotter.generate_group_plots(df_agg, statistical_results, group_results_dir)
+        if not group_trial_plv_df.empty and not group_survey_df.empty and 'sam_arousal' in group_survey_df.columns:
+            # Merge requires common columns like 'participant_id', 'condition', 'trial'
+            # Adjust column names in survey_df if they differ (e.g., 'Condition' vs 'condition')
+            # Example: group_survey_df.rename(columns={'OldTrialCol': 'trial', 'OldCondCol': 'condition'}, inplace=True)
+            try:
+                merged_wp2_group_df = pd.merge(group_trial_plv_df, group_survey_df, 
+                                               on=['participant_id', 'condition', 'trial'], # Adjust as needed
+                                               how='inner')
+                if not merged_wp2_group_df.empty:
+                    # Select specific PLV for correlation, e.g., Alpha, EEG-HRV
+                    df_for_corr_wp2 = merged_wp2_group_df[
+                        (merged_wp2_group_df['eeg_band'] == 'Alpha') &
+                        (merged_wp2_group_df['modality_pair'] == 'EEG-HRV')
+                    ].copy()
+                    if not df_for_corr_wp2.empty:
+                        corr_wp2 = group_analysis_service.run_correlation_analysis(
+                            df_for_corr_wp2['sam_arousal'], df_for_corr_wp2['plv'], 
+                            name1='SAM_Arousal', name2='Trial_PLV_Alpha_HRV'
+                        )
+                        main_logger.info(f"Group Correlation (WP2 - Trial SAM Arousal vs Trial PLV):\n{corr_wp2}")
+                        if corr_wp2 is not None: 
+                            # If multiple correlations are run for WP2, collect their p-values for FDR
+                            # For a single correlation, FDR is not applied to its own p-value in isolation.
+                            # Example: if you had corr_wp2_hrv, corr_wp2_eda, etc.
+                            # p_vals_wp2 = [corr_wp2_hrv['p-val'].iloc[0], corr_wp2_eda['p-val'].iloc[0]]
+                            # _, p_corr_wp2 = apply_fdr_correction(p_vals_wp2)
+                            # Then add p_corr_wp2 back to respective DataFrames or report.
+                            corr_wp2.to_csv(os.path.join(group_results_dir, "group_corr_wp2_trial_arousal_vs_plv.csv")) # Save the full table
+                            group_plotting_service.plot_correlation("GROUP", df_for_corr_wp2['sam_arousal'], df_for_corr_wp2['plv'], 
+                                                                    "SAM Arousal (Trial)", "PLV (Alpha-HRV, Trial)", 
+                                                                    "WP2: Trial Arousal vs PLV", "wp2_trial_arousal_plv", corr_wp2)
+            except Exception as e_merge_wp2:
+                 main_logger.error(f"WP2: Error merging PLV and survey data for group analysis: {e_merge_wp2}")
 
-    main_logger.info("===== Group Level Analysis Finished =====")
 
+    # WP3: Correlation (Baseline RMSSD vs. Task PLV)
+    wp3_data_list = [{'participant_id': r['participant_id'],
+                      'baseline_rmssd': r['analysis_outputs']['metrics'].get('baseline_rmssd'),
+                      'plv_negative_alpha_hrv': r['analysis_outputs']['metrics'].get('wp3_avg_plv_negative_alpha_hrv')}
+                     for r in all_participants_summary if isinstance(r, dict) and r.get('analysis_outputs', {}).get('metrics', {}).get('baseline_rmssd') is not None]
+    if wp3_data_list:
+        wp3_group_df = pd.DataFrame(wp3_data_list).dropna()
+        if not wp3_group_df.empty and len(wp3_group_df) >=3:
+            corr_wp3 = group_analysis_service.run_correlation_analysis(wp3_group_df['baseline_rmssd'], wp3_group_df['plv_negative_alpha_hrv'], name1='Baseline_RMSSD', name2='Avg_PLV_Alpha_HRV_Negative')
+            main_logger.info(f"Group Correlation (WP3 - Baseline RMSSD vs Negative PLV):\n{corr_wp3}")
+            if corr_wp3 is not None:
+                 corr_wp3.to_csv(os.path.join(group_results_dir, "group_corr_wp3_rmssd_vs_plv_neg.csv")) # Save the full table
+                 group_plotting_service.plot_correlation("GROUP", wp3_group_df['baseline_rmssd'], wp3_group_df['plv_negative_alpha_hrv'], "Baseline RMSSD (ms)", "Avg PLV (Alpha-HRV-Negative)", "WP3: RMSSD vs Negative PLV", "wp3_rmssd_plv_neg", corr_wp3)
 
-def run_pilot_pipeline():
-    """Main orchestrator for the pilot data processing pipeline."""
-    utils.main_logger.info("===== EmotiView Pilot Data Pipeline Started =====")
+    # WP4: Correlation (FAI vs. Branch-Specific PLV)
+    wp4_fai_list = []
+    for res in all_participants_summary:
+        if isinstance(res, dict) and res.get('analysis_outputs', {}).get('dataframes', {}).get('fai_wp4') is not None:
+            fai_df_participant = res['analysis_outputs']['dataframes']['fai_wp4']
+            if not fai_df_participant.empty:
+                 # Get FAI for F4-F3 pair
+                 fai_f4f3_val = fai_df_participant[fai_df_participant['pair'] == 'F4-F3']['fai'].values
+                 if len(fai_f4f3_val) > 0:
+                     wp4_fai_list.append({'participant_id': res['participant_id'], 'fai_f4f3': fai_f4f3_val[0]})
     
-    data_loader = DataLoader(utils.main_logger) 
-    q_parser = QuestionnaireParser(utils.main_logger)
+    # Combine with relevant PLV data (e.g., average PLV for EEG-HRV and EEG-EDA separately)
+    if wp4_fai_list and all_avg_plv_wp1_dfs: # Reusing all_avg_plv_wp1_dfs
+        wp4_fai_group_df = pd.DataFrame(wp4_fai_list)
+        group_plv_data_wp1_for_wp4 = pd.concat(all_avg_plv_wp1_dfs, ignore_index=True)
+        
+        # Example: Correlate FAI F4-F3 with Alpha EEG-HRV PLV (averaged across conditions for simplicity)
+        plv_hrv_alpha_avg_wp4 = group_plv_data_wp1_for_wp4[
+            (group_plv_data_wp1_for_wp4['eeg_band'] == 'Alpha') &
+            (group_plv_data_wp1_for_wp4['modality_pair'] == 'EEG-HRV')
+        ].groupby('participant_id')['plv'].mean().reset_index().rename(columns={'plv': 'avg_plv_hrv_alpha'})
 
-    all_participants_metrics_list = []
-    all_questionnaires_list = []
+        merged_wp4_hrv = pd.merge(wp4_fai_group_df, plv_hrv_alpha_avg_wp4, on='participant_id')
+        if not merged_wp4_hrv.empty and len(merged_wp4_hrv) >= 3:
+            corr_wp4_hrv = group_analysis_service.run_correlation_analysis(merged_wp4_hrv['fai_f4f3'], merged_wp4_hrv['avg_plv_hrv_alpha'], name1='FAI_F4F3', name2='Avg_PLV_Alpha_HRV')
+            main_logger.info(f"Group Correlation (WP4 - FAI F4-F3 vs EEG-HRV PLV):\n{corr_wp4_hrv}")
+            if corr_wp4_hrv is not None:
+                corr_wp4_hrv.to_csv(os.path.join(group_results_dir, "group_corr_wp4_fai_vs_plv_hrv.csv")) # Save the full table
+                group_plotting_service.plot_correlation("GROUP", merged_wp4_hrv['fai_f4f3'], merged_wp4_hrv['avg_plv_hrv_alpha'], "FAI (F4-F3)", "Avg PLV (Alpha-HRV)", "WP4: FAI vs EEG-HRV PLV", "wp4_fai_plv_hrv", corr_wp4_hrv)
+        
+        # Similarly for EEG-EDA PLV
+        plv_eda_alpha_avg_wp4 = group_plv_data_wp1_for_wp4[
+            (group_plv_data_wp1_for_wp4['eeg_band'] == 'Alpha') &
+            (group_plv_data_wp1_for_wp4['modality_pair'] == 'EEG-EDA')
+        ].groupby('participant_id')['plv'].mean().reset_index().rename(columns={'plv': 'avg_plv_eda_alpha'})
+        merged_wp4_eda = pd.merge(wp4_fai_group_df, plv_eda_alpha_avg_wp4, on='participant_id')
+        if not merged_wp4_eda.empty and len(merged_wp4_eda) >= 3:
+            corr_wp4_eda = group_analysis_service.run_correlation_analysis(merged_wp4_eda['fai_f4f3'], merged_wp4_eda['avg_plv_eda_alpha'], name1='FAI_F4F3', name2='Avg_PLV_Alpha_EDA')
+            main_logger.info(f"Group Correlation (WP4 - FAI F4-F3 vs EEG-EDA PLV):\n{corr_wp4_eda}")
+            if corr_wp4_eda is not None:
+                corr_wp4_eda.to_csv(os.path.join(group_results_dir, "group_corr_wp4_fai_vs_plv_eda.csv")) # Save the full table
+                group_plotting_service.plot_correlation("GROUP", merged_wp4_eda['fai_f4f3'], merged_wp4_eda['avg_plv_eda_alpha'], "FAI (F4-F3)", "Avg PLV (Alpha-EDA)", "WP4: FAI vs EEG-EDA PLV", "wp4_fai_plv_eda", corr_wp4_eda)
+
+    # --- Create Final Summary ---
+    summary_list = []
+    for r_idx, r_val in enumerate(all_participants_summary):
+        if isinstance(r_val, dict):
+            summary_list.append({
+                'participant_id': r_val.get('participant_id', f'unknown_participant_{r_idx}'),
+                'status': r_val.get('status', 'error' if 'error_message' in r_val else 'processed'),
+                'log_file': r_val.get('log_file')
+            })
+        else: # Should not happen if processed_artifacts is always a dict
+            summary_list.append({'participant_id': f'unknown_participant_{r_idx}', 'status': 'unknown_format', 'log_file': None})
+    summary_df = pd.DataFrame(summary_list)
+    summary_df.to_csv(os.path.join(output_base_dir, "processing_summary.csv"), index=False)
+    main_logger.info(f"Processing summary saved to {os.path.join(output_base_dir, 'processing_summary.csv')}")
+
+    return all_participants_summary
+
+if __name__ == '__main__':
+    current_script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(os.path.dirname(current_script_dir)) 
     
-    participant_ids = [d for d in os.listdir(config.PARTICIPANT_DATA_BASE_DIR) if os.path.isdir(os.path.join(config.PARTICIPANT_DATA_BASE_DIR, d))]
-    if not participant_ids:
-        utils.main_logger.info("No participant subfolders found. Exiting.")
-        return
+    default_data_root = os.path.join(project_root, "sample_data") 
+    default_output_root = os.path.join(project_root, "EV_Processed_Data_Orchestrator_Full")
 
-    utils.main_logger.info(f"Found participants: {', '.join(sorted(participant_ids))}")
+    print(f"Default Data Root: {default_data_root}")
+    print(f"Default Output Root: {default_output_root}")
 
-    for p_id in sorted(participant_ids):
-        p_logger = utils.get_participant_logger(p_id)
-        utils.main_logger.info(f"--- Processing Participant: {p_id} ---")
-        
-        participant_raw_path = os.path.join(config.PARTICIPANT_DATA_BASE_DIR, p_id)
-        questionnaire = q_parser.parse(p_id, participant_raw_path)
-        if questionnaire and questionnaire.get('participant_id'): # Ensure valid questionnaire data
-             if not any(isinstance(d, dict) and d.get('participant_id') == p_id for d in all_questionnaires_list):
-                all_questionnaires_list.append(questionnaire)
-        
-        processed_artifacts = run_participant_preprocessing(p_id, p_logger, data_loader)
-        
-        if not processed_artifacts: 
-            p_logger.error(f"Preprocessing failed or yielded no usable data artifacts for {p_id}. Skipping analysis.")
-            utils.close_participant_logger(p_id)
-            continue
-            
-        metrics = run_participant_analysis(p_id, p_logger, processed_artifacts, questionnaire)
-        all_participants_metrics_list.append(metrics)
-        
-        utils.close_participant_logger(p_id)
-        utils.main_logger.info(f"--- Finished Participant: {p_id} ---")
-
-    if all_participants_metrics_list:
-        final_metrics_df = pd.DataFrame(all_participants_metrics_list)
-        aggregated_metrics_file = os.path.join(config.RESULTS_BASE_DIR, "pilot_all_participants_metrics.xlsx")
-        final_metrics_df.to_excel(aggregated_metrics_file, index=False)
-        utils.main_logger.info(f"All participant metrics aggregated and saved to: {aggregated_metrics_file}")
-
-    if all_questionnaires_list:
-        q_df = pd.DataFrame(all_questionnaires_list)
-        q_excel_path = os.path.join(config.RESULTS_BASE_DIR, config.AGGREGATED_QUESTIONNAIRE_EXCEL_FILENAME)
-        q_df.to_excel(q_excel_path, index=False)
-        utils.main_logger.info(f"Aggregated questionnaires saved to: {q_excel_path}")
-
-    # Run group-level analysis if aggregated metrics were produced
-    if os.path.exists(os.path.join(config.RESULTS_BASE_DIR, "pilot_all_participants_metrics.xlsx")):
-        group_results_output_dir = os.path.join(config.RESULTS_BASE_DIR, "group_level_stats")
-        run_group_level_analysis(os.path.join(config.RESULTS_BASE_DIR, "pilot_all_participants_metrics.xlsx"), group_results_output_dir, utils.main_logger)
-
-    utils.main_logger.info("===== EmotiView Pilot Data Pipeline Finished =====")
-    utils.main_logger.info(f"Main log file: {utils.main_log_file_path}")
-
-if __name__ == "__main__":
-    run_pilot_pipeline()
+    if not os.path.exists(default_data_root):
+        os.makedirs(default_data_root)
+        print(f"Created dummy data root: {default_data_root}")
+        # You might want to create dummy participant folders here for testing
+        # e.g., os.makedirs(os.path.join(default_data_root, "participant_01"))
+    
+    main_orchestrator(default_data_root, default_output_root, participant_ids=None)

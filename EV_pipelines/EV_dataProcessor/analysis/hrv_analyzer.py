@@ -1,71 +1,151 @@
 import os
-import pandas as pd
 import numpy as np
+import pandas as pd
 import neurokit2 as nk
-from scipy.interpolate import interp1d
-from scipy.signal import hilbert
-from ... import config # Relative import
+from scipy.interpolate import CubicSpline # For continuous HRV signal
+from .. import config # Relative import
 
 class HRVAnalyzer:
     def __init__(self, logger):
         self.logger = logger
         self.logger.info("HRVAnalyzer initialized.")
 
-    def calculate_hrv_metrics(self, nn_intervals_path, analysis_metrics):
-        """
-        Calculates time-domain HRV metrics from NN-intervals.
-        Args:
-            nn_intervals_path (str): Path to the CSV file containing NN-intervals (in ms).
-            analysis_metrics (dict): Dictionary to store/update results.
-        """
-        if nn_intervals_path is None or not os.path.exists(nn_intervals_path):
-            self.logger.warning(f"HRVAnalyzer - NN-intervals file not found or not provided: {nn_intervals_path}. Skipping HRV metrics.")
-            analysis_metrics['rmssd_overall'] = np.nan # Ensure key exists if expected
-            return
+    def calculate_rmssd_from_nni_array(self, nn_intervals_ms):
+        """Calculates RMSSD directly from an array of NN intervals in milliseconds."""
+        if nn_intervals_ms is None or len(nn_intervals_ms) < 2:
+            self.logger.warning("HRVAnalyzer (array) - Not enough NN intervals for RMSSD.")
+            return np.nan
+        try:
+            diff_nn = np.diff(nn_intervals_ms)
+            rmssd = np.sqrt(np.mean(diff_nn ** 2))
+            self.logger.info(f"HRVAnalyzer (array) - Calculated RMSSD: {rmssd:.2f} ms")
+            return rmssd
+        except Exception as e:
+            self.logger.error(f"HRVAnalyzer (array) - Error calculating RMSSD: {e}", exc_info=True)
+            return np.nan
 
-        self.logger.info(f"HRVAnalyzer - Calculating HRV metrics from {nn_intervals_path}.")
+    def calculate_hrv_metrics_from_nni_file(self, nn_intervals_path):
+        """
+        Calculates overall HRV metrics (e.g., RMSSD) from NN intervals file.
+        Returns a dictionary of metrics.
+        """
+        hrv_metrics = {}
+        if nn_intervals_path is None or not os.path.exists(nn_intervals_path):
+            self.logger.warning("HRVAnalyzer - NN intervals file not found. Skipping overall HRV calculation.")
+            hrv_metrics['hrv_rmssd_Overall'] = np.nan
+            return hrv_metrics
+
+        self.logger.info("HRVAnalyzer - Calculating overall HRV metrics from file.")
         try:
             nn_intervals_df = pd.read_csv(nn_intervals_path)
-            if 'NN_ms' not in nn_intervals_df.columns or nn_intervals_df['NN_ms'].isnull().all():
-                self.logger.warning("HRVAnalyzer - 'NN_ms' column not found or all NaN in NN-intervals file.")
-                analysis_metrics['rmssd_overall'] = np.nan
-                return
+            nn_intervals_ms = nn_intervals_df['NN_Interval_ms'].dropna().values # Assuming ms column
 
-            # NeuroKit2 expects NN-intervals in milliseconds.
-            hrv_time_domain = nk.hrv_time(nn_intervals_df['NN_ms'].dropna(), sampling_rate=1000) # sampling_rate is for internal processing if needed
-            analysis_metrics['rmssd_overall'] = hrv_time_domain['HRV_RMSSD'].iloc[0]
-            # Add other metrics as needed: analysis_metrics['sdnn_overall'] = hrv_time_domain['HRV_SDNN'].iloc[0]
-            self.logger.info(f"HRVAnalyzer - RMSSD calculated: {analysis_metrics['rmssd_overall']:.2f} ms.")
+            if len(nn_intervals_ms) < 2:
+                 self.logger.warning("HRVAnalyzer - Not enough valid NN intervals to calculate overall HRV. Skipping.")
+                 hrv_metrics['hrv_rmssd_Overall'] = np.nan
+                 return hrv_metrics
+            
+            hrv_metrics['hrv_rmssd_Overall'] = self.calculate_rmssd_from_nni_array(nn_intervals_ms)
+            self.logger.info("HRVAnalyzer - Overall HRV calculation from file completed.")
+            return hrv_metrics
         except Exception as e:
-            self.logger.error(f"HRVAnalyzer - Error calculating HRV metrics: {e}", exc_info=True)
-            analysis_metrics['rmssd_overall'] = np.nan
+            self.logger.error(f"HRVAnalyzer - Error calculating overall HRV from file: {e}", exc_info=True)
+            hrv_metrics['hrv_rmssd_Overall'] = np.nan
+            return hrv_metrics
 
-    def get_hrv_phase_signal(self, rpeak_times_path, nn_intervals_path):
+    def calculate_resting_state_hrv(self, ecg_signal, ecg_sfreq, ecg_times, 
+                                    baseline_start_time_abs, baseline_end_time_abs):
         """
-        Creates a continuous HRV signal and extracts its phase.
-        Args:
-            rpeak_times_path (str): Path to CSV file with R-peak times in seconds.
-            nn_intervals_path (str): Path to CSV file with NN-intervals in ms.
-        Returns:
-            tuple: (phase_hrv_signal, target_time_vector_hrv) or (None, None) if error.
+        Calculates resting-state HRV metrics (e.g., RMSSD) from the baseline period.
+        Returns a dictionary of metrics.
         """
-        if not rpeak_times_path or not os.path.exists(rpeak_times_path) or \
-           not nn_intervals_path or not os.path.exists(nn_intervals_path):
-            self.logger.warning("HRVAnalyzer - R-peak times or NN-intervals file missing for phase signal generation.")
-            return None, None
+        resting_hrv_metrics = {'resting_state_rmssd': np.nan}
+        if ecg_signal is None or ecg_sfreq is None or ecg_times is None or \
+           baseline_start_time_abs is None or baseline_end_time_abs is None:
+            self.logger.warning("HRVAnalyzer - Insufficient data or timing info for resting-state HRV. Skipping.")
+            return resting_hrv_metrics
+
+        self.logger.info(f"HRVAnalyzer - Calculating resting-state HRV ({baseline_start_time_abs:.2f}s to {baseline_end_time_abs:.2f}s).")
         try:
-            rpeak_times_sec = pd.read_csv(rpeak_times_path)['R_Peak_Time_s'].values
-            nn_values_ms = pd.read_csv(nn_intervals_path)['NN_ms'].values
-            if len(rpeak_times_sec) < 2 or len(nn_values_ms) < 1 or len(rpeak_times_sec) != len(nn_values_ms) + 1:
-                self.logger.warning("HRVAnalyzer - Data length mismatch or insufficient data for HRV interpolation.")
-                return None, None
-            nn_interp_times = rpeak_times_sec[:-1] + np.diff(rpeak_times_sec) / 2
-            interp_func_hrv = interp1d(nn_interp_times, nn_values_ms, kind='cubic', fill_value="extrapolate")
-            target_time_hrv = np.arange(nn_interp_times[0], nn_interp_times[-1], 1.0 / config.AUTONOMIC_RESAMPLE_SFREQ)
-            continuous_hrv_signal = interp_func_hrv(target_time_hrv)
-            phase_hrv = np.angle(hilbert(continuous_hrv_signal - np.mean(continuous_hrv_signal)))
-            self.logger.info(f"HRVAnalyzer - HRV phase signal generated (length: {len(phase_hrv)}).")
-            return phase_hrv, target_time_hrv
+            baseline_indices = np.where((ecg_times >= baseline_start_time_abs) & (ecg_times < baseline_end_time_abs))[0]
+
+            if len(baseline_indices) < ecg_sfreq * 5: # Require at least 5s of data
+                self.logger.warning(f"HRVAnalyzer - Baseline ECG segment too short ({len(baseline_indices)/ecg_sfreq:.2f}s). Skipping resting-state HRV.")
+                return resting_hrv_metrics
+
+            baseline_ecg_signal = ecg_signal[baseline_indices]
+            signals, info = nk.ecg_peaks(baseline_ecg_signal, sampling_rate=ecg_sfreq, method=config.ECG_PEAK_DETECTION_METHOD)
+            rpeaks_baseline = info["ECG_R_Peaks"]
+
+            if len(rpeaks_baseline) < 2:
+                self.logger.warning("HRVAnalyzer - Less than 2 R-peaks in baseline. Cannot calculate RMSSD.")
+                return resting_hrv_metrics
+
+            nn_intervals_baseline_ms = np.diff(rpeaks_baseline) / ecg_sfreq * 1000
+            resting_hrv_metrics['resting_state_rmssd'] = self.calculate_rmssd_from_nni_array(nn_intervals_baseline_ms)
+            return resting_hrv_metrics
         except Exception as e:
-            self.logger.error(f"HRVAnalyzer - Error generating HRV phase signal: {e}", exc_info=True)
+            self.logger.error(f"HRVAnalyzer - Error calculating resting-state HRV: {e}", exc_info=True)
+            return resting_hrv_metrics
+    
+    def get_continuous_hrv_signal(self, rpeaks_samples, original_sfreq, target_sfreq):
+        """
+        Generates a continuous, interpolated HRV signal (e.g., NN intervals) from R-peak samples.
+        Args:
+            rpeaks_samples (np.ndarray): Array of R-peak sample indices.
+            original_sfreq (float): Sampling frequency of the signal from which R-peaks were derived.
+            target_sfreq (float): Target sampling frequency for the continuous HRV signal.
+        Returns:
+            tuple: (continuous_hrv_signal, time_vector_for_hrv_signal) or (None, None)
+        """
+        if rpeaks_samples is None or len(rpeaks_samples) < 2:
+            self.logger.warning("HRVAnalyzer - Not enough R-peaks to generate continuous HRV signal.")
             return None, None
+        
+        try:
+            nn_intervals_ms = np.diff(rpeaks_samples) / original_sfreq * 1000
+            rpeak_times_sec = rpeaks_samples / original_sfreq # Absolute times of R-peaks
+
+            # We need times corresponding to the NN intervals for interpolation.
+            # An NNI value is typically associated with the time of the second R-peak that forms it.
+            nn_interval_times_sec = rpeak_times_sec[1:]
+
+            if len(nn_interval_times_sec) != len(nn_intervals_ms):
+                self.logger.error("HRVAnalyzer - Mismatch between NN interval times and values. Cannot interpolate.")
+                return None, None
+            if len(nn_intervals_ms) < 2 : # Need at least two points to interpolate
+                 self.logger.warning("HRVAnalyzer - Less than 2 NN intervals. Cannot interpolate.")
+                 return None, None
+
+
+            interp_func = interp1d(nn_interval_times_sec, nn_intervals_ms, kind='cubic', fill_value="extrapolate")
+            
+            # Create new time vector from the first NNI time to the last
+            min_time = nn_interval_times_sec[0]
+            max_time = nn_interval_times_sec[-1]
+            
+            if max_time <= min_time: # Should not happen if len(nn_intervals_ms) >=1
+                self.logger.warning("HRVAnalyzer - Max time not greater than min time for interpolation.")
+                return None, None
+
+            new_time_vector = np.arange(min_time, max_time, 1.0/target_sfreq)
+            if len(new_time_vector) == 0:
+                # If the duration is too short for the target_sfreq, new_time_vector can be empty.
+                # Fallback: use original times and values if interpolation range is too small.
+                # Or, return a single point if only one NNI.
+                if len(nn_intervals_ms) == 1: # Only one NNI
+                    return np.array([nn_intervals_ms[0]]), np.array([nn_interval_times_sec[0]])
+                self.logger.warning("HRVAnalyzer - Interpolated time vector is empty. Check duration and target sfreq.")
+                return None, None # Or handle differently, e.g., return raw NNIs if short
+
+            interpolated_signal_ms = interp_func(new_time_vector)
+            self.logger.info(f"HRVAnalyzer - Generated continuous HRV signal (NNIs in ms) at {target_sfreq} Hz.")
+            return interpolated_signal_ms, new_time_vector
+
+        except Exception as e:
+            self.logger.error(f"HRVAnalyzer - Error generating continuous HRV signal: {e}", exc_info=True)
+            return None, None
+
+    # calculate_hrv_metrics_per_condition and get_hrv_phase_signal might be too specific
+    # or better handled by the orchestrator/connectivity_analyzer using the continuous HRV signal.
+    # For now, keeping them out of the primary delegation path from AnalysisService.

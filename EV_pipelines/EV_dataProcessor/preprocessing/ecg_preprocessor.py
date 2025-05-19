@@ -2,60 +2,77 @@ import os
 import numpy as np
 import pandas as pd
 import neurokit2 as nk
-from ... import config # Relative import
+from .. import config # Relative import
 
 class ECGPreprocessor:
     def __init__(self, logger):
         self.logger = logger
         self.logger.info("ECGPreprocessor initialized.")
 
-    def process_and_save(self, ecg_signal_raw, ecg_sampling_rate, participant_id, output_dir):
+    def preprocess_ecg(self, ecg_signal, ecg_sfreq, participant_id, preproc_results_dir):
         """
-        Processes raw ECG signal to extract R-peaks and NN-intervals, then saves them.
+        Preprocesses ECG data to detect R-peaks and calculate NN intervals.
+
         Args:
-            ecg_signal_raw (np.ndarray): The raw ECG signal.
-            ecg_sampling_rate (float): The sampling rate of the ECG signal.
-            participant_id (str): The participant ID.
-            output_dir (str): Directory to save the output files.
+            ecg_signal (np.ndarray): The raw ECG signal.
+            ecg_sfreq (float): The sampling frequency of the ECG signal.
+            participant_id (str): The ID of the participant.
+            preproc_results_dir (str): Directory to save intermediate results.
+
         Returns:
-            tuple: (path_to_nn_intervals_csv, path_to_rpeaks_csv) or (None, None) if error.
+            tuple: Paths to the saved R-peak times CSV and NN intervals CSV,
+                   or (None, None) if preprocessing fails.
         """
-        if ecg_signal_raw is None or ecg_sampling_rate is None:
-            self.logger.warning("ECGPreprocessor - Raw ECG signal or sampling rate not provided. Skipping.")
+        if ecg_signal is None or ecg_sfreq is None:
+            self.logger.warning("ECGPreprocessor - No ECG signal or sampling frequency provided. Skipping preprocessing.")
             return None, None
 
-        self.logger.info(f"ECGPreprocessor - Processing ECG for {participant_id}.")
+        self.logger.info(f"ECGPreprocessor - Starting preprocessing for {participant_id}.")
+
         try:
-            # Clean ECG signal
-            ecg_cleaned = nk.ecg_clean(ecg_signal_raw, sampling_rate=ecg_sampling_rate)
-            self.logger.debug("ECGPreprocessor - ECG signal cleaned.")
+            # 1. Filter the ECG signal
+            # NeuroKit2's processing functions often include filtering internally,
+            # but an explicit filter can be added if needed before peak detection.
+            # For now, rely on NeuroKit2's internal filtering within processing.
 
-            # Detect R-peaks
-            # Use a robust method, correct_artifacts can be helpful
-            peaks_info, _ = nk.ecg_peaks(ecg_cleaned, sampling_rate=ecg_sampling_rate, 
-                                         method="neurokit", correct_artifacts=True)
-            rpeaks_indices = peaks_info['ECG_R_Peaks']
-            self.logger.info(f"ECGPreprocessor - Detected {len(rpeaks_indices)} R-peaks.")
+            # 2. Find R-peaks
+            # Use NeuroKit2's ecg_peaks function
+            self.logger.info("ECGPreprocessor - Detecting R-peaks...")
+            # The `method` parameter uses the specified algorithm from config
+            signals, info = nk.ecg_peaks(ecg_signal, sampling_rate=ecg_sfreq, method=config.ECG_RPEAK_METHOD)
 
-            if len(rpeaks_indices) < 2:
-                self.logger.warning("ECGPreprocessor - Less than 2 R-peaks detected. Cannot compute NN-intervals.")
+            rpeaks = info["ECG_R_Peaks"]
+            self.logger.info(f"ECGPreprocessor - Found {len(rpeaks)} R-peaks.")
+
+            if len(rpeaks) < 2:
+                self.logger.warning("ECGPreprocessor - Less than 2 R-peaks found. Cannot calculate NN intervals. Skipping.")
                 return None, None
 
-            # Calculate NN-intervals (in ms)
-            nn_intervals_ms = np.diff(rpeaks_indices) / ecg_sampling_rate * 1000
-            
-            # Save NN-intervals
-            nn_intervals_path = os.path.join(output_dir, f"{participant_id}_nn_intervals.csv")
-            pd.DataFrame(nn_intervals_ms, columns=['NN_ms']).to_csv(nn_intervals_path, index=False)
-            self.logger.info(f"ECGPreprocessor - NN-intervals saved to {nn_intervals_path}")
+            # 3. Calculate NN intervals
+            # NeuroKit2's hrv_time function can derive NN intervals from R-peaks
+            # Or we can calculate them manually from peak indices
+            nn_intervals_ms = np.diff(rpeaks) / ecg_sfreq * 1000 # Difference in samples, convert to seconds, then ms
+            nn_intervals_s = nn_intervals_ms / 1000 # Keep in seconds for consistency with MNE/timing
 
-            # Save R-peak times (in seconds)
-            rpeaks_times_sec = rpeaks_indices / ecg_sampling_rate
-            rpeaks_path = os.path.join(output_dir, f"{participant_id}_rpeaks_times_sec.csv")
-            pd.DataFrame(rpeaks_times_sec, columns=['R_Peak_Time_s']).to_csv(rpeaks_path, index=False)
-            self.logger.info(f"ECGPreprocessor - R-peak times saved to {rpeaks_path}")
+            # Get R-peak times in seconds relative to the start of the signal
+            rpeak_times_s = rpeaks / ecg_sfreq
 
-            return nn_intervals_path, rpeaks_path
+            # 4. Save results
+            rpeak_times_df = pd.DataFrame({'R_Peak_Time_s': rpeak_times_s})
+            nn_intervals_df = pd.DataFrame({'NN_Interval_ms': nn_intervals_ms, 'NN_Interval_s': nn_intervals_s})
+
+            rpeak_times_path = os.path.join(preproc_results_dir, f'{participant_id}_ecg_rpeak_times.csv')
+            nn_intervals_path = os.path.join(preproc_results_dir, f'{participant_id}_ecg_nn_intervals.csv')
+
+            rpeak_times_df.to_csv(rpeak_times_path, index=False)
+            nn_intervals_df.to_csv(nn_intervals_path, index=False)
+
+            self.logger.info(f"ECGPreprocessor - R-peak times saved to {rpeak_times_path}")
+            self.logger.info(f"ECGPreprocessor - NN intervals saved to {nn_intervals_path}")
+
+            self.logger.info(f"ECGPreprocessor - Preprocessing completed for {participant_id}.")
+            return rpeak_times_path, nn_intervals_path
+
         except Exception as e:
-            self.logger.error(f"ECGPreprocessor - Error processing ECG for {participant_id}: {e}", exc_info=True)
+            self.logger.error(f"ECGPreprocessor - Error during preprocessing for {participant_id}: {e}", exc_info=True)
             return None, None
