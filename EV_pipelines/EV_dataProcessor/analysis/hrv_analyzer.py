@@ -2,8 +2,8 @@ import os
 import numpy as np
 import pandas as pd
 import neurokit2 as nk
-from scipy.interpolate import CubicSpline # For continuous HRV signal
-from .. import config # Relative import
+from scipy.interpolate import interp1d # For continuous HRV signal
+from ..orchestrators import config # Relative import
 
 class HRVAnalyzer:
     def __init__(self, logger):
@@ -113,13 +113,37 @@ class HRVAnalyzer:
             if len(nn_interval_times_sec) != len(nn_intervals_ms):
                 self.logger.error("HRVAnalyzer - Mismatch between NN interval times and values. Cannot interpolate.")
                 return None, None
-            if len(nn_intervals_ms) < 2 : # Need at least two points to interpolate
+            
+            # Check for NaNs or Infs in the data
+            if np.any(np.isnan(nn_intervals_ms)) or np.any(np.isinf(nn_intervals_ms)):
+                self.logger.error("HRVAnalyzer - NaN or Inf found in NN interval values. Cannot interpolate.")
+                return None, None
+            
+            if np.any(np.isnan(nn_interval_times_sec)) or np.any(np.isinf(nn_interval_times_sec)):
+                self.logger.error("HRVAnalyzer - NaN or Inf found in NN interval times. Cannot interpolate.")
+                return None, None
+
+            # Check for strict monotonicity in nn_interval_times_sec
+            if len(nn_interval_times_sec) > 1 and not np.all(np.diff(nn_interval_times_sec) > 0):
+                self.logger.error("HRVAnalyzer - NN interval times are not strictly monotonically increasing. Cannot interpolate.")
+                return None, None
+            
+            num_nni_points = len(nn_intervals_ms)
+            if num_nni_points < 2 : # Need at least two points to interpolate
                  self.logger.warning("HRVAnalyzer - Less than 2 NN intervals. Cannot interpolate.")
                  return None, None
 
-
-            interp_func = interp1d(nn_interval_times_sec, nn_intervals_ms, kind='cubic', fill_value="extrapolate")
+            # Determine interpolation kind based on number of points
+            if num_nni_points >= 4:
+                interpolation_kind = 'cubic'
+            elif num_nni_points == 3:
+                interpolation_kind = 'quadratic'
+            else: # num_nni_points == 2
+                interpolation_kind = 'linear'
             
+            self.logger.info(f"HRVAnalyzer - Using '{interpolation_kind}' interpolation for {num_nni_points} NNI points.")
+            interp_func = interp1d(nn_interval_times_sec, nn_intervals_ms, kind=interpolation_kind, fill_value="extrapolate")
+
             # Create new time vector from the first NNI time to the last
             min_time = nn_interval_times_sec[0]
             max_time = nn_interval_times_sec[-1]
@@ -131,10 +155,6 @@ class HRVAnalyzer:
             new_time_vector = np.arange(min_time, max_time, 1.0/target_sfreq)
             if len(new_time_vector) == 0:
                 # If the duration is too short for the target_sfreq, new_time_vector can be empty.
-                # Fallback: use original times and values if interpolation range is too small.
-                # Or, return a single point if only one NNI.
-                if len(nn_intervals_ms) == 1: # Only one NNI
-                    return np.array([nn_intervals_ms[0]]), np.array([nn_interval_times_sec[0]])
                 self.logger.warning("HRVAnalyzer - Interpolated time vector is empty. Check duration and target sfreq.")
                 return None, None # Or handle differently, e.g., return raw NNIs if short
 

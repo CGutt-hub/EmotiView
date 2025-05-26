@@ -1,6 +1,7 @@
 import pyxdf
 import argparse
 import json # For pretty printing the info dictionary
+import numpy as np # Import numpy to check array type
 
 def inspect_xdf(file_path):
     """
@@ -19,20 +20,27 @@ def inspect_xdf(file_path):
     for i, stream in enumerate(streams):
         print(f"\n--- Stream {i+1} ---")
         
-        # Pretty print the stream['info'] dictionary
-        # We use json.dumps for a nicely formatted string output
-        info_str = json.dumps(stream['info'], indent=4, sort_keys=True, default=str) # default=str handles non-serializable items
+        # Print just the stream name
+        info_str = f"Stream Name: {stream['info'].get('name', ['N/A'])[0]}" # Get the first element if 'name' is a list
         print("Stream Info:")
         print(info_str)
         
-        print(f"\nNumber of channels in time_series: {stream['time_series'].shape[1] if stream['time_series'].ndim > 1 else 1}")
+        # Check if time_series is a numpy array before accessing shape/ndim
+        if isinstance(stream['time_series'], np.ndarray):
+            print(f"\nNumber of channels in time_series: {stream['time_series'].shape[1] if stream['time_series'].ndim > 1 else 1}")
+        else:
+            print("\nTime series data is not a standard NumPy array (likely markers or strings).")
+            print("Number of channels concept may not apply in the same way.")
         print(f"Number of samples in time_series: {len(stream['time_series'])}")
         print(f"Effective sampling rate (approx): {stream['info'].get('effective_srate', 'N/A')}")
         print("="*50)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Inspect streams within an XDF file.")
-    parser.add_argument("xdf_file_path", type=str, help="Path to the .xdf file to inspect.")
+    # Make the argument optional and set the default to the specified pilot file path
+    parser.add_argument("--xdf_file_path", type=str,
+                        default=r"D:\pilotRawData\EV_P005\EV_P005.xdf",
+                        help="Path to the .xdf file to inspect (defaults to a pilot file if not specified).")
     
     args = parser.parse_args()
     

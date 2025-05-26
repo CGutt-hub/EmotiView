@@ -2,7 +2,7 @@ import neurokit2 as nk
 import pandas as pd
 import os
 import numpy as np
-from .. import config
+from ..orchestrators import config
 
 class EDAPreprocessor:
     def __init__(self, logger):
@@ -18,15 +18,16 @@ class EDAPreprocessor:
             participant_id (str): The participant ID.
             output_dir (str): Directory to save the output file.
         Returns:
-            tuple: Paths to the saved phasic EDA CSV and tonic EDA CSV files, or (None, None) if error.
+            tuple: (phasic_eda_path, tonic_eda_path, phasic_eda_array, tonic_eda_array)
+                   Returns (None, None, None, None) if error.
         """
         if eda_signal_raw is None or eda_sampling_rate is None:
             self.logger.warning("EDAPreprocessor - Raw EDA signal or sampling rate not provided. Skipping.")
-            return None, None
+            return None, None, None, None
         
         if eda_sampling_rate <= 0:
             self.logger.error(f"EDAPreprocessor - Invalid EDA sampling rate: {eda_sampling_rate}. Skipping.")
-            return None, None
+            return None, None, None, None
 
         self.logger.info(f"EDAPreprocessor - Processing EDA for {participant_id}.")
         try:
@@ -41,7 +42,7 @@ class EDAPreprocessor:
                     eda_signal_raw = eda_signal_raw.ravel() # Flatten if it's a row or column vector
                 else:
                     self.logger.error("EDAPreprocessor - EDA signal is not 1D. Cannot process.")
-                    return None, None
+                    return None, None, None, None
 
             eda_signals, _ = nk.eda_process(eda_signal_raw, sampling_rate=int(eda_sampling_rate))
             phasic_eda = eda_signals['EDA_Phasic'].values # Ensure it's a numpy array
@@ -56,7 +57,7 @@ class EDAPreprocessor:
             pd.DataFrame(tonic_eda, columns=['EDA_Tonic']).to_csv(tonic_eda_path, index=False)
             self.logger.info(f"EDAPreprocessor - Tonic EDA saved to {tonic_eda_path}")
 
-            return phasic_eda_path, tonic_eda_path
+            return phasic_eda_path, tonic_eda_path, phasic_eda, tonic_eda
         except Exception as e:
             self.logger.error(f"EDAPreprocessor - Error processing EDA for {participant_id}: {e}", exc_info=True)
-            return None, None
+            return None, None, None, None

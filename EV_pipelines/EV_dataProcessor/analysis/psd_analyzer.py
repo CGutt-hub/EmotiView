@@ -2,7 +2,7 @@ import mne
 import numpy as np
 import pandas as pd
 from mne.time_frequency import psd_array_welch
-from .. import config # Relative import
+from ..orchestrators import config # Relative import
 
 class PSDAnalyzer:
     def __init__(self, logger):

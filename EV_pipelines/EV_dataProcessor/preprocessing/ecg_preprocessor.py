@@ -2,7 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 import neurokit2 as nk
-from .. import config # Relative import
+from ..orchestrators import config # Relative import
 
 class ECGPreprocessor:
     def __init__(self, logger):
@@ -20,8 +20,8 @@ class ECGPreprocessor:
             preproc_results_dir (str): Directory to save intermediate results.
 
         Returns:
-            tuple: Paths to the saved R-peak times CSV and NN intervals CSV,
-                   or (None, None) if preprocessing fails.
+            tuple: (rpeak_times_path, nn_intervals_path, rpeaks_samples_array, nn_intervals_ms_array)
+                   Returns (None, None, None, None) if preprocessing fails.
         """
         if ecg_signal is None or ecg_sfreq is None:
             self.logger.warning("ECGPreprocessor - No ECG signal or sampling frequency provided. Skipping preprocessing.")
@@ -46,7 +46,7 @@ class ECGPreprocessor:
 
             if len(rpeaks) < 2:
                 self.logger.warning("ECGPreprocessor - Less than 2 R-peaks found. Cannot calculate NN intervals. Skipping.")
-                return None, None
+                return None, None, None, None
 
             # 3. Calculate NN intervals
             # NeuroKit2's hrv_time function can derive NN intervals from R-peaks
@@ -71,8 +71,8 @@ class ECGPreprocessor:
             self.logger.info(f"ECGPreprocessor - NN intervals saved to {nn_intervals_path}")
 
             self.logger.info(f"ECGPreprocessor - Preprocessing completed for {participant_id}.")
-            return rpeak_times_path, nn_intervals_path
+            return rpeak_times_path, nn_intervals_path, rpeaks, nn_intervals_ms
 
         except Exception as e:
             self.logger.error(f"ECGPreprocessor - Error during preprocessing for {participant_id}: {e}", exc_info=True)
-            return None, None
+            return None, None, None, None

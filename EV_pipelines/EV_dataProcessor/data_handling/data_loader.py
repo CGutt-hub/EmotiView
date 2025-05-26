@@ -4,7 +4,8 @@ import pyxdf
 import mne
 import numpy as np
 import pandas as pd
-from .. import config # Relative import
+from .questionnaire_parser import QuestionnaireParser # Import the updated parser
+from ..orchestrators import config # Relative import
 
 class DataLoader:
     def __init__(self, logger):
@@ -45,6 +46,7 @@ class DataLoader:
             self.logger.info(f"DataLoader - Successfully loaded XDF file. Found {len(streams)} streams.")
 
             stream_map = {stream['info']['name'][0]: stream for stream in streams}
+            raw_eeg = None # Initialize to handle cases where EEG is not loaded first
 
             # --- Load EEG ---
             if config.EEG_STREAM_NAME in stream_map:
@@ -68,23 +70,39 @@ class DataLoader:
                          marker_values = [val[0] for val in marker_stream['time_series']] # Assuming markers are strings
 
                          # Convert marker times to EEG time points
-                         eeg_start_time = raw_eeg.times[0] + stream['time_stamps'][0] # Absolute start time of EEG stream
-                         annotations = []
+                         # XDF timestamps are absolute. MNE annotations need to be relative to the raw object's start.
+                         # The first_samp of the raw object is 0. Its orig_time is the absolute start time of the stream.
+                         # We need to find the absolute start time of the EEG stream from XDF.
+                         eeg_stream_start_time_xdf = stream['time_stamps'][0] # Absolute start time of this EEG stream
+                         loaded_data['eeg_stream_start_time_xdf'] = eeg_stream_start_time_xdf
+
+                         annotations_list = []
                          for marker_time, marker_value in zip(marker_times, marker_values):
                              # Calculate onset relative to the start of the EEG Raw object
-                             onset = marker_time - eeg_start_time
-                             if onset >= 0: # Only add markers that occur after the EEG recording starts
-                                 annotations.append([onset, 0, marker_value]) # onset, duration (0 for point events), description
-
-                         if annotations:
-                             annotations = mne.Annotations(
-                                 [a[0] for a in annotations],
-                                 [a[1] for a in annotations],
-                                 [a[2] for a in annotations],
-                                 orig_time=eeg_start_time # Store original time for accurate alignment
+                             onset_in_eeg_time = marker_time - eeg_stream_start_time_xdf
+                             if onset_in_eeg_time >= 0: # Only add markers that occur at or after the EEG recording starts
+                                 annotations_list.append([onset_in_eeg_time, 0, marker_value]) # onset, duration (0 for point events), description
+                             else:
+                                 self.logger.debug(f"Marker '{marker_value}' at {marker_time} occurred before EEG stream start ({eeg_stream_start_time_xdf}). Skipping.")
+                         
+                         if annotations_list:
+                             onsets = [a[0] for a in annotations_list]
+                             durations = [a[1] for a in annotations_list]
+                             descriptions = [a[2] for a in annotations_list]
+                             
+                             # MNE Annotations orig_time should be the time of the first sample in the raw data,
+                             # which is effectively 0 for RawArray unless you set first_samp.
+                             # The onsets are already relative to the start of this EEG stream.
+                             mne_annotations = mne.Annotations(
+                                 onset=onsets,
+                                 duration=durations,
+                                 description=descriptions
+                                 # orig_time can be set if you want to keep track of absolute XDF time,
+                                 # but MNE operations typically use relative times.
+                                 # For RawArray, if first_samp is 0, onsets are relative to t=0 of the Raw.
                              )
-                             raw_eeg.set_annotations(annotations)
-                             self.logger.info(f"DataLoader - Added {len(annotations)} annotations from marker stream to EEG.")
+                             raw_eeg.set_annotations(mne_annotations)
+                             self.logger.info(f"DataLoader - Added {len(mne_annotations)} annotations from marker stream to EEG.")
                          else:
                              self.logger.warning("DataLoader - No valid annotations found or all markers occurred before EEG start.")
 
@@ -106,7 +124,7 @@ class DataLoader:
                     # Assuming ECG is a single channel time series
                     ecg_signal = np.array(stream['time_series']).flatten() # Ensure 1D
                     ecg_sfreq = float(stream['info']['nominal_srate'][0])
-                    ecg_times = stream['time_stamps'] # Absolute timestamps
+                    ecg_times = stream['time_stamps'] # Absolute timestamps from XDF
 
                     loaded_data['ecg_signal'] = ecg_signal
                     loaded_data['ecg_sfreq'] = ecg_sfreq
@@ -133,7 +151,7 @@ class DataLoader:
                     # Assuming EDA is a single channel time series
                     eda_signal = np.array(stream['time_series']).flatten() # Ensure 1D
                     eda_sfreq = float(stream['info']['nominal_srate'][0])
-                    eda_times = stream['time_stamps'] # Absolute timestamps
+                    eda_times = stream['time_stamps'] # Absolute timestamps from XDF
 
                     loaded_data['eda_signal'] = eda_signal
                     loaded_data['eda_sfreq'] = eda_sfreq
@@ -156,42 +174,39 @@ class DataLoader:
                 self.logger.info(f"DataLoader - Loading fNIRS stream: {config.FNIRS_STREAM_NAME}")
                 stream = stream_map[config.FNIRS_STREAM_NAME]
                 try:
-                    # Assuming fNIRS data is in stream['time_series'] (samples x channels)
-                    # Assuming channel names are in stream['info']['desc'][0]['channels'][0]['channel']
-                    data = np.array(stream['time_series']).T # Transpose to be channels x samples
+                    data = np.array(stream['time_series']).T 
                     sfreq = float(stream['info']['nominal_srate'][0])
                     ch_names = [ch['label'][0] for ch in stream['info']['desc'][0]['channels'][0]['channel']]
-                    # fNIRS channels are typically 'hbo' and 'hbr' after conversion, but raw is optical density
-                    # We'll treat them as 'fnirs_od' for now, preprocessing will convert
                     ch_types = ['fnirs_od'] * len(ch_names)
 
                     info = mne.create_info(ch_names=ch_names, sfreq=sfreq, ch_types=ch_types)
                     raw_fnirs_od = mne.io.RawArray(data, info, verbose=False)
+                    fnirs_stream_start_time_xdf = stream['time_stamps'][0]
+                    loaded_data['fnirs_stream_start_time_xdf'] = fnirs_stream_start_time_xdf
 
-                    # Add annotations from marker stream if available (same as EEG)
-                    if config.MARKER_STREAM_NAME in stream_map and raw_eeg is None: # Only add if not already added to EEG
+
+                    # Add annotations from marker stream if available (only if EEG was not loaded or had no markers)
+                    if config.MARKER_STREAM_NAME in stream_map and (raw_eeg is None or not raw_eeg.annotations):
                          marker_stream = stream_map[config.MARKER_STREAM_NAME]
                          marker_times = marker_stream['time_stamps']
                          marker_values = [val[0] for val in marker_stream['time_series']]
 
-                         fnirs_start_time = raw_fnirs_od.times[0] + stream['time_stamps'][0]
-                         annotations = []
+                         annotations_list_fnirs = []
                          for marker_time, marker_value in zip(marker_times, marker_values):
-                             onset = marker_time - fnirs_start_time
-                             if onset >= 0:
-                                 annotations.append([onset, 0, marker_value])
+                             onset_in_fnirs_time = marker_time - fnirs_stream_start_time_xdf
+                             if onset_in_fnirs_time >= 0:
+                                 annotations_list_fnirs.append([onset_in_fnirs_time, 0, marker_value])
 
-                         if annotations:
-                             annotations = mne.Annotations(
-                                 [a[0] for a in annotations],
-                                 [a[1] for a in annotations],
-                                 [a[2] for a in annotations],
-                                 orig_time=fnirs_start_time
+                         if annotations_list_fnirs:
+                             mne_annotations_fnirs = mne.Annotations(
+                                 onset=[a[0] for a in annotations_list_fnirs],
+                                 duration=[a[1] for a in annotations_list_fnirs],
+                                 description=[a[2] for a in annotations_list_fnirs]
                              )
-                             raw_fnirs_od.set_annotations(annotations)
-                             self.logger.info(f"DataLoader - Added {len(annotations)} annotations from marker stream to fNIRS.")
+                             raw_fnirs_od.set_annotations(mne_annotations_fnirs)
+                             self.logger.info(f"DataLoader - Added {len(mne_annotations_fnirs)} annotations from marker stream to fNIRS.")
                          else:
-                             self.logger.warning("DataLoader - No valid annotations found or all markers occurred before fNIRS start.")
+                             self.logger.warning("DataLoader - No valid annotations found for fNIRS or all markers occurred before fNIRS start.")
 
 
                     loaded_data['fnirs_od'] = raw_fnirs_od
@@ -205,112 +220,149 @@ class DataLoader:
                 loaded_data['fnirs_od'] = None
 
             # --- Handle Marker Stream (if not already attached to EEG/fNIRS) ---
-            # If EEG and fNIRS were not loaded, but markers exist, we might still need them
-            # for timing other modalities. However, the current structure relies on EEG/fNIRS
-            # annotations for epoching. Let's ensure the marker stream is available if needed.
             if config.MARKER_STREAM_NAME in stream_map:
                  marker_stream = stream_map[config.MARKER_STREAM_NAME]
-                 loaded_data['marker_times'] = marker_stream['time_stamps']
+                 loaded_data['marker_times'] = marker_stream['time_stamps'] # Absolute XDF times
                  loaded_data['marker_values'] = [val[0] for val in marker_stream['time_series']]
-                 loaded_data['marker_sfreq'] = float(marker_stream['info']['nominal_srate'][0]) # Markers usually have nominal_srate 0, but keep for consistency
-                 self.logger.info(f"DataLoader - Loaded Marker stream.")
+                 # Markers usually have nominal_srate 0, but store if present.
+                 loaded_data['marker_sfreq'] = float(marker_stream['info']['nominal_srate'][0]) if marker_stream['info']['nominal_srate'] else 0 
+                 self.logger.info(f"DataLoader - Loaded Marker stream (raw XDF times).")
 
 
         except Exception as e:
             self.logger.error(f"DataLoader - Critical error loading or parsing XDF file {xdf_path}: {e}", exc_info=True)
-            # Return empty dict if XDF loading fails completely
             return {}
 
-        # --- Identify Baseline Period ---
-        # This assumes a 'Baseline_Start' marker exists and is the first event of the session
-        # Or that the baseline is a fixed duration before the first stimulus marker
-        baseline_start_time = None
-        baseline_end_time = None
-        first_stimulus_time = None
+        # --- Identify Baseline Period from Annotations ---
+        baseline_start_time_abs = None
+        baseline_end_time_abs = None
+        
+        # Prioritize EEG for annotations, then fNIRS
+        annotated_raw_obj = None
+        if loaded_data.get('eeg') and loaded_data['eeg'].annotations:
+            annotated_raw_obj = loaded_data['eeg']
+            # Get the absolute start time of this MNE Raw object from XDF
+            # This assumes EEG_STREAM_NAME was found and 'time_stamps' exists for it
+            if config.EEG_STREAM_NAME in stream_map:
+                annotated_raw_obj_start_time_xdf = stream_map[config.EEG_STREAM_NAME]['time_stamps'][0]
+            else: # Should not happen if raw_eeg exists
+                annotated_raw_obj_start_time_xdf = 0 
+                self.logger.warning("Could not determine absolute start time for EEG stream from XDF.")
 
-        if 'eeg' in loaded_data and loaded_data['eeg'] is not None:
-            raw_obj = loaded_data['eeg']
-        elif 'fnirs_od' in loaded_data and loaded_data['fnirs_od'] is not None:
-             raw_obj = loaded_data['fnirs_od']
-        else:
-             raw_obj = None
-             self.logger.warning("DataLoader - No EEG or fNIRS data loaded, cannot determine baseline times from annotations.")
-
-
-        if raw_obj is not None and raw_obj.annotations:
-            events, event_id = mne.events_from_annotations(raw_obj, verbose=False)
-            event_id_inv = {v: k for k, v in event_id.items()}
-
-            # Find the first 'Baseline_Start' marker
-            baseline_start_marker_name = config.BASELINE_MARKER_START
-            if baseline_start_marker_name in event_id_inv:
-                baseline_events = events[events[:, 2] == event_id_inv[baseline_start_marker_name]]
-                if baseline_events.size > 0:
-                    # Onset is in samples, raw_obj.times converts it to seconds relative to raw_obj start
-                    baseline_start_time = raw_obj.times[baseline_events[0, 0]]
-                    self.logger.info(f"DataLoader - Identified baseline start from marker at {baseline_start_time:.2f} s.")
-
-            # Find the first stimulus marker
-            stimulus_event_ids = [config.EVENT_ID[cond] for cond in config.MOVIE_CONDITIONS if cond in config.EVENT_ID_TO_CONDITION.values()]
-            stimulus_events = events[np.isin(events[:, 2], stimulus_event_ids)]
-
-            if stimulus_events.size > 0:
-                # Onset is in samples, convert to seconds relative to raw_obj start
-                first_stimulus_time = raw_obj.times[stimulus_events[0, 0]]
-                self.logger.info(f"DataLoader - Identified first stimulus start at {first_stimulus_time:.2f} s.")
-
-            # Determine baseline end time
-            baseline_end_marker_name = config.BASELINE_MARKER_END
-            if baseline_end_marker_name in event_id_inv:
-                baseline_end_events = events[events[:, 2] == event_id_inv[baseline_end_marker_name]]
-                if baseline_end_events.size > 0:
-                    baseline_end_time = raw_obj.times[baseline_end_events[0, 0]]
-                    self.logger.info(f"DataLoader - Identified baseline end from marker at {baseline_end_time:.2f} s.")
-            
-            if baseline_start_time is not None and baseline_end_time is None and first_stimulus_time is not None:
-                 baseline_end_time = first_stimulus_time # Ends at first stimulus if no end marker
-                 self.logger.info(f"DataLoader - Baseline end set to first stimulus time: {baseline_end_time:.2f} s.")
-            elif first_stimulus_time is not None:
-                 # If no explicit baseline start marker, assume baseline is fixed duration before first stimulus
-                 baseline_end_time = first_stimulus_time
-                 baseline_start_time = max(0, first_stimulus_time - config.BASELINE_DURATION_FALLBACK_SEC)
-                 self.logger.info(f"DataLoader - Assuming baseline period from {baseline_start_time:.2f} s to {baseline_end_time:.2f} s (fixed duration before first stimulus).")
+        elif loaded_data.get('fnirs_od') and loaded_data['fnirs_od'].annotations:
+            annotated_raw_obj = loaded_data['fnirs_od']
+            if config.FNIRS_STREAM_NAME in stream_map:
+                annotated_raw_obj_start_time_xdf = stream_map[config.FNIRS_STREAM_NAME]['time_stamps'][0]
             else:
-                 self.logger.warning("DataLoader - Could not identify baseline period. No 'Baseline_Start' marker or stimulus markers found.")
-
-
-        # Store baseline times relative to the start of the recording (time=0 in MNE Raw)
-        if baseline_start_time is not None and baseline_end_time is not None:
-             loaded_data['baseline_start_time_sec'] = baseline_start_time
-             loaded_data['baseline_end_time_sec'] = baseline_end_time
-             self.logger.info(f"DataLoader - Final baseline period: {baseline_start_time:.2f}s to {baseline_end_time:.2f}s")
+                annotated_raw_obj_start_time_xdf = 0
+                self.logger.warning("Could not determine absolute start time for fNIRS stream from XDF.")
         else:
-             loaded_data['baseline_start_time_sec'] = None
-             loaded_data['baseline_end_time_sec'] = None
+             self.logger.warning("DataLoader - No EEG or fNIRS data with annotations loaded, cannot determine baseline times from XDF markers.")
 
+        if annotated_raw_obj:
+            # MNE annotations onsets are relative to the start of the Raw object.
+            # We need to convert them to absolute XDF time to be consistent.
+            for ann in annotated_raw_obj.annotations:
+                ann_onset_relative = ann['onset']
+                ann_desc = ann['description']
+                ann_onset_absolute = annotated_raw_obj_start_time_xdf + ann_onset_relative
+
+                if ann_desc == config.BASELINE_MARKER_START:
+                    if baseline_start_time_abs is None or ann_onset_absolute < baseline_start_time_abs: # Take the earliest
+                        baseline_start_time_abs = ann_onset_absolute
+                elif ann_desc == config.BASELINE_MARKER_END:
+                    if baseline_end_time_abs is None or ann_onset_absolute > baseline_end_time_abs: # Take the latest
+                        baseline_end_time_abs = ann_onset_absolute
+            
+            if baseline_start_time_abs is not None:
+                self.logger.info(f"DataLoader - Identified baseline start from XDF marker at absolute time {baseline_start_time_abs:.2f} s.")
+            if baseline_end_time_abs is not None:
+                self.logger.info(f"DataLoader - Identified baseline end from XDF marker at absolute time {baseline_end_time_abs:.2f} s.")
+
+            # Fallback for baseline end if only start marker is present
+            if baseline_start_time_abs is not None and baseline_end_time_abs is None:
+                # Find the earliest stimulus onset after baseline_start_time_abs
+                earliest_stim_after_baseline_abs = float('inf')
+                stim_conditions = [config.EVENT_ID_TO_CONDITION.get(eid) for eid in config.EVENT_ID.values()] # Get condition names
+                for ann in annotated_raw_obj.annotations:
+                    if ann['description'] in stim_conditions: # Check if it's a stimulus condition
+                        stim_onset_abs = annotated_raw_obj_start_time_xdf + ann['onset']
+                        if stim_onset_abs > baseline_start_time_abs:
+                            earliest_stim_after_baseline_abs = min(earliest_stim_after_baseline_abs, stim_onset_abs)
+                
+                if earliest_stim_after_baseline_abs != float('inf'):
+                    baseline_end_time_abs = earliest_stim_after_baseline_abs
+                    self.logger.info(f"DataLoader - Baseline end set to first stimulus time (absolute): {baseline_end_time_abs:.2f} s.")
+                else: # No stimulus found after baseline start, use fallback duration
+                    baseline_end_time_abs = baseline_start_time_abs + config.BASELINE_DURATION_FALLBACK_SEC
+                    self.logger.info(f"DataLoader - No stimulus after baseline start. Baseline end set by fallback duration (absolute): {baseline_end_time_abs:.2f} s.")
+            
+            # If no baseline markers at all, but stimulus markers exist, try to define baseline before first stimulus
+            elif baseline_start_time_abs is None and baseline_end_time_abs is None:
+                earliest_stim_abs = float('inf')
+                stim_conditions = [config.EVENT_ID_TO_CONDITION.get(eid) for eid in config.EVENT_ID.values()]
+                for ann in annotated_raw_obj.annotations:
+                    if ann['description'] in stim_conditions:
+                        stim_onset_abs = annotated_raw_obj_start_time_xdf + ann['onset']
+                        earliest_stim_abs = min(earliest_stim_abs, stim_onset_abs)
+                
+                if earliest_stim_abs != float('inf'):
+                    baseline_end_time_abs = earliest_stim_abs
+                    baseline_start_time_abs = max(annotated_raw_obj_start_time_xdf, baseline_end_time_abs - config.BASELINE_DURATION_FALLBACK_SEC)
+                    self.logger.info(f"DataLoader - No baseline markers. Baseline defined as fixed duration before first stimulus (absolute): {baseline_start_time_abs:.2f}s to {baseline_end_time_abs:.2f}s.")
+                else:
+                    self.logger.warning("DataLoader - Could not identify baseline period from XDF markers.")
+
+        # Store absolute baseline times
+        loaded_data['baseline_start_time_sec'] = baseline_start_time_abs
+        loaded_data['baseline_end_time_sec'] = baseline_end_time_abs
+        if baseline_start_time_abs is not None and baseline_end_time_abs is not None:
+             self.logger.info(f"DataLoader - Final absolute baseline period: {baseline_start_time_abs:.2f}s to {baseline_end_time_abs:.2f}s")
 
         self.logger.info(f"DataLoader - Finished loading data for participant {participant_id}.")
         return loaded_data
 
     def load_survey_data(self, survey_file_path, participant_id):
         """
-        Loads survey data from a CSV file.
-        Assumes columns like 'participant_id', 'trial_id' (or 'condition' + 'trial_num'), 'sam_valence', 'sam_arousal'.
+        Parses survey data from an E-Prime .txt file using QuestionnaireParser
+        and returns the per-trial ratings DataFrame.
         """
         if survey_file_path is None or not os.path.exists(survey_file_path):
             self.logger.warning(f"Survey file not found: {survey_file_path}. Skipping survey data loading.")
             return None
         try:
-            df = pd.read_csv(survey_file_path)
-            # Filter for current participant if survey file contains multiple participants
-            if 'participant_id' in df.columns:
-                df = df[df['participant_id'] == participant_id]
-            
-            if df.empty:
-                self.logger.warning(f"No survey data found for participant {participant_id} in {survey_file_path}.")
+            parser = QuestionnaireParser(self.logger) # Instantiate the parser
+            parsed_questionnaire_data = parser.parse_eprime_file(survey_file_path) # Parse the file
+
+            # Check if parsing was successful and returned the expected key
+            if not isinstance(parsed_questionnaire_data, dict) or 'per_trial_ratings' not in parsed_questionnaire_data:
+                self.logger.warning(f"QuestionnaireParser did not return 'per_trial_ratings' for {participant_id} from {survey_file_path}.")
                 return None
-            self.logger.info(f"Successfully loaded survey data for {participant_id} from {survey_file_path}.")
-            return df
+
+            # Get the per-trial DataFrame
+            per_trial_df = parsed_questionnaire_data['per_trial_ratings']
+
+            if per_trial_df.empty:
+                self.logger.warning(f"No per-trial survey data (SAM, etc.) extracted for participant {participant_id} from {survey_file_path}.")
+                return None
+            
+            # Basic validation: Check for essential columns needed for merging
+            required_survey_cols = ['participant_id', 'condition', 'trial_identifier_eprime', 'sam_arousal']
+            missing_survey_cols = [col for col in required_survey_cols if col not in per_trial_df.columns]
+            if missing_survey_cols:
+                self.logger.error(f"Parsed survey data for {participant_id} is missing required columns for WP2 merge: {missing_survey_cols}. Skipping survey data loading.")
+                # Optionally save the incomplete df for debugging: per_trial_df.to_csv(os.path.join(os.path.dirname(survey_file_path), f"{participant_id}_parsed_survey_incomplete.csv"))
+                return None
+            
+            # Ensure participant_id column is consistent with the main pipeline's participant_id
+            # The parser attempts to set it, but we can override/confirm here.
+            # This assumes the `participant_id` argument to this function is the ground truth.
+            per_trial_df['participant_id'] = participant_id 
+
+            self.logger.info(f"Successfully parsed per-trial survey data for {participant_id} from {survey_file_path}. Found {len(per_trial_df)} trials with required columns.")
+            # For WP2, we primarily need the per_trial_ratings.
+            # Other data (BIS/BAS, PANAS) could be returned or handled separately if needed.
+            return per_trial_df
         except Exception as e:
             self.logger.error(f"Error loading survey data from {survey_file_path}: {e}", exc_info=True)
             return None

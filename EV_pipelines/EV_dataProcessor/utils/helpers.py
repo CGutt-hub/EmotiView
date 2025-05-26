@@ -1,88 +1,11 @@
+# d:\repoShaggy\EmotiView\EV_pipelines\EV_dataProcessor\utils\helpers.py
 import logging
 import os
 import sys
 import mne
 import numpy as np
 from statsmodels.stats.multitest import fdrcorrection
-from . import config # Relative import
-
-# --- Logging Setup ---
-# Main logger for the overall pipeline process
-main_logger = None
-# Dictionary to hold participant-specific loggers
-participant_loggers = {}
-
-def setup_main_logger():
-    """Sets up the main logger for the pipeline."""
-    global main_logger
-    if main_logger is None:
-        main_logger = logging.getLogger('EmotiView_Pipeline')
-        main_logger.setLevel(config.LOG_LEVEL)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-        # Ensure results directory exists for log file
-        os.makedirs(os.path.dirname(config.LOG_FILE), exist_ok=True)
-
-        # File handler
-        file_handler = logging.FileHandler(config.LOG_FILE)
-        file_handler.setLevel(config.LOG_LEVEL)
-        file_handler.setFormatter(formatter)
-        main_logger.addHandler(file_handler)
-
-        # Console handler
-        console_handler = logging.StreamHandler(sys.stdout)
-        console_handler.setLevel(config.LOG_LEVEL)
-        console_handler.setFormatter(formatter)
-        main_logger.addHandler(console_handler)
-
-        main_logger.info("Main logger initialized.")
-
-def get_participant_logger(participant_id):
-    """Gets or creates a logger for a specific participant."""
-    if participant_id not in participant_loggers:
-        logger = logging.getLogger(f'Participant_{participant_id}')
-        logger.setLevel(config.LOG_LEVEL)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        logger.propagate = False # Prevent messages from going to the root logger
-
-        # Ensure participant log directory exists
-        os.makedirs(config.PARTICIPANT_LOG_DIR, exist_ok=True)
-        log_file = os.path.join(config.PARTICIPANT_LOG_DIR, f'{participant_id}_pipeline.log')
-
-        # File handler
-        file_handler = logging.FileHandler(log_file)
-        file_handler.setLevel(config.LOG_LEVEL)
-        file_handler.setFormatter(formatter)
-        logger.addHandler(file_handler)
-
-        # Console handler (optional, can be noisy with many participants)
-        # console_handler = logging.StreamHandler(sys.stdout)
-        # console_handler.setLevel(config.LOG_LEVEL)
-        # console_handler.setFormatter(formatter)
-        # logger.addHandler(console_handler)
-
-        participant_loggers[participant_id] = logger
-        logger.info(f"Logger initialized for participant {participant_id}.")
-    return participant_loggers[participant_id]
-
-def close_participant_logger(participant_id):
-    """Closes handlers for a participant logger to release file resources."""
-    if participant_id in participant_loggers:
-        logger = participant_loggers[participant_id]
-        for handler in logger.handlers[:]: # Iterate over a copy of the list
-            handler.close()
-            logger.removeHandler(handler)
-        del participant_loggers[participant_id]
-        # print(f"Logger closed for participant {participant_id}") # Optional debug print
-
-# --- Data Handling Helpers ---
-
-def find_data_file(participant_raw_path, pattern):
-    """Finds a file matching a pattern in the participant's raw data directory."""
-    for filename in os.listdir(participant_raw_path):
-        if re.search(pattern, filename, re.IGNORECASE):
-            return os.path.join(participant_raw_path, filename)
-    return None
+from ..orchestrators import config # Corrected import path
 
 # --- EEG Channel Selection Helper (for fNIRS guidance) ---
 
@@ -219,6 +142,10 @@ def apply_fdr_correction(p_values, alpha=0.05):
                rejected_hypotheses is a boolean array.
                corrected_p_values is an array of FDR-corrected p-values.
     """
-    if not p_values or len(p_values) == 0:
+    if not isinstance(p_values, (list, np.ndarray)) or len(p_values) == 0:
         return np.array([]), np.array([])
-    return fdrcorrection(p_values, alpha=alpha, method='indep', is_sorted=False)
+    p_values_array = np.asarray(p_values)
+    if np.all(np.isnan(p_values_array)): # Handle case where all p-values are NaN
+        return np.array([False] * len(p_values_array)), p_values_array
+        
+    return fdrcorrection(p_values_array, alpha=alpha, method='indep', is_sorted=False)

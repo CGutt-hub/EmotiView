@@ -2,7 +2,7 @@ import mne
 import neurokit2 as nk
 import numpy as np
 import pandas as pd
-from ... import config # Relative import
+from ..orchestrators import config # Relative import
 
 class EDAAnalyzer:
     def __init__(self, logger):

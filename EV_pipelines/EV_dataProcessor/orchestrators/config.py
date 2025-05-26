@@ -52,12 +52,14 @@ FNIRS_ROIS = {
     'Parietal_L': ['S5_D10 hbo', 'S5_D11 hbo', 'S6_D10 hbo'],      # Left Parietal
     'Parietal_R': ['S9_D12 hbo', 'S9_D13 hbo', 'S10_D12 hbo'],     # Right Parietal
     # Add HbR channels to these lists if you analyze them separately or combined for ROI definition
+    # Example HbR channels: 'S1_D1 hbr', etc.
 }
 FNIRS_ROI_TO_EEG_CHANNELS_MAP = { # Example mapping, adjust to your setup
     'dlPFC_L': ['F3', 'F7', 'AF3', 'F5'], 'dlPFC_R': ['F4', 'F8', 'AF4', 'F6'],
     'mPFC': ['Fp1', 'Fpz', 'Fp2', 'AFz', 'Fz'], # Medial PFC often maps to midline frontal EEG
     'Parietal_L': ['P3', 'P7', 'CP5', 'TP7'], 'Parietal_R': ['P4', 'P8', 'CP6', 'TP8'],
 }
+
 
 # --- Analysis Configuration ---
 # General
@@ -68,6 +70,13 @@ ANALYSIS_BASELINE_TIMES = (-0.5, 0.0) # Baseline period for correction relative 
 PLV_RESAMPLE_SFREQ_AUTONOMIC = 4 # Hz, resampling frequency for continuous autonomic signals for PLV
 DEFAULT_EEG_CHANNELS_FOR_PLV = ['F3', 'F4', 'Fp1', 'Fp2', 'C3', 'C4'] # Fallback if fNIRS guidance fails
 EEG_CHANNEL_SELECTION_STRATEGY_FOR_PLV = 'mapping' # 'mapping', 'nearest', 'predefined'
+# Specific bands/modalities for WP correlations (adjust as needed based on hypotheses)
+PLV_PRIMARY_EEG_BAND_FOR_WP1 = 'Alpha' # Band for ANOVA
+PLV_PRIMARY_EEG_BAND_FOR_WP2 = 'Alpha' # Band for Arousal correlation
+PLV_PRIMARY_EEG_BAND_FOR_WP3 = 'Alpha' # Band for RMSSD correlation (EEG-HRV)
+PLV_PRIMARY_EEG_BAND_FOR_WP4_HRV = 'Alpha' # Band for FAI vs EEG-HRV PLV
+PLV_PRIMARY_EEG_BAND_FOR_WP4_EDA = 'Alpha' # Band for FAI vs EEG-EDA PLV
+
 PLV_EEG_BANDS = {'Alpha': (8, 13), 'Beta': (13, 30)} # EEG bands for PLV
 
 # FAI Analysis
@@ -75,6 +84,8 @@ FAI_ALPHA_BAND = (8, 13) # Hz, alpha band for FAI calculation
 
 # --- Reporting Configuration ---
 REPORTING_FIGURE_FORMAT = 'png'
+# Ensure this directory exists or is created by PlottingService
+REPORTING_BASE_PLOT_DIR = "plots" 
 REPORTING_DPI = 300
 
 # --- Event Processing Configuration ---
@@ -88,4 +99,13 @@ EVENT_TYPE_MAPPING = {
 EVENT_DURATION_DEFAULT = 4.0 # Default duration for events if not specified (seconds)
 BASELINE_MARKER_START = "Baseline_Start" # Marker name for baseline start
 BASELINE_MARKER_END = "Baseline_End"     # Marker name for baseline end
+BASELINE_MARKER_START_EPRIME = "Baseline_Start" # Marker name in E-Prime log for baseline start
+BASELINE_MARKER_END_EPRIME = "Baseline_End"     # Marker name in E-Prime log for baseline end
 BASELINE_DURATION_FALLBACK_SEC = 60.0    # Fallback baseline duration if markers not found
+
+# Specific for Work Packages / Orchestrator logic
+FAI_ELECTRODE_PAIRS = [('Fp1', 'Fp2'), ('F3', 'F4'), ('F7', 'F8')] # Example, used by PSDAnalyzer
+FAI_ELECTRODE_PAIRS_FOR_WP4 = ('F3', 'F4') # Specific pair for WP4 correlation (e.g. F3 vs F4)
+
+STIMULUS_DURATION_SECONDS = 4.0 # Example, used by EDAAnalyzer if it were active
+ECG_RPEAK_METHOD = 'neurokit' # Default R-peak detection method for ECGPreprocessor

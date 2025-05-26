@@ -4,7 +4,7 @@ from mne_nirs.signal_enhancement import short_channel_regression
 from mne_nirs.channels import get_long_channels, get_short_channels
 import os
 import numpy as np
-from .. import config
+from ..orchestrators import config
 
 class FNIRSPreprocessor:
     def __init__(self, logger):

@@ -1,5 +1,5 @@
 import mne
-from .. import config
+from ..orchestrators import config
 from mne_icalabel import label_components # For automatic ICA component labeling
 
 class EEGPreprocessor:
