@@ -1,12 +1,19 @@
 # d:\repoShaggy\EmotiView\EV_pipelines\EV_dataProcessor\utils\event_processor.py
 import pandas as pd
 import re
-from ..orchestrators import config # For condition mapping, marker names etc.
+# This import will be removed. Configuration should be passed during instantiation.
 
 class EventProcessor:
-    def __init__(self, logger, default_sfreq=None):
+    def __init__(self, logger,
+                 baseline_marker_start_eprime,
+                 baseline_marker_end_eprime,
+                 event_duration_default,
+                 default_sfreq=None):
         self.logger = logger
         self.default_sfreq = default_sfreq # Reference sfreq if converting times to samples
+        self.baseline_marker_start_eprime = baseline_marker_start_eprime
+        self.baseline_marker_end_eprime = baseline_marker_end_eprime
+        self.event_duration_default = event_duration_default
         self.logger.info("EventProcessor initialized.")
 
     def _derive_condition_from_filename(self, movie_filename):
@@ -26,10 +33,10 @@ class EventProcessor:
         elif "TRAI" in name_upper: # Training
             return "Training"
         # Add baseline markers if they are also identified via movieFilename logic (unlikely but possible)
-        elif config.BASELINE_MARKER_START_EPRIME.upper() in name_upper:
-             return config.BASELINE_MARKER_START_EPRIME
-        elif config.BASELINE_MARKER_END_EPRIME.upper() in name_upper:
-             return config.BASELINE_MARKER_END_EPRIME
+        elif self.baseline_marker_start_eprime.upper() in name_upper:
+             return self.baseline_marker_start_eprime
+        elif self.baseline_marker_end_eprime.upper() in name_upper:
+             return self.baseline_marker_end_eprime
         return "Other"
 
     def _extract_trial_identifier_eprime(self, frame_data):
@@ -120,9 +127,9 @@ class EventProcessor:
                     frame_data[parts[0].strip()] = parts[1].strip()
 
             procedure = frame_data.get("Procedure")
-            
+
             onset_time_ms_eprime_relative = None
-            duration_sec = config.EVENT_DURATION_DEFAULT # Default duration
+            duration_sec = self.event_duration_default # Default duration
             condition_name = None
             trial_identifier = pd.NA
             movie_filename_val = None
@@ -155,7 +162,7 @@ class EventProcessor:
                     continue
 
                 # Get duration (example, might be fixed or logged differently)
-                # duration_sec = float(frame_data.get("Movie.Duration", config.EVENT_DURATION_DEFAULT * 1000)) / 1000.0
+                # duration_sec = float(frame_data.get("Movie.Duration", self.event_duration_default * 1000)) / 1000.0
                 # For now, using default. If movies have variable logged durations, extract that.
                 # Example: if movie duration is logged in 'movieStim.Duration' in ms
                 if "movieStim.Duration" in frame_data:
@@ -171,8 +178,8 @@ class EventProcessor:
             elif procedure == "baselineProc": # Assuming a procedure for baseline
                 text_displayed = frame_data.get("TextDisplayed", frame_data.get("Instructions.Text")) # Or similar
                 if text_displayed:
-                    if config.BASELINE_MARKER_START_EPRIME.lower() in text_displayed.lower():
-                        condition_name = config.BASELINE_MARKER_START_EPRIME
+                    if self.baseline_marker_start_eprime.lower() in text_displayed.lower():
+                        condition_name = self.baseline_marker_start_eprime
                         # Get onset of this text display or procedure
                         onset_key_options = [f"{procedure}.OnsetTime", "TextDisplay.OnsetTime"]
                         for key in onset_key_options:
@@ -186,8 +193,8 @@ class EventProcessor:
                                     self.logger.warning(f"EventProcessor: Could not parse onset time for baseline key '{key}'")
                         if onset_time_ms_eprime_relative is None: continue
 
-                    elif config.BASELINE_MARKER_END_EPRIME.lower() in text_displayed.lower():
-                        condition_name = config.BASELINE_MARKER_END_EPRIME
+                    elif self.baseline_marker_end_eprime.lower() in text_displayed.lower():
+                        condition_name = self.baseline_marker_end_eprime
                         onset_key_options = [f"{procedure}.OnsetTime", "TextDisplay.OnsetTime"]
                         for key in onset_key_options:
                              if key in frame_data:

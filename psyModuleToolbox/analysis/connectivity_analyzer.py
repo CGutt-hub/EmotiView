@@ -2,8 +2,6 @@ import mne
 import numpy as np
 import pandas as pd
 from scipy.signal import hilbert
-# from scipy.interpolate import interp1d # Not directly used here anymore
-from ..orchestrators import config 
 
 # Utility function, can stay here or move to utils.py if generally useful
 def _calculate_plv_segment(phase_sig1, phase_sig2, logger_obj): 
@@ -70,6 +68,7 @@ class ConnectivityAnalyzer:
     def calculate_trial_plv(self, eeg_epochs, eeg_channels_for_plv, 
                             continuous_hrv_signal, hrv_sfreq,
                             phasic_eda_signal, eda_sfreq,
+                            plv_eeg_bands_config, # Pass bands config directly
                             participant_id, raw_eeg_sfreq_for_event_timing,
                             trial_id_eprime_map=None): # Add map, default to None
         """
@@ -82,6 +81,7 @@ class ConnectivityAnalyzer:
             hrv_sfreq (float): Sampling frequency of the continuous_hrv_signal.
             phasic_eda_signal (np.ndarray): Full continuous phasic EDA signal.
             eda_sfreq (float): Sampling frequency of the phasic_eda_signal.
+            plv_eeg_bands_config (dict): Dictionary mapping band names (str) to frequency tuples (float, float).
             participant_id (str): Participant ID.
             raw_eeg_sfreq_for_event_timing (float): Original sampling rate of the raw EEG from which events were derived.
                                                    Used to convert epoch event samples to absolute time.
@@ -100,6 +100,10 @@ class ConnectivityAnalyzer:
     
         if trial_id_eprime_map is None: # Ensure it's a dict for safe lookup
             trial_id_eprime_map = {}
+        
+        if not plv_eeg_bands_config:
+            self.logger.warning("ConnectivityAnalyzer - PLV EEG bands configuration is empty. Skipping PLV calculation.")
+            return pd.DataFrame()
 
         for i, epoch in enumerate(eeg_epochs): # Iterate through each trial
             # MNE Epochs object has an event_id attribute which is a dict mapping condition names to int codes.
@@ -148,7 +152,7 @@ class ConnectivityAnalyzer:
                 )
                 if hrv_segment_for_plv is not None:
                     phase_hrv_epoch = np.angle(hilbert(hrv_segment_for_plv - np.mean(hrv_segment_for_plv)))
-                    for band_name, band_freqs in config.PLV_EEG_BANDS.items():
+                    for band_name, band_freqs in plv_eeg_bands_config.items(): # Use passed config
                         eeg_filtered_band = mne.filter.filter_data(eeg_trial_data_avg.astype(np.float64), eeg_epoch_sfreq, 
                                                                    l_freq=band_freqs[0], h_freq=band_freqs[1], 
                                                                    verbose=False, fir_design='firwin')
@@ -171,7 +175,7 @@ class ConnectivityAnalyzer:
                 )
                 if eda_segment_for_plv is not None:
                     phase_eda_epoch = np.angle(hilbert(eda_segment_for_plv - np.mean(eda_segment_for_plv)))
-                    for band_name, band_freqs in config.PLV_EEG_BANDS.items():
+                    for band_name, band_freqs in plv_eeg_bands_config.items(): # Use passed config
                         eeg_filtered_band = mne.filter.filter_data(eeg_trial_data_avg.astype(np.float64), eeg_epoch_sfreq,
                                                                    l_freq=band_freqs[0], h_freq=band_freqs[1],
                                                                    verbose=False, fir_design='firwin')

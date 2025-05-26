@@ -4,15 +4,37 @@ import pyxdf
 import mne
 import numpy as np
 import pandas as pd
-from .questionnaire_parser import QuestionnaireParser # Import the updated parser
-from ..orchestrators import config # Relative import
+from ..utils.event_processor import EventProcessor # Import EventProcessor
+# No direct import of EV_config here; config values will be passed in.
 
 class DataLoader:
-    def __init__(self, logger):
+    def __init__(self, logger,
+                 # Config values passed from EV_analyzer.py (sourced from EV_config.py)
+                 eeg_stream_name="DefaultEEGStreamName", # Provide defaults or make them required
+                 fnirs_stream_name="DefaultFNIRSStreamName",
+                 ecg_stream_name="DefaultECGStreamName",
+                 eda_stream_name="DefaultEDAStreamName",
+                 marker_stream_name="DefaultMarkerStreamName",
+                 baseline_marker_start_eprime="Baseline_Start", # For EventProcessor
+                 baseline_marker_end_eprime="Baseline_End",     # For EventProcessor
+                 event_duration_default=4.0,                  # For EventProcessor
+                 emotional_conditions_list=None,
+                 baseline_duration_fallback_sec=60.0
+                ):
         self.logger = logger
+        # Store configuration
+        self._eeg_stream_name = eeg_stream_name
+        self._fnirs_stream_name = fnirs_stream_name
+        self._ecg_stream_name = ecg_stream_name
+        self._eda_stream_name = eda_stream_name
+        self._marker_stream_name = marker_stream_name
+        self._baseline_marker_start_eprime = baseline_marker_start_eprime
+        self._baseline_marker_end_eprime = baseline_marker_end_eprime
+        self._event_duration_default = event_duration_default
+        self._emotional_conditions_list = emotional_conditions_list if emotional_conditions_list is not None else ['Positive', 'Negative', 'Neutral']
+        self._baseline_duration_fallback_sec = baseline_duration_fallback_sec
         self.logger.info("DataLoader initialized.")
-
-    def load_participant_streams(self, participant_id, participant_raw_data_path):
+    def load_participant_streams(self, participant_id, participant_raw_data_path, eprime_txt_file_path=None):
         """
         Loads relevant data streams (EEG, ECG, EDA, fNIRS, Markers) from XDF files
         for a given participant.
@@ -20,6 +42,7 @@ class DataLoader:
         Args:
             participant_id (str): The ID of the participant.
             participant_raw_data_path (str): The path to the participant's raw data directory.
+            eprime_txt_file_path (str, optional): Path to the E-Prime .txt file for metadata.
 
         Returns:
             dict: A dictionary containing loaded MNE Raw objects or signal arrays,
@@ -49,9 +72,9 @@ class DataLoader:
             raw_eeg = None # Initialize to handle cases where EEG is not loaded first
 
             # --- Load EEG ---
-            if config.EEG_STREAM_NAME in stream_map:
-                self.logger.info(f"DataLoader - Loading EEG stream: {config.EEG_STREAM_NAME}")
-                stream = stream_map[config.EEG_STREAM_NAME]
+            if self._eeg_stream_name in stream_map:
+                self.logger.info(f"DataLoader - Loading EEG stream: {self._eeg_stream_name}")
+                stream = stream_map[self._eeg_stream_name]
                 try:
                     # Assuming EEG data is in stream['time_series'] and is float/double
                     # Assuming channel names are in stream['info']['desc'][0]['channels'][0]['channel']
@@ -59,13 +82,12 @@ class DataLoader:
                     sfreq = float(stream['info']['nominal_srate'][0])
                     ch_names = [ch['label'][0] for ch in stream['info']['desc'][0]['channels'][0]['channel']]
                     ch_types = ['eeg'] * len(ch_names)
-
                     info = mne.create_info(ch_names=ch_names, sfreq=sfreq, ch_types=ch_types)
                     raw_eeg = mne.io.RawArray(data, info, verbose=False)
 
                     # Add annotations from marker stream if available
-                    if config.MARKER_STREAM_NAME in stream_map:
-                         marker_stream = stream_map[config.MARKER_STREAM_NAME]
+                    if self._marker_stream_name in stream_map:
+                         marker_stream = stream_map[self._marker_stream_name]
                          marker_times = marker_stream['time_stamps']
                          marker_values = [val[0] for val in marker_stream['time_series']] # Assuming markers are strings
 
@@ -113,13 +135,13 @@ class DataLoader:
                     self.logger.error(f"DataLoader - Error loading or processing EEG stream: {e}", exc_info=True)
                     loaded_data['eeg'] = None
             else:
-                self.logger.warning(f"DataLoader - EEG stream '{config.EEG_STREAM_NAME}' not found.")
+                self.logger.warning(f"DataLoader - EEG stream '{self._eeg_stream_name}' not found.")
                 loaded_data['eeg'] = None
 
             # --- Load ECG ---
-            if config.ECG_STREAM_NAME in stream_map:
-                self.logger.info(f"DataLoader - Loading ECG stream: {config.ECG_STREAM_NAME}")
-                stream = stream_map[config.ECG_STREAM_NAME]
+            if self._ecg_stream_name in stream_map:
+                self.logger.info(f"DataLoader - Loading ECG stream: {self._ecg_stream_name}")
+                stream = stream_map[self._ecg_stream_name]
                 try:
                     # Assuming ECG is a single channel time series
                     ecg_signal = np.array(stream['time_series']).flatten() # Ensure 1D
@@ -137,16 +159,16 @@ class DataLoader:
                     loaded_data['ecg_sfreq'] = None
                     loaded_data['ecg_times'] = None
             else:
-                self.logger.warning(f"DataLoader - ECG stream '{config.ECG_STREAM_NAME}' not found.")
+                self.logger.warning(f"DataLoader - ECG stream '{self._ecg_stream_name}' not found.")
                 loaded_data['ecg_signal'] = None
                 loaded_data['ecg_sfreq'] = None
                 loaded_data['ecg_times'] = None
 
 
             # --- Load EDA ---
-            if config.EDA_STREAM_NAME in stream_map:
-                self.logger.info(f"DataLoader - Loading EDA stream: {config.EDA_STREAM_NAME}")
-                stream = stream_map[config.EDA_STREAM_NAME]
+            if self._eda_stream_name in stream_map:
+                self.logger.info(f"DataLoader - Loading EDA stream: {self._eda_stream_name}")
+                stream = stream_map[self._eda_stream_name]
                 try:
                     # Assuming EDA is a single channel time series
                     eda_signal = np.array(stream['time_series']).flatten() # Ensure 1D
@@ -164,15 +186,15 @@ class DataLoader:
                     loaded_data['eda_sfreq'] = None
                     loaded_data['eda_times'] = None
             else:
-                self.logger.warning(f"DataLoader - EDA stream '{config.EDA_STREAM_NAME}' not found.")
+                self.logger.warning(f"DataLoader - EDA stream '{self._eda_stream_name}' not found.")
                 loaded_data['eda_signal'] = None
                 loaded_data['eda_sfreq'] = None
                 loaded_data['eda_times'] = None
 
             # --- Load fNIRS ---
-            if config.FNIRS_STREAM_NAME in stream_map:
-                self.logger.info(f"DataLoader - Loading fNIRS stream: {config.FNIRS_STREAM_NAME}")
-                stream = stream_map[config.FNIRS_STREAM_NAME]
+            if self._fnirs_stream_name in stream_map:
+                self.logger.info(f"DataLoader - Loading fNIRS stream: {self._fnirs_stream_name}")
+                stream = stream_map[self._fnirs_stream_name]
                 try:
                     data = np.array(stream['time_series']).T 
                     sfreq = float(stream['info']['nominal_srate'][0])
@@ -186,8 +208,8 @@ class DataLoader:
 
 
                     # Add annotations from marker stream if available (only if EEG was not loaded or had no markers)
-                    if config.MARKER_STREAM_NAME in stream_map and (raw_eeg is None or not raw_eeg.annotations):
-                         marker_stream = stream_map[config.MARKER_STREAM_NAME]
+                    if self._marker_stream_name in stream_map and (raw_eeg is None or not raw_eeg.annotations):
+                         marker_stream = stream_map[self._marker_stream_name]
                          marker_times = marker_stream['time_stamps']
                          marker_values = [val[0] for val in marker_stream['time_series']]
 
@@ -216,18 +238,90 @@ class DataLoader:
                     self.logger.error(f"DataLoader - Error loading or processing fNIRS stream: {e}", exc_info=True)
                     loaded_data['fnirs_od'] = None
             else:
-                self.logger.warning(f"DataLoader - fNIRS stream '{config.FNIRS_STREAM_NAME}' not found.")
+                self.logger.warning(f"DataLoader - fNIRS stream '{self._fnirs_stream_name}' not found.")
                 loaded_data['fnirs_od'] = None
 
-            # --- Handle Marker Stream (if not already attached to EEG/fNIRS) ---
-            if config.MARKER_STREAM_NAME in stream_map:
-                 marker_stream = stream_map[config.MARKER_STREAM_NAME]
+            # --- Process Marker Stream for events_df ---
+            xdf_marker_events_df = pd.DataFrame()
+            if self._marker_stream_name in stream_map:
+                 marker_stream = stream_map[self._marker_stream_name]
                  loaded_data['marker_times'] = marker_stream['time_stamps'] # Absolute XDF times
                  loaded_data['marker_values'] = [val[0] for val in marker_stream['time_series']]
                  # Markers usually have nominal_srate 0, but store if present.
                  loaded_data['marker_sfreq'] = float(marker_stream['info']['nominal_srate'][0]) if marker_stream['info']['nominal_srate'] else 0 
                  self.logger.info(f"DataLoader - Loaded Marker stream (raw XDF times).")
 
+                # Construct events_df from XDF markers
+                 xdf_marker_events_df = pd.DataFrame({
+                     'onset_time_sec': loaded_data['marker_times'], # Use XDF timestamps directly
+                     'condition_marker': loaded_data['marker_values'], # Raw marker values
+                     'duration_sec': self._event_duration_default # Default duration, can be refined
+                 })
+                 self.logger.info(f"DataLoader - Created initial events_df from XDF markers ({len(xdf_marker_events_df)} events).")
+            else:
+                self.logger.warning(f"DataLoader - Marker stream '{self._marker_stream_name}' not found. Cannot create events_df from XDF markers.")
+
+            # --- Process E-Prime Log for Metadata and Merge with XDF Events ---
+            eprime_metadata_df = pd.DataFrame()
+            if eprime_txt_file_path and os.path.exists(eprime_txt_file_path):
+                try:
+                    event_processor_instance = EventProcessor(
+                        logger=self.logger,
+                        baseline_marker_start_eprime=self._baseline_marker_start_eprime,
+                        baseline_marker_end_eprime=self._baseline_marker_end_eprime,
+                        event_duration_default=self._event_duration_default
+                    )
+                    eprime_metadata_df = event_processor_instance.process_event_log(eprime_txt_file_path)
+                    self.logger.info(f"DataLoader - Extracted {len(eprime_metadata_df)} events from E-Prime log for metadata.")
+
+                    if not xdf_marker_events_df.empty and not eprime_metadata_df.empty:
+                        # Attempt to merge based on sequence if lengths are compatible
+                        # This is a simplified merge; robust merging might need more sophisticated logic
+                        # (e.g., matching specific marker patterns or trial counts per block)
+                        if len(xdf_marker_events_df) >= len(eprime_metadata_df): # Allow XDF to have more markers (e.g. baseline)
+                            self.logger.info("DataLoader - Attempting to merge XDF timing with E-Prime metadata.")
+                            # Create a temporary DataFrame from XDF markers that are likely to match E-Prime trials
+                            # This is heuristic: assumes E-Prime trials are a subset or match XDF markers
+                            
+                            # For now, let's assume a simple merge for trials that have movie_filename
+                            # We need a way to link XDF markers to E-Prime trials.
+                            # If E-Prime sends specific markers for each trial start that match XDF:
+                            #   1. Filter xdf_marker_events_df for these trial start markers.
+                            #   2. Align with eprime_metadata_df based on sequence.
+                            # If not, this becomes very tricky.
+                            
+                            # Simplistic approach: Use XDF for timing, try to map E-Prime conditions
+                            # This assumes that the `condition_marker` from XDF can be used to infer
+                            # the E-Prime condition or that the sequence aligns.
+                            # A more robust solution would involve specific sync markers.
+                            
+                            # For now, let's prioritize XDF timing and use E-Prime for condition names if possible.
+                            # This part needs careful validation based on your specific marker strategy.
+                            # If E-Prime sends LSL markers that are identical to what EventProcessor derives as 'condition',
+                            # you could merge on that.
+                            
+                            # Placeholder: For now, we'll just use the XDF events and log a warning
+                            # if E-Prime metadata couldn't be cleanly merged.
+                            self.logger.warning("DataLoader - E-Prime metadata merging with XDF timed events is complex and needs specific logic based on your marker strategy. Using XDF marker events for now.")
+                            loaded_data['events_df'] = xdf_marker_events_df.rename(columns={'condition_marker': 'condition'})
+                        else:
+                            self.logger.warning("DataLoader - Fewer XDF markers than E-Prime events. Using XDF markers only.")
+                            loaded_data['events_df'] = xdf_marker_events_df.rename(columns={'condition_marker': 'condition'})
+                    elif not xdf_marker_events_df.empty:
+                        loaded_data['events_df'] = xdf_marker_events_df.rename(columns={'condition_marker': 'condition'})
+                    else: # No XDF markers, E-Prime metadata exists but times are relative
+                        self.logger.error("DataLoader - No XDF markers found. E-Prime event times are relative and cannot be used directly without synchronization. No events_df created.")
+                        loaded_data['events_df'] = pd.DataFrame()
+                except Exception as e_eprime:
+                    self.logger.error(f"DataLoader - Error processing E-Prime log or merging events: {e_eprime}", exc_info=True)
+                    if not xdf_marker_events_df.empty: # Fallback to XDF if E-Prime fails
+                        loaded_data['events_df'] = xdf_marker_events_df.rename(columns={'condition_marker': 'condition'})
+            elif not xdf_marker_events_df.empty:
+                self.logger.info("DataLoader - No E-Prime log provided. Using XDF markers for events.")
+                loaded_data['events_df'] = xdf_marker_events_df.rename(columns={'condition_marker': 'condition'})
+            else:
+                self.logger.warning("DataLoader - No E-Prime log and no XDF markers. No events_df created.")
+                loaded_data['events_df'] = pd.DataFrame()
 
         except Exception as e:
             self.logger.error(f"DataLoader - Critical error loading or parsing XDF file {xdf_path}: {e}", exc_info=True)
@@ -236,23 +330,23 @@ class DataLoader:
         # --- Identify Baseline Period from Annotations ---
         baseline_start_time_abs = None
         baseline_end_time_abs = None
-        
+
         # Prioritize EEG for annotations, then fNIRS
         annotated_raw_obj = None
         if loaded_data.get('eeg') and loaded_data['eeg'].annotations:
             annotated_raw_obj = loaded_data['eeg']
             # Get the absolute start time of this MNE Raw object from XDF
             # This assumes EEG_STREAM_NAME was found and 'time_stamps' exists for it
-            if config.EEG_STREAM_NAME in stream_map:
-                annotated_raw_obj_start_time_xdf = stream_map[config.EEG_STREAM_NAME]['time_stamps'][0]
+            if self._eeg_stream_name in stream_map:
+                annotated_raw_obj_start_time_xdf = stream_map[self._eeg_stream_name]['time_stamps'][0]
             else: # Should not happen if raw_eeg exists
                 annotated_raw_obj_start_time_xdf = 0 
                 self.logger.warning("Could not determine absolute start time for EEG stream from XDF.")
 
         elif loaded_data.get('fnirs_od') and loaded_data['fnirs_od'].annotations:
             annotated_raw_obj = loaded_data['fnirs_od']
-            if config.FNIRS_STREAM_NAME in stream_map:
-                annotated_raw_obj_start_time_xdf = stream_map[config.FNIRS_STREAM_NAME]['time_stamps'][0]
+            if self._fnirs_stream_name in stream_map:
+                annotated_raw_obj_start_time_xdf = stream_map[self._fnirs_stream_name]['time_stamps'][0]
             else:
                 annotated_raw_obj_start_time_xdf = 0
                 self.logger.warning("Could not determine absolute start time for fNIRS stream from XDF.")
@@ -267,10 +361,10 @@ class DataLoader:
                 ann_desc = ann['description']
                 ann_onset_absolute = annotated_raw_obj_start_time_xdf + ann_onset_relative
 
-                if ann_desc == config.BASELINE_MARKER_START:
+                if ann_desc == self._baseline_marker_start_eprime: # Use configured marker name
                     if baseline_start_time_abs is None or ann_onset_absolute < baseline_start_time_abs: # Take the earliest
                         baseline_start_time_abs = ann_onset_absolute
-                elif ann_desc == config.BASELINE_MARKER_END:
+                elif ann_desc == self._baseline_marker_end_eprime: # Use configured marker name
                     if baseline_end_time_abs is None or ann_onset_absolute > baseline_end_time_abs: # Take the latest
                         baseline_end_time_abs = ann_onset_absolute
             
@@ -285,7 +379,7 @@ class DataLoader:
                 earliest_stim_after_baseline_abs = float('inf')
                 # Use EMOTIONAL_CONDITIONS directly if they represent your stimulus markers
                 for ann in annotated_raw_obj.annotations:
-                    if ann['description'] in config.EMOTIONAL_CONDITIONS: # Check if it's a stimulus condition
+                    if ann['description'] in self._emotional_conditions_list: # Check if it's a stimulus condition
                         stim_onset_abs = annotated_raw_obj_start_time_xdf + ann['onset']
                         if stim_onset_abs > baseline_start_time_abs:
                             earliest_stim_after_baseline_abs = min(earliest_stim_after_baseline_abs, stim_onset_abs)
@@ -294,20 +388,20 @@ class DataLoader:
                     baseline_end_time_abs = earliest_stim_after_baseline_abs
                     self.logger.info(f"DataLoader - Baseline end set to first stimulus time (absolute): {baseline_end_time_abs:.2f} s.")
                 else: # No stimulus found after baseline start, use fallback duration
-                    baseline_end_time_abs = baseline_start_time_abs + config.BASELINE_DURATION_FALLBACK_SEC
+                    baseline_end_time_abs = baseline_start_time_abs + self._baseline_duration_fallback_sec
                     self.logger.info(f"DataLoader - No stimulus after baseline start. Baseline end set by fallback duration (absolute): {baseline_end_time_abs:.2f} s.")
             
             # If no baseline markers at all, but stimulus markers exist, try to define baseline before first stimulus
             elif baseline_start_time_abs is None and baseline_end_time_abs is None:
                 earliest_stim_abs = float('inf')
                 for ann in annotated_raw_obj.annotations:
-                    if ann['description'] in config.EMOTIONAL_CONDITIONS:
+                    if ann['description'] in self._emotional_conditions_list:
                         stim_onset_abs = annotated_raw_obj_start_time_xdf + ann['onset']
                         earliest_stim_abs = min(earliest_stim_abs, stim_onset_abs)
                 
                 if earliest_stim_abs != float('inf'):
                     baseline_end_time_abs = earliest_stim_abs
-                    baseline_start_time_abs = max(annotated_raw_obj_start_time_xdf, baseline_end_time_abs - config.BASELINE_DURATION_FALLBACK_SEC)
+                    baseline_start_time_abs = max(annotated_raw_obj_start_time_xdf, baseline_end_time_abs - self._baseline_duration_fallback_sec)
                     self.logger.info(f"DataLoader - No baseline markers. Baseline defined as fixed duration before first stimulus (absolute): {baseline_start_time_abs:.2f}s to {baseline_end_time_abs:.2f}s.")
                 else:
                     self.logger.warning("DataLoader - Could not identify baseline period from XDF markers.")
@@ -320,12 +414,22 @@ class DataLoader:
 
         self.logger.info(f"DataLoader - Finished loading data for participant {participant_id}.")
         return loaded_data
-
     def load_survey_data(self, survey_file_path, participant_id):
         """
         Parses survey data from an E-Prime .txt file using QuestionnaireParser
         and returns the per-trial ratings DataFrame.
         """
+        # This method now uses QuestionnaireParser, which is assumed to be in the same directory.
+        # If QuestionnaireParser is moved to psyModuleToolbox.utils, the import at the top needs to change.
+        # For now, assuming it's co-located or correctly imported.
+        
+        # Check if QuestionnaireParser is available (it might be a separate file)
+        try:
+            from .questionnaire_parser import QuestionnaireParser
+        except ImportError:
+            self.logger.error("DataLoader: QuestionnaireParser class not found. Cannot load survey data from E-Prime.")
+            return None
+
         if survey_file_path is None or not os.path.exists(survey_file_path):
             self.logger.warning(f"Survey file not found: {survey_file_path}. Skipping survey data loading.")
             return None

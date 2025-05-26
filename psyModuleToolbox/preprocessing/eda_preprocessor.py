@@ -2,7 +2,6 @@ import neurokit2 as nk
 import pandas as pd
 import os
 import numpy as np
-from ..orchestrators import config
 
 class EDAPreprocessor:
     def __init__(self, logger):

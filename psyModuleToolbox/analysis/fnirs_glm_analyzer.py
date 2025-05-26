@@ -8,14 +8,13 @@ from mne_nirs.experimental_design import make_first_level_design_matrix # Correc
 from mne_nirs.statistics import run_glm
 from mne_nirs.channels import (picks_pair_to_ch_names,
                                picks_optodes_to_channel_locations) # Not used in current GLM but good for context
-from ..orchestrators import config # Relative import
-
 class FNIRSGLMAnalyzer:
     def __init__(self, logger):
         self.logger = logger
         self.logger.info("FNIRSGLMAnalyzer initialized.")
 
-    def run_glm_on_epochs(self, fnirs_epochs_mne, event_id_map_for_glm, participant_id, analysis_results_dir):
+    def run_glm_on_epochs(self, fnirs_epochs_mne, event_id_map_for_glm, participant_id, analysis_results_dir,
+                          glm_hrf_model, glm_contrasts_config, glm_rois_config, glm_activation_p_threshold):
         """
         Runs fNIRS GLM on epoched data and computes specified contrasts.
 
@@ -24,6 +23,10 @@ class FNIRSGLMAnalyzer:
             event_id_map_for_glm (dict): Mapping from condition names to MNE event codes used for epoching.
             participant_id (str): The ID of the participant.
             analysis_results_dir (str): Directory to save GLM-related results.
+            glm_hrf_model (str): The HRF model to use (e.g., 'spm').
+            glm_contrasts_config (dict): Dictionary defining contrasts.
+            glm_rois_config (dict): Dictionary defining ROIs and their channels.
+            glm_activation_p_threshold (float): P-value threshold for identifying active channels/ROIs.
 
         Returns:
             dict: A dictionary containing 'glm_estimates' (dict of GLMEstimate objects),
@@ -36,6 +39,15 @@ class FNIRSGLMAnalyzer:
         
         self.logger.info(f"FNIRSGLMAnalyzer (epochs): Running GLM for P:{participant_id}")
         
+        # Validate passed configurations
+        if not all([glm_hrf_model, glm_contrasts_config, glm_rois_config is not None, glm_activation_p_threshold is not None]):
+            self.logger.error("FNIRSGLMAnalyzer (epochs): One or more GLM configuration parameters (hrf_model, contrasts, rois, p_threshold) are missing.")
+            return {'active_rois_for_eeg_guidance': [], 'contrast_results': {}, 'glm_estimates': None}
+        if not isinstance(glm_contrasts_config, dict) or not isinstance(glm_rois_config, dict):
+            self.logger.error("FNIRSGLMAnalyzer (epochs): glm_contrasts_config and glm_rois_config must be dictionaries.")
+            return {'active_rois_for_eeg_guidance': [], 'contrast_results': {}, 'glm_estimates': None}
+
+
         if not event_id_map_for_glm:
             self.logger.error("FNIRSGLMAnalyzer (epochs): event_id_map_for_glm not provided. Cannot create design matrix.")
             return {'active_rois_for_eeg_guidance': [], 'contrast_results': {}, 'glm_estimates': None}
@@ -160,7 +172,7 @@ class FNIRSGLMAnalyzer:
             design_matrix_evoked = mne.stats.make_first_level_design_matrix(
                 events_for_evoked_dm[:, 0] / sfreq_evoked, # Onsets in seconds
                 sfreq_evoked,
-                hrf_model=config.FNIRS_HRF_MODEL,
+                hrf_model=glm_hrf_model,
                 drift_model='polynomial', order=3,
                 event_id=event_id_for_evoked_dm # Map condition names to codes
             )
@@ -178,7 +190,7 @@ class FNIRSGLMAnalyzer:
 
             # Filter design matrix columns to only include conditions present in config.FNIRS_CONTRASTS
             all_contrast_conditions = set()
-            for _, contrast_weights_dict in config.FNIRS_CONTRASTS.items():
+            for _, contrast_weights_dict in glm_contrasts_config.items():
                 all_contrast_conditions.update(contrast_weights_dict.keys())
             
             design_matrix_cols_to_keep = [
@@ -200,7 +212,7 @@ class FNIRSGLMAnalyzer:
             contrast_results_dfs = {}
             active_rois_for_eeg_guidance = set()
             
-            for contrast_name, contrast_weights in config.FNIRS_CONTRASTS.items():
+            for contrast_name, contrast_weights in glm_contrasts_config.items():
                 self.logger.info(f"FNIRSGLMAnalyzer (evoked): Computing contrast: {contrast_name} with weights {contrast_weights}")
                 
                 temp_contrast_dfs_for_channels = []
@@ -230,26 +242,24 @@ class FNIRSGLMAnalyzer:
                 
                 # Identify active ROIs for EEG guidance based on 'Emotion_vs_Neutral'
                 if contrast_name == 'Emotion_vs_Neutral':
-                    if hasattr(config, 'FNIRS_ROIS') and isinstance(config.FNIRS_ROIS, dict):
-                        for roi_name_cfg, fnirs_channels_in_roi_cfg in config.FNIRS_ROIS.items():
-                            # Filter contrast results for channels within this ROI
-                            roi_specific_contrast_df = aggregated_contrast_df[
-                                aggregated_contrast_df['ch_name'].isin(fnirs_channels_in_roi_cfg)
+                    # glm_rois_config is already validated to be a dict
+                    for roi_name_cfg, fnirs_channels_in_roi_cfg in glm_rois_config.items():
+                        # Filter contrast results for channels within this ROI
+                        roi_specific_contrast_df = aggregated_contrast_df[
+                            aggregated_contrast_df['ch_name'].isin(fnirs_channels_in_roi_cfg)
+                        ]
+                        if not roi_specific_contrast_df.empty:
+                            # Check for significant activation within the ROI
+                            significant_activation = roi_specific_contrast_df[
+                                roi_specific_contrast_df['p_value'] < glm_activation_p_threshold
                             ]
-                            if not roi_specific_contrast_df.empty:
-                                # Check for significant activation within the ROI
-                                significant_activation = roi_specific_contrast_df[
-                                    roi_specific_contrast_df['p_value'] < config.FNIRS_ACTIVATION_P_THRESHOLD
-                                ]
-                                if not significant_activation.empty:
-                                    active_rois_for_eeg_guidance.add(roi_name_cfg)
-                                    self.logger.info(f"FNIRSGLMAnalyzer (evoked): ROI '{roi_name_cfg}' added to active list for EEG guidance.")
-                                else:
-                                     self.logger.debug(f"FNIRSGLMAnalyzer (evoked): ROI '{roi_name_cfg}' did not meet p-value threshold for EEG guidance.")
+                            if not significant_activation.empty:
+                                active_rois_for_eeg_guidance.add(roi_name_cfg)
+                                self.logger.info(f"FNIRSGLMAnalyzer (evoked): ROI '{roi_name_cfg}' added to active list for EEG guidance.")
                             else:
-                                self.logger.debug(f"FNIRSGLMAnalyzer (evoked): No contrast results for channels in ROI '{roi_name_cfg}'.")
-                    else:
-                        self.logger.warning("FNIRSGLMAnalyzer (evoked): config.FNIRS_ROIS not defined. Cannot identify active ROIs.")
+                                 self.logger.debug(f"FNIRSGLMAnalyzer (evoked): ROI '{roi_name_cfg}' did not meet p-value threshold for EEG guidance.")
+                        else:
+                            self.logger.debug(f"FNIRSGLMAnalyzer (evoked): No contrast results for channels in ROI '{roi_name_cfg}'.")
 
             self.logger.info(f"FNIRSGLMAnalyzer (evoked): Final active ROIs for EEG guidance: {list(active_rois_for_eeg_guidance)}")
 

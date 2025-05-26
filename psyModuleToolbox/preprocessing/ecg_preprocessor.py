@@ -2,14 +2,14 @@ import os
 import numpy as np
 import pandas as pd
 import neurokit2 as nk
-from ..orchestrators import config # Relative import
 
 class ECGPreprocessor:
     def __init__(self, logger):
         self.logger = logger
         self.logger.info("ECGPreprocessor initialized.")
 
-    def preprocess_ecg(self, ecg_signal, ecg_sfreq, participant_id, preproc_results_dir):
+    def preprocess_ecg(self, ecg_signal, ecg_sfreq, participant_id, preproc_results_dir,
+                         ecg_rpeak_method_config): # Add config parameter
         """
         Preprocesses ECG data to detect R-peaks and calculate NN intervals.
 
@@ -18,6 +18,7 @@ class ECGPreprocessor:
             ecg_sfreq (float): The sampling frequency of the ECG signal.
             participant_id (str): The ID of the participant.
             preproc_results_dir (str): Directory to save intermediate results.
+            ecg_rpeak_method_config (str): The method to use for R-peak detection (e.g., 'neurokit', 'pantompkins1985').
 
         Returns:
             tuple: (rpeak_times_path, nn_intervals_path, rpeaks_samples_array, nn_intervals_ms_array)
@@ -25,7 +26,10 @@ class ECGPreprocessor:
         """
         if ecg_signal is None or ecg_sfreq is None:
             self.logger.warning("ECGPreprocessor - No ECG signal or sampling frequency provided. Skipping preprocessing.")
-            return None, None
+            return None, None, None, None
+        if not ecg_rpeak_method_config:
+            self.logger.warning("ECGPreprocessor - ECG R-peak detection method not provided. Skipping.")
+            return None, None, None, None
 
         self.logger.info(f"ECGPreprocessor - Starting preprocessing for {participant_id}.")
 
@@ -38,8 +42,8 @@ class ECGPreprocessor:
             # 2. Find R-peaks
             # Use NeuroKit2's ecg_peaks function
             self.logger.info("ECGPreprocessor - Detecting R-peaks...")
-            # The `method` parameter uses the specified algorithm from config
-            signals, info = nk.ecg_peaks(ecg_signal, sampling_rate=ecg_sfreq, method=config.ECG_RPEAK_METHOD)
+            # The `method` parameter uses the specified algorithm from the passed config
+            signals, info = nk.ecg_peaks(ecg_signal, sampling_rate=ecg_sfreq, method=ecg_rpeak_method_config)
 
             rpeaks = info["ECG_R_Peaks"]
             self.logger.info(f"ECGPreprocessor - Found {len(rpeaks)} R-peaks.")

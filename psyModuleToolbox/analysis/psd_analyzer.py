@@ -2,7 +2,6 @@ import mne
 import numpy as np
 import pandas as pd
 from mne.time_frequency import psd_array_welch
-from ..orchestrators import config # Relative import
 
 class PSDAnalyzer:
     def __init__(self, logger):
@@ -26,7 +25,9 @@ class PSDAnalyzer:
             return None
 
 
-    def calculate_psd_and_fai(self, raw_eeg_processed, events, event_id_map):
+    def calculate_psd_and_fai(self, raw_eeg_processed, events, event_id_map,
+                                fai_alpha_band_config, eeg_bands_config_for_beta, 
+                                fai_electrode_pairs_config, analysis_epoch_tmax_config):
         """
         Calculates Power Spectral Density (PSD) for alpha and beta bands,
         and Frontal Asymmetry Index (FAI) for alpha band for each condition.
@@ -35,6 +36,10 @@ class PSDAnalyzer:
             raw_eeg_processed (mne.io.Raw): Processed MNE Raw object for EEG.
             events (np.ndarray): MNE events array from mne.events_from_annotations.
             event_id_map (dict): Mapping from condition names to event codes.
+            fai_alpha_band_config (tuple): Tuple defining the alpha band for FAI (e.g., (8.0, 12.0)).
+            eeg_bands_config_for_beta (dict): Dictionary of EEG bands, expected to contain a 'Beta' key.
+            fai_electrode_pairs_config (list): List of tuples defining electrode pairs for FAI (e.g., [('F3', 'F4')]).
+            analysis_epoch_tmax_config (float): The tmax for epoching in seconds.
 
         Returns:
             tuple: (psd_results, fai_results)
@@ -47,21 +52,27 @@ class PSDAnalyzer:
         if events is None or not events.size or event_id_map is None or not event_id_map:
             self.logger.warning("PSDAnalyzer - Events or event_id_map not provided or empty. Skipping PSD and FAI calculation.")
             return {}, {}
+        if not all([fai_alpha_band_config, eeg_bands_config_for_beta, fai_electrode_pairs_config, analysis_epoch_tmax_config is not None]):
+            self.logger.warning("PSDAnalyzer - One or more critical configurations (alpha_band, beta_band_source, fai_pairs, epoch_tmax) not provided. Skipping.")
+            return {}, {}
 
         self.logger.info("PSDAnalyzer - Calculating PSD and FAI.")
         sfreq = raw_eeg_processed.info['sfreq']
         
         # Use bands from config
-        alpha_band = config.FAI_ALPHA_BAND # Assuming FAI alpha band is primary alpha
-        beta_band = config.PLV_EEG_BANDS.get('Beta', (13.0, 30.0)) # Get Beta band from PLV config or default
+        alpha_band = fai_alpha_band_config
+        beta_band = eeg_bands_config_for_beta.get('Beta') 
+        if beta_band is None:
+            self.logger.warning("PSDAnalyzer - 'Beta' band not found in eeg_bands_config_for_beta. Using default (13.0, 30.0).")
+            beta_band = (13.0, 30.0)
 
-        fai_pairs_config = config.FAI_ELECTRODE_PAIRS # e.g., [('Fp1', 'Fp2'), ('F3', 'F4')]
+        # fai_pairs_config is now passed as fai_electrode_pairs_config
 
         psd_results = {} # To store all PSD values: condition -> band -> channel -> power
         fai_results = {} # To store FAI values: condition -> pair_name -> fai
 
         # Channels to pick for PSD calculation (superset for FAI and general PSD)
-        all_fai_channels = list(set(ch for pair in fai_pairs_config for ch in pair))
+        all_fai_channels = list(set(ch for pair in fai_electrode_pairs_config for ch in pair))
         # You might want a broader set of channels for general PSD reporting if needed
         # For now, focus on channels relevant to FAI
         psd_picks = [ch for ch in all_fai_channels if ch in raw_eeg_processed.ch_names]
@@ -83,7 +94,7 @@ class PSDAnalyzer:
 
                 try:
                     epochs = mne.Epochs(raw_eeg_processed, events, event_id={condition_name: event_code},
-                                        tmin=0.0, tmax=config.ANALYSIS_EPOCH_TIMES[1], # Use full epoch duration
+                                        tmin=0.0, tmax=analysis_epoch_tmax_config, # Use passed tmax
                                         baseline=None, preload=True, picks=psd_picks, verbose=False)
 
                     if len(epochs) == 0:
@@ -97,7 +108,7 @@ class PSDAnalyzer:
                             psd_results[condition_name]['Alpha'][ch_name] = alpha_power_per_channel[ch_idx]
                         
                         # Calculate FAI using these alpha powers
-                        for ch_left, ch_right in fai_pairs_config: # Iterate through configured pairs
+                        for ch_left, ch_right in fai_electrode_pairs_config: # Iterate through configured pairs
                             pair_name = f"{ch_right}_vs_{ch_left}" # e.g., Fp2_vs_Fp1
                             power_left = psd_results[condition_name]['Alpha'].get(ch_left)
                             power_right = psd_results[condition_name]['Alpha'].get(ch_right)

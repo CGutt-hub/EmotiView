@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import neurokit2 as nk
 from scipy.interpolate import interp1d # For continuous HRV signal
-from ..orchestrators import config # Relative import
 
 class HRVAnalyzer:
     def __init__(self, logger):
@@ -54,7 +53,8 @@ class HRVAnalyzer:
             return hrv_metrics
 
     def calculate_resting_state_hrv(self, ecg_signal, ecg_sfreq, ecg_times, 
-                                    baseline_start_time_abs, baseline_end_time_abs):
+                                    baseline_start_time_abs, baseline_end_time_abs,
+                                    ecg_rpeak_method_config): # Add config parameter
         """
         Calculates resting-state HRV metrics (e.g., RMSSD) from the baseline period.
         Returns a dictionary of metrics.
@@ -62,6 +62,9 @@ class HRVAnalyzer:
         resting_hrv_metrics = {'resting_state_rmssd': np.nan}
         if ecg_signal is None or ecg_sfreq is None or ecg_times is None or \
            baseline_start_time_abs is None or baseline_end_time_abs is None:
+            self.logger.warning("HRVAnalyzer - Insufficient data or timing info for resting-state HRV. Skipping.")
+            return resting_hrv_metrics
+        if not ecg_rpeak_method_config:
             self.logger.warning("HRVAnalyzer - Insufficient data or timing info for resting-state HRV. Skipping.")
             return resting_hrv_metrics
 
@@ -74,7 +77,7 @@ class HRVAnalyzer:
                 return resting_hrv_metrics
 
             baseline_ecg_signal = ecg_signal[baseline_indices]
-            signals, info = nk.ecg_peaks(baseline_ecg_signal, sampling_rate=ecg_sfreq, method=config.ECG_RPEAK_METHOD) # Unified config name
+            signals, info = nk.ecg_peaks(baseline_ecg_signal, sampling_rate=ecg_sfreq, method=ecg_rpeak_method_config) # Use passed config
             rpeaks_baseline = info["ECG_R_Peaks"]
 
             if len(rpeaks_baseline) < 2:

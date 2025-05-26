@@ -1,8 +1,16 @@
+# d:\repoShaggy\EmotiView\EV_analysis\EV_config.py
 # --- General Configuration ---
-BASE_OUTPUT_DIR = "EV_Processed_Data"
 LOG_LEVEL = "INFO" # DEBUG, INFO, WARNING, ERROR, CRITICAL
+ANALYZER_MAIN_LOG_FILENAME = "EV_analyzer_main.log" # Name for the main log file of the analyzer
+PROCESSING_SUMMARY_FILENAME = "EV_results.csv" # Name for the cumulative processing summary CSV
 
 # --- Data Loading Configuration ---
+# Define default project paths relative to the project root.
+# The analyzer script will resolve these to absolute paths.
+# These can be overridden by command-line arguments.
+DEFAULT_INPUT_DATA_DIR = "sample_data"  # Relative to project root
+DEFAULT_OUTPUT_RESULTS_DIR = "EV_results" # Relative to project root
+
 # Define expected file extensions or naming patterns if needed
 # e.g., EEG_FILE_EXTENSION = ".vhdr"
 # This can be used by the DataLoader to be more specific.
@@ -18,12 +26,13 @@ ICA_REJECT_THRESHOLD = 0.7 # Probability threshold to reject a component if not 
 
 # ECG/HRV
 ECG_SAMPLING_RATE_DEFAULT = 1000 # Default if not found in data, Hz
-ECG_CLEAN_METHOD = 'neurokit'    # Method for cleaning ECG (e.g., 'neurokit', 'biosppy')
-ECG_PEAK_DETECTION_METHOD = 'neurokit' # Method for R-peak detection
+ECG_CLEAN_METHOD = 'neurokit'    # Method for cleaning ECG (e.g., 'neurokit', 'biosppy') - if used directly
+ECG_RPEAK_METHOD = 'neurokit' # Method for R-peak detection (used by ECGPreprocessor and HRVAnalyzer)
 ECG_FILTER_BAND = (5., 35.) # Bandpass filter for ECG data (Hz) - used if cleaning involves filtering
 
 # EDA
 EDA_SAMPLING_RATE_DEFAULT = 1000 # Default if not found in data, Hz
+EDA_CLEAN_METHOD = 'neurokit' # Method for cleaning EDA (e.g., 'neurokit', 'biosppy') - used by EDAPreprocessor
 # NeuroKit's eda_process handles decomposition, so specific filter params might be internal to it.
 # If custom filtering is needed before nk.eda_process, add params here.
 
@@ -85,7 +94,7 @@ FAI_ALPHA_BAND = (8, 13) # Hz, alpha band for FAI calculation
 # --- Reporting Configuration ---
 REPORTING_FIGURE_FORMAT = 'png'
 # Ensure this directory exists or is created by PlottingService
-REPORTING_BASE_PLOT_DIR = "plots" 
+REPORTING_BASE_PLOT_DIR = "plots"
 REPORTING_DPI = 300
 
 # --- Event Processing Configuration ---
@@ -108,6 +117,7 @@ FAI_ELECTRODE_PAIRS = [('Fp1', 'Fp2'), ('F3', 'F4'), ('F7', 'F8')] # Example, us
 FAI_ELECTRODE_PAIRS_FOR_WP4 = ('F3', 'F4') # Specific pair for WP4 correlation (e.g. F3 vs F4)
 
 STIMULUS_DURATION_SECONDS = 4.0 # Example, used by EDAAnalyzer if it were active
-ECG_RPEAK_METHOD = 'neurokit' # Default R-peak detection method for ECGPreprocessor
 
 EMOTIONAL_CONDITIONS = ['Positive', 'Negative', 'Neutral'] # Define globally if used by multiple modules
+
+MAX_PARALLEL_PARTICIPANTS = 4 # Max number of participants to process in parallel

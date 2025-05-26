@@ -2,7 +2,6 @@ import mne
 import neurokit2 as nk
 import numpy as np
 import pandas as pd
-from ..orchestrators import config # Relative import
 
 class EDAAnalyzer:
     def __init__(self, logger):
@@ -12,6 +11,7 @@ class EDAAnalyzer:
     def calculate_eda_features_per_condition(self, raw_eeg_with_events, # Used for event timings
                                              phasic_eda_full_signal_array, # Full phasic EDA signal as numpy array
                                              eda_original_sfreq, # Original sampling rate of EDA
+                                             stimulus_duration_seconds, # Duration of the stimulus/epoch
                                              analysis_metrics):
         """
         Calculates EDA features (e.g., mean phasic amplitude, SCR count) per condition.
@@ -19,6 +19,7 @@ class EDAAnalyzer:
             raw_eeg_with_events (mne.io.Raw): Raw EEG object containing event annotations.
             phasic_eda_full_signal_array (np.ndarray): The full preprocessed phasic EDA signal.
             eda_original_sfreq (float): Original sampling rate of the EDA signal.
+            stimulus_duration_seconds (float): The duration of the stimulus epoch in seconds.
             analysis_metrics (dict): Dictionary to store results.
         """
         if raw_eeg_with_events is None:
@@ -26,6 +27,9 @@ class EDAAnalyzer:
             return
         if phasic_eda_full_signal_array is None or eda_original_sfreq is None:
             self.logger.warning("EDAAnalyzer - Phasic EDA signal array or original sampling rate not provided. Skipping.")
+            return
+        if stimulus_duration_seconds is None or stimulus_duration_seconds <= 0:
+            self.logger.warning("EDAAnalyzer - Invalid stimulus_duration_seconds provided. Skipping.")
             return
 
         self.logger.info("EDAAnalyzer - Calculating EDA features per condition.")
@@ -45,7 +49,7 @@ class EDAAnalyzer:
 
                 for onset_sample in condition_event_indices:
                     start_time_sec = onset_sample / raw_eeg_with_events.info['sfreq']
-                    end_time_sec = start_time_sec + config.STIMULUS_DURATION_SECONDS
+                    end_time_sec = start_time_sec + stimulus_duration_seconds
 
                     # Extract corresponding segment from phasic_eda_full
                     start_idx_eda = int(start_time_sec * eda_original_sfreq)
