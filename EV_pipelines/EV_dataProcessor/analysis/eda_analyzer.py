@@ -10,27 +10,26 @@ class EDAAnalyzer:
         self.logger.info("EDAAnalyzer initialized.")
 
     def calculate_eda_features_per_condition(self, raw_eeg_with_events, # Used for event timings
-                                             phasic_eda_signal_path, # Path to the full phasic EDA signal
+                                             phasic_eda_full_signal_array, # Full phasic EDA signal as numpy array
                                              eda_original_sfreq, # Original sampling rate of EDA
                                              analysis_metrics):
         """
         Calculates EDA features (e.g., mean phasic amplitude, SCR count) per condition.
         Args:
             raw_eeg_with_events (mne.io.Raw): Raw EEG object containing event annotations.
-            phasic_eda_signal_path (str): Path to the CSV file containing the full phasic EDA signal.
+            phasic_eda_full_signal_array (np.ndarray): The full preprocessed phasic EDA signal.
             eda_original_sfreq (float): Original sampling rate of the EDA signal.
             analysis_metrics (dict): Dictionary to store results.
         """
         if raw_eeg_with_events is None:
             self.logger.warning("EDAAnalyzer - No EEG data with events provided. Skipping EDA feature extraction.")
             return
-        if not phasic_eda_signal_path or eda_original_sfreq is None:
-            self.logger.warning("EDAAnalyzer - Phasic EDA signal path or original sampling rate not provided. Skipping.")
+        if phasic_eda_full_signal_array is None or eda_original_sfreq is None:
+            self.logger.warning("EDAAnalyzer - Phasic EDA signal array or original sampling rate not provided. Skipping.")
             return
 
         self.logger.info("EDAAnalyzer - Calculating EDA features per condition.")
         try:
-            phasic_eda_full = pd.read_csv(phasic_eda_signal_path)['EDA_Phasic'].values
             events, event_id_map = mne.events_from_annotations(raw_eeg_with_events, verbose=False)
             
             if not events.size:
@@ -52,8 +51,8 @@ class EDAAnalyzer:
                     start_idx_eda = int(start_time_sec * eda_original_sfreq)
                     end_idx_eda = int(end_time_sec * eda_original_sfreq)
 
-                    if start_idx_eda < end_idx_eda and end_idx_eda <= len(phasic_eda_full):
-                        eda_epoch = phasic_eda_full[start_idx_eda:end_idx_eda]
+                    if start_idx_eda < end_idx_eda and end_idx_eda <= len(phasic_eda_full_signal_array):
+                        eda_epoch = phasic_eda_full_signal_array[start_idx_eda:end_idx_eda]
                         if len(eda_epoch) > 0:
                             # Example features using NeuroKit2
                             # For mean phasic, directly average the phasic component

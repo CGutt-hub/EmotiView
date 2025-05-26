@@ -149,3 +149,63 @@ def apply_fdr_correction(p_values, alpha=0.05):
         return np.array([False] * len(p_values_array)), p_values_array
         
     return fdrcorrection(p_values_array, alpha=alpha, method='indep', is_sorted=False)
+
+def create_output_directories(base_dir, participant_id):
+    """Creates necessary output directories for a participant."""
+    dirs = {
+        'base_participant': os.path.join(base_dir, participant_id),
+        'raw_data_copied': os.path.join(base_dir, participant_id, 'raw_data_copied'), 
+        'preprocessed_data': os.path.join(base_dir, participant_id, 'preprocessed_data'),
+        'analysis_results': os.path.join(base_dir, participant_id, 'analysis_results'),
+        'plots_root': os.path.join(base_dir, participant_id, 'plots') 
+    }
+    for path in dirs.values():
+        os.makedirs(path, exist_ok=True)
+    return dirs
+
+def create_mne_events_from_dataframe(events_df, conditions_to_map, sfreq, logger=None):
+    """
+    Creates MNE-compatible event arrays and mappings from an events DataFrame.
+
+    Args:
+        events_df (pd.DataFrame): DataFrame with event information.
+                                  Must contain 'onset_time_sec' (or 'onset_sample'),
+                                  'condition', and optionally 'trial_identifier_eprime'.
+        conditions_to_map (list): List of string condition names to map to integer IDs.
+        sfreq (float): Sampling frequency to convert 'onset_time_sec' to 'onset_sample' if needed.
+        logger (logging.Logger, optional): Logger instance.
+
+    Returns:
+        tuple: (mne_events_array, event_id_map, trial_id_eprime_map)
+               Returns (None, {}, {}) if critical errors occur.
+    """
+    if logger is None:
+        logger = logging.getLogger(__name__) # Default logger
+
+    if 'onset_sample' not in events_df.columns:
+        if 'onset_time_sec' in events_df.columns and sfreq is not None:
+            events_df['onset_sample'] = (events_df['onset_time_sec'] * sfreq).astype(int)
+        else:
+            logger.error("Cannot determine 'onset_sample' for events. Missing 'onset_time_sec' or sfreq.")
+            return None, {}, {}
+
+    event_id_map = {name: i + 1 for i, name in enumerate(conditions_to_map)}
+    if 'condition' not in events_df.columns:
+        logger.error("Events DataFrame missing 'condition' column for MNE event creation.")
+        return None, {}, {}
+
+    trial_id_eprime_map = {}
+    if 'trial_identifier_eprime' not in events_df.columns:
+        logger.warning("Events DataFrame missing 'trial_identifier_eprime' column. Numeric trial ID will be 0.")
+        events_df['trial_identifier_eprime_numeric'] = 0
+    else:
+        unique_trial_ids_eprime = events_df['trial_identifier_eprime'].unique()
+        trial_id_eprime_map = {name: i + 1000 for i, name in enumerate(unique_trial_ids_eprime)} # Start numeric IDs high to avoid conflict
+        events_df['trial_identifier_eprime_numeric'] = events_df['trial_identifier_eprime'].map(trial_id_eprime_map).fillna(0).astype(int)
+
+    events_df['condition_id'] = events_df['condition'].map(event_id_map).fillna(0).astype(int)
+    mne_events_sub_df = events_df[events_df['condition_id'] > 0][['onset_sample', 'condition_id', 'trial_identifier_eprime_numeric']].copy()
+    mne_events_sub_df.insert(1, 'prev_event_id', 0) # Insert column for previous event ID, MNE standard
+    mne_events_array = mne_events_sub_df.values.astype(int)
+    
+    return mne_events_array, event_id_map, trial_id_eprime_map

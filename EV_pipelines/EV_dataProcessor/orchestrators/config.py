@@ -109,3 +109,5 @@ FAI_ELECTRODE_PAIRS_FOR_WP4 = ('F3', 'F4') # Specific pair for WP4 correlation (
 
 STIMULUS_DURATION_SECONDS = 4.0 # Example, used by EDAAnalyzer if it were active
 ECG_RPEAK_METHOD = 'neurokit' # Default R-peak detection method for ECGPreprocessor
+
+EMOTIONAL_CONDITIONS = ['Positive', 'Negative', 'Neutral'] # Define globally if used by multiple modules

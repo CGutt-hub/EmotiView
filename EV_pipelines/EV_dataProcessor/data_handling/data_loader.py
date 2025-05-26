@@ -283,9 +283,9 @@ class DataLoader:
             if baseline_start_time_abs is not None and baseline_end_time_abs is None:
                 # Find the earliest stimulus onset after baseline_start_time_abs
                 earliest_stim_after_baseline_abs = float('inf')
-                stim_conditions = [config.EVENT_ID_TO_CONDITION.get(eid) for eid in config.EVENT_ID.values()] # Get condition names
+                # Use EMOTIONAL_CONDITIONS directly if they represent your stimulus markers
                 for ann in annotated_raw_obj.annotations:
-                    if ann['description'] in stim_conditions: # Check if it's a stimulus condition
+                    if ann['description'] in config.EMOTIONAL_CONDITIONS: # Check if it's a stimulus condition
                         stim_onset_abs = annotated_raw_obj_start_time_xdf + ann['onset']
                         if stim_onset_abs > baseline_start_time_abs:
                             earliest_stim_after_baseline_abs = min(earliest_stim_after_baseline_abs, stim_onset_abs)
@@ -300,9 +300,8 @@ class DataLoader:
             # If no baseline markers at all, but stimulus markers exist, try to define baseline before first stimulus
             elif baseline_start_time_abs is None and baseline_end_time_abs is None:
                 earliest_stim_abs = float('inf')
-                stim_conditions = [config.EVENT_ID_TO_CONDITION.get(eid) for eid in config.EVENT_ID.values()]
                 for ann in annotated_raw_obj.annotations:
-                    if ann['description'] in stim_conditions:
+                    if ann['description'] in config.EMOTIONAL_CONDITIONS:
                         stim_onset_abs = annotated_raw_obj_start_time_xdf + ann['onset']
                         earliest_stim_abs = min(earliest_stim_abs, stim_onset_abs)
                 

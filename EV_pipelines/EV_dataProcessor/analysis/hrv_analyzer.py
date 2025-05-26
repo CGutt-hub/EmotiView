@@ -74,7 +74,7 @@ class HRVAnalyzer:
                 return resting_hrv_metrics
 
             baseline_ecg_signal = ecg_signal[baseline_indices]
-            signals, info = nk.ecg_peaks(baseline_ecg_signal, sampling_rate=ecg_sfreq, method=config.ECG_PEAK_DETECTION_METHOD)
+            signals, info = nk.ecg_peaks(baseline_ecg_signal, sampling_rate=ecg_sfreq, method=config.ECG_RPEAK_METHOD) # Unified config name
             rpeaks_baseline = info["ECG_R_Peaks"]
 
             if len(rpeaks_baseline) < 2:

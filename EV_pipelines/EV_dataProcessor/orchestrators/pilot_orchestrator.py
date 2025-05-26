@@ -4,6 +4,7 @@ import mne
 import pandas as pd
 import numpy as np
 import logging # For main logger
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from . import config # Corrected: config is in the same directory
 from ..preprocessing.eeg_preprocessor import EEGPreprocessor
 from ..preprocessing.ecg_preprocessor import ECGPreprocessor
@@ -15,26 +16,13 @@ from ..data_handling.data_loader import DataLoader # Corrected: DataLoader is in
 from ..utils.event_processor import EventProcessor # Import the new EventProcessor
 from ..utils.participant_logger import ParticipantLogger # Adjusted: Assuming ParticipantLogger is in the main utils
 # Import helper functions from the new helpers.py file within the utils folder
-from ..utils.helpers import select_eeg_channels_by_fnirs_rois, apply_fdr_correction 
+from ..analysis.group_analyzer import GroupAnalyzer
+from ..utils.parallel_runner import ParallelTaskRunner # New import
+from ..utils.helpers import select_eeg_channels_by_fnirs_rois, create_output_directories, create_mne_events_from_dataframe # New helper
 
 # Constants for data types
 DATA_TYPES = ['eeg', 'fnirs', 'ecg', 'eda', 'events', 'survey'] 
 EMOTIONAL_CONDITIONS = ['Positive', 'Negative', 'Neutral'] 
-
-FAI_ELECTRODE_PAIRS = config.FAI_ELECTRODE_PAIRS 
-
-def create_output_directories(base_dir, participant_id):
-    """Creates necessary output directories for a participant."""
-    dirs = {
-        'base_participant': os.path.join(base_dir, participant_id),
-        'raw_data_copied': os.path.join(base_dir, participant_id, 'raw_data_copied'), 
-        'preprocessed_data': os.path.join(base_dir, participant_id, 'preprocessed_data'),
-        'analysis_results': os.path.join(base_dir, participant_id, 'analysis_results'),
-        'plots_root': os.path.join(base_dir, participant_id, 'plots') 
-    }
-    for path in dirs.values():
-        os.makedirs(path, exist_ok=True)
-    return dirs
 
 def process_participant_data(participant_id, participant_raw_xdf_data_dir, eprime_txt_file_path, output_dirs, global_output_base_dir, p_logger):
     """
@@ -90,124 +78,54 @@ def process_participant_data(participant_id, participant_raw_xdf_data_dir, eprim
     survey_df_per_trial = data_loader.load_survey_data(eprime_txt_file_path, participant_id)
     processed_data_artifacts['analysis_outputs']['dataframes']['survey_data_per_trial'] = survey_df_per_trial
     
-    events_df = None
-    if eprime_txt_file_path:
-        # Determine reference sampling frequency for EventProcessor (e.g., EEG or fNIRS)
-        # This is used if EventProcessor needs to convert E-Prime times to samples.
-        # However, it's better if EventProcessor returns times in seconds, and synchronization
-        # happens based on absolute timestamps if possible.
-        ref_sfreq_for_event_proc = eeg_sampling_rate if eeg_sampling_rate else fnirs_sampling_rate
-        
-        event_processor = EventProcessor(p_logger, default_sfreq=ref_sfreq_for_event_proc)
-        events_df_eprime_relative = event_processor.process_event_log(eprime_txt_file_path) 
-        
-        if events_df_eprime_relative is not None and not events_df_eprime_relative.empty:
-            # --- Synchronization Step ---
-            # Here, you need to synchronize events_df_eprime_relative['onset_time_sec']
-            # with the physiological data's timeline.
-            # This example assumes a simple offset based on the first XDF marker if available.
-            # A more robust method would use a dedicated sync pulse.
-            
-            xdf_marker_times = loaded_physiological_data.get('marker_times')
-            xdf_marker_values = loaded_physiological_data.get('marker_values')
-            
-            # Placeholder for synchronization offset
-            # TODO: Implement robust synchronization logic
-            # For now, if no XDF markers, assume E-Prime times are already aligned (highly unlikely for real data)
-            # or that the first XDF marker corresponds to the first E-Prime event.
-            # This is a critical step that needs careful implementation based on your setup.
-            
-            time_offset_sec = 0.0 # Default to no offset
-            
-            # Example: Try to find a common "ExperimentStart" marker
-            # This requires 'ExperimentStart' to be a marker in both E-Prime (parsed by EventProcessor)
-            # and in XDF (parsed by DataLoader).
-            eprime_start_marker_event = events_df_eprime_relative[events_df_eprime_relative['condition'] == "ExperimentStart"] # Adjust marker name
-            
-            if not eprime_start_marker_event.empty and xdf_marker_times is not None:
-                eprime_sync_time = eprime_start_marker_event['onset_time_sec'].iloc[0]
-                xdf_sync_time = None
-                for i, val in enumerate(xdf_marker_values):
-                    if val == "ExperimentStart": # Adjust marker name
-                        xdf_sync_time = xdf_marker_times[i]
-                        break
-                if xdf_sync_time is not None:
-                    # If EEG/fNIRS stream started after the XDF sync marker, adjust xdf_sync_time
-                    # This assumes xdf_marker_times are absolute XDF clock.
-                    # And physiological stream start times are also absolute XDF clock.
-                    # Prioritize EEG stream start time if available, else fNIRS, else 0
-                    main_physio_stream_start_xdf = 0
-                    if raw_eeg_mne:
-                        main_physio_stream_start_xdf = loaded_physiological_data.get('eeg_stream_start_time_xdf', 0)
-                    elif fnirs_od_mne:
-                        main_physio_stream_start_xdf = loaded_physiological_data.get('fnirs_stream_start_time_xdf', 0)
-                    
-                    if main_physio_stream_start_xdf == 0:
-                        p_logger.warning("Could not determine main physiological stream start time from XDF for precise synchronization offset calculation.")
-                    xdf_sync_time_relative_to_physio = xdf_sync_time - main_physio_stream_start_xdf
-                    time_offset_sec = xdf_sync_time_relative_to_physio - eprime_sync_time
-                    p_logger.info(f"Synchronization: E-Prime sync @ {eprime_sync_time:.3f}s, XDF sync relative to physio @ {xdf_sync_time_relative_to_physio:.3f}s. Offset: {time_offset_sec:.3f}s")
-                else:
-                    p_logger.warning("Synchronization: 'ExperimentStart' marker not found in XDF. Cannot calculate precise offset.")
-            else:
-                p_logger.warning("Synchronization: 'ExperimentStart' marker not found in E-Prime events or no XDF markers. Using zero offset (E-Prime times assumed relative to physio start).")
+    # Retrieve events_df from DataLoader.
+    # DataLoader is responsible for providing an events_df that is appropriately timed.
+    # If LabRecorder synchronizes everything, XDF markers (used as fallback by DataLoader)
+    # will have absolute, correct timings.
+    # If DataLoader parsed an E-Prime .txt, its times are relative to E-Prime start;
+    # we assume this E-Prime start is aligned with the XDF recording start.
+    events_df = loaded_physiological_data.get('events_df')
 
-            events_df = events_df_eprime_relative.copy()
-            events_df['onset_time_sec'] = events_df['onset_time_sec'] + time_offset_sec
-            # Filter out events that might now be negative after offset if physio started late
-            events_df = events_df[events_df['onset_time_sec'] >= 0]
-
-            processed_data_artifacts['event_times_df'] = events_df
-            event_csv_path = os.path.join(preproc_results_dir, f"{participant_id}_event_times_synchronized.csv")
-            events_df.to_csv(event_csv_path, index=False)
-            processed_data_artifacts['preprocessed_data_paths']['event_times_csv'] = event_csv_path
-            p_logger.info(f"Synchronized event times saved to: {event_csv_path}")
+    if events_df is not None and not events_df.empty:
+        p_logger.info("Using events_df provided by DataLoader.")
+        # Ensure 'onset_time_sec' exists, as it's crucial.
+        if 'onset_time_sec' not in events_df.columns:
+            p_logger.error("Critical: 'onset_time_sec' column missing in events_df from DataLoader.")
+            processed_data_artifacts['status'] = 'error_event_timing_missing'
+            return processed_data_artifacts
             
-            if processed_data_artifacts['baseline_start_time_sec'] is None and 'onset_time_sec' in events_df.columns:
-                baseline_start_event = events_df[events_df['condition'] == config.BASELINE_MARKER_START_EPRIME]
-                if not baseline_start_event.empty:
-                    processed_data_artifacts['baseline_start_time_sec'] = baseline_start_event['onset_time_sec'].iloc[0]
-                baseline_end_event = events_df[events_df['condition'] == config.BASELINE_MARKER_END_EPRIME]
-                if not baseline_end_event.empty:
-                    processed_data_artifacts['baseline_end_time_sec'] = baseline_end_event['onset_time_sec'].iloc[0]
-                if processed_data_artifacts['baseline_start_time_sec'] is not None and \
-                   processed_data_artifacts['baseline_end_time_sec'] is None:
-                    first_movie_event = events_df[events_df['condition'].isin(EMOTIONAL_CONDITIONS)]
-                    if not first_movie_event.empty:
-                        processed_data_artifacts['baseline_end_time_sec'] = first_movie_event['onset_time_sec'].min()
-        else:
-            p_logger.warning("Event processing from E-Prime .txt did not return a valid DataFrame.")
+        # Save the (assumed synchronized) event times
+        processed_data_artifacts['event_times_df'] = events_df
+        event_csv_path = os.path.join(preproc_results_dir, f"{participant_id}_event_times_synchronized.csv")
+        events_df.to_csv(event_csv_path, index=False)
+        processed_data_artifacts['preprocessed_data_paths']['event_times_csv'] = event_csv_path
+        p_logger.info(f"Event times (from DataLoader) saved to: {event_csv_path}")
+
+        # If baseline times were not found from XDF by DataLoader, try to derive from events_df
+        # (which might be from E-Prime via DataLoader or XDF markers via DataLoader)
+        if processed_data_artifacts['baseline_start_time_sec'] is None and 'onset_time_sec' in events_df.columns:
+            baseline_start_event = events_df[events_df['condition'] == config.BASELINE_MARKER_START_EPRIME] # Assuming 'condition' column exists
+            if not baseline_start_event.empty:
+                processed_data_artifacts['baseline_start_time_sec'] = baseline_start_event['onset_time_sec'].iloc[0]
+            baseline_end_event = events_df[events_df['condition'] == config.BASELINE_MARKER_END_EPRIME]
+            if not baseline_end_event.empty:
+                processed_data_artifacts['baseline_end_time_sec'] = baseline_end_event['onset_time_sec'].iloc[0]
+            
+            # Fallback for baseline end if only start is marked and end is still None
+            if processed_data_artifacts['baseline_start_time_sec'] is not None and \
+               processed_data_artifacts['baseline_end_time_sec'] is None:
+                # Find the earliest emotional stimulus onset after the baseline start
+                emotional_stim_after_baseline = events_df[
+                    (events_df['condition'].isin(EMOTIONAL_CONDITIONS)) & 
+                    (events_df['onset_time_sec'] > processed_data_artifacts['baseline_start_time_sec'])
+                ]
+                if not emotional_stim_after_baseline.empty:
+                    processed_data_artifacts['baseline_end_time_sec'] = emotional_stim_after_baseline['onset_time_sec'].min()
     else:
-        p_logger.warning("No E-Prime .txt event file found. Attempting to use XDF annotations for events.")
+        p_logger.error("No events_df provided by DataLoader. Cannot proceed with epoch-based analysis.")
+        processed_data_artifacts['status'] = 'error_no_events'
+        return processed_data_artifacts
 
-    if events_df is None and raw_eeg_mne and raw_eeg_mne.annotations and raw_eeg_mne.annotations.duration.size > 0:
-        p_logger.info("Using MNE annotations from XDF for event timing (E-Prime events failed or not available).")
-        temp_events_list = []
-        # MNE annotations are relative to the start of the raw object.
-        # If raw.first_samp is 0, then annotation onsets are directly usable as 'onset_time_sec'.
-        for ann in raw_eeg_mne.annotations:
-            temp_events_list.append({
-                'onset_time_sec': ann['onset'], 
-                'duration_sec': ann['duration'],
-                'condition': ann['description'], 
-            })
-        events_df = pd.DataFrame(temp_events_list)
-        if not events_df.empty:
-             def map_marker_to_condition(marker_desc):
-                 if "NEG" in marker_desc.upper(): return "Negative"
-                 if "POS" in marker_desc.upper(): return "Positive"
-                 if "NEU" in marker_desc.upper(): return "Neutral"
-                 if config.BASELINE_MARKER_START in marker_desc: return config.BASELINE_MARKER_START_EPRIME 
-                 if config.BASELINE_MARKER_END in marker_desc: return config.BASELINE_MARKER_END_EPRIME
-                 return marker_desc 
-            
-             events_df['condition'] = events_df['condition'].apply(map_marker_to_condition)
-             if 'trial_identifier_eprime' not in events_df.columns:
-                 events_df['trial_identifier_eprime'] = [f"XDF_Marker_{i}" for i in range(len(events_df))]
-             processed_data_artifacts['event_times_df'] = events_df
-             p_logger.info(f"Created events_df from XDF annotations. {len(events_df)} events. Note: trial_identifier_eprime is a placeholder.")
-        else:
-            p_logger.warning("No MNE annotations found in XDF to create events_df.")
 
     current_events_df = processed_data_artifacts.get('event_times_df')
     if current_events_df is None or current_events_df.empty or \
@@ -294,34 +212,19 @@ def process_participant_data(participant_id, participant_raw_xdf_data_dir, eprim
     # --- Analysis Stage ---
     ref_sfreq_for_events = eeg_sampling_rate if eeg_sampling_rate else (fnirs_sampling_rate if fnirs_sampling_rate else None)
     if 'onset_sample' not in current_events_df.columns and 'onset_time_sec' in current_events_df.columns and ref_sfreq_for_events:
-        current_events_df['onset_sample'] = (current_events_df['onset_time_sec'] * ref_sfreq_for_events).astype(int)
+        # This conversion will now happen inside create_mne_events_from_dataframe if needed
+        pass
     elif 'onset_sample' not in current_events_df.columns:
         p_logger.error("Cannot determine 'onset_sample' for events. Missing 'onset_time_sec' or reference sfreq.")
         return processed_data_artifacts
 
-    event_id_map = {name: i+1 for i, name in enumerate(EMOTIONAL_CONDITIONS)} 
-    if 'condition' not in current_events_df.columns:
-        p_logger.error("Events DataFrame missing 'condition' column for epoching.")
-        return processed_data_artifacts
-        
-    trial_id_eprime_map = {} 
-    if 'trial_identifier_eprime' not in current_events_df.columns:
-        p_logger.error("Events DataFrame missing 'trial_identifier_eprime' column. Accurate survey linking for WP2 will fail.")
-        current_events_df['trial_identifier_eprime_numeric'] = 0 
-    else:
-        unique_trial_ids_eprime = current_events_df['trial_identifier_eprime'].unique()
-        trial_id_eprime_map = {name: i + 1000 for i, name in enumerate(unique_trial_ids_eprime)} 
-        current_events_df['trial_identifier_eprime_numeric'] = current_events_df['trial_identifier_eprime'].map(trial_id_eprime_map).fillna(0).astype(int)
+    mne_events_array, event_id_map, trial_id_eprime_map = create_mne_events_from_dataframe(
+        current_events_df, EMOTIONAL_CONDITIONS, ref_sfreq_for_events, p_logger
+    )
 
-    current_events_df['condition_id'] = current_events_df['condition'].map(event_id_map).fillna(0).astype(int) 
-    
-    mne_events_df = current_events_df[current_events_df['condition_id'] > 0][['onset_sample', 'condition_id', 'trial_identifier_eprime_numeric']].copy()
-    if mne_events_df.empty:
+    if mne_events_array is None or mne_events_array.size == 0:
         p_logger.error("No valid events found after mapping conditions for epoching.")
         return processed_data_artifacts
-
-    mne_events_df.insert(1, 'prev_event_id', 0) 
-    mne_events_array = mne_events_df.values.astype(int)
     
     processed_data_artifacts['analysis_outputs']['metadata']['trial_id_eprime_map'] = trial_id_eprime_map
     processed_data_artifacts['analysis_outputs']['metadata']['event_id_map_mne'] = event_id_map 
@@ -361,7 +264,7 @@ def process_participant_data(participant_id, participant_raw_xdf_data_dir, eprim
         # Call the refactored fNIRS GLM method via AnalysisService
         event_id_map_for_glm = processed_data_artifacts['analysis_outputs']['metadata'].get('event_id_map_mne', {})
         fnirs_glm_output = analysis_service.run_fnirs_glm_and_contrasts(
-            fnirs_epochs, event_id_map_for_glm, participant_id, analysis_results_dir
+            fnirs_epochs, participant_id, analysis_results_dir # event_id_map_for_glm removed as it's in fnirs_epochs
         )
         processed_data_artifacts['analysis_outputs']['stats']['fnirs_glm_output'] = fnirs_glm_output
         if fnirs_glm_output and 'contrast_results' in fnirs_glm_output:
@@ -371,7 +274,9 @@ def process_participant_data(participant_id, participant_raw_xdf_data_dir, eprim
         active_fnirs_roi_names_for_eeg_guidance = fnirs_glm_output.get('active_rois_for_eeg_guidance', [])
         
         eeg_channels_for_plv_wp1 = select_eeg_channels_by_fnirs_rois(
-            raw_eeg_proc.info, active_fnirs_roi_names_for_eeg_guidance, p_logger
+            raw_eeg_proc.info, active_fnirs_roi_names_for_eeg_guidance, 
+            config.FNIRS_ROI_TO_EEG_CHANNELS_MAP, # Added missing argument
+            p_logger
         )
         if not eeg_channels_for_plv_wp1: 
             eeg_channels_for_plv_wp1 = [ch for ch in config.DEFAULT_EEG_CHANNELS_FOR_PLV if ch in raw_eeg_proc.ch_names]
@@ -480,6 +385,58 @@ def process_participant_data(participant_id, participant_raw_xdf_data_dir, eprim
     p_logger.info("--- Analysis Stage Complete for Participant ---")
     return processed_data_artifacts
 
+def _process_single_participant_task(task_config):
+    """
+    Worker function to process a single participant.
+    This function will be executed by each thread.
+    It includes logger setup and teardown for the participant.
+    Args:
+        task_config (dict): A dictionary containing all necessary parameters for this task.
+                            Expected keys: 'p_id_raw', 'p_id', 'data_root_dir',
+                                           'output_base_dir', 'main_logger_name'.
+    """
+    p_id_raw = task_config['p_id_raw']
+    p_id = task_config['p_id']
+    data_root_dir = task_config['data_root_dir']
+    output_base_dir = task_config['output_base_dir']
+    main_logger_name = task_config['main_logger_name']
+
+    main_logger = logging.getLogger(main_logger_name) # Get main logger instance for thread
+    main_logger.info(f"Thread starting for participant: {p_id}")
+
+    participant_output_dirs = create_output_directories(output_base_dir, p_id)
+    p_log_manager = ParticipantLogger(participant_output_dirs['base_participant'], p_id, config.LOG_LEVEL)
+    participant_logger_instance = p_log_manager.get_logger()
+    
+    processed_artifacts = None
+    try:
+        participant_raw_data_path = os.path.join(data_root_dir, p_id_raw) 
+        
+        eprime_txt_file = None
+        if os.path.exists(participant_raw_data_path):
+            for f_name in os.listdir(participant_raw_data_path): 
+                if p_id in f_name and f_name.lower().endswith('.txt'): # Simplified check
+                    eprime_txt_file = os.path.join(participant_raw_data_path, f_name)
+                    break
+        
+        if not os.path.exists(participant_raw_data_path) and not eprime_txt_file:
+            participant_logger_instance.warning(f"No data directory or E-Prime .txt file found for participant {p_id} in {participant_raw_data_path}. Skipping.")
+            return {'participant_id': p_id, 'status': 'no_data_found', 'log_file': p_log_manager.log_file_path}
+
+        processed_artifacts = process_participant_data(
+            p_id, 
+            participant_raw_data_path,
+            eprime_txt_file,
+            participant_output_dirs, 
+            output_base_dir, participant_logger_instance
+        )
+        participant_logger_instance.info(f"--- Successfully processed participant: {p_id} (in thread) ---")
+    except Exception as e:
+        participant_logger_instance.error(f"--- CRITICAL ERROR processing participant {p_id} (in thread): {e} ---", exc_info=True)
+        processed_artifacts = {'participant_id': p_id, 'status': 'error', 'error_message': str(e), 'log_file': p_log_manager.log_file_path}
+    finally:
+        p_log_manager.close_handlers()
+    return processed_artifacts
 
 def main_orchestrator(data_root_dir, output_base_dir, participant_ids=None):
     """
@@ -513,231 +470,51 @@ def main_orchestrator(data_root_dir, output_base_dir, participant_ids=None):
         main_logger.info(f"Found {len(participant_ids)} potential participants: {participant_ids}")
     
     all_participants_summary_artifacts = [] 
-
+    
+    # Determine the number of worker threads
+    # For a 64-core CPU, you might start with 64 or slightly fewer.
+    # os.cpu_count() can give the total number of logical cores.
+    # Let's make it configurable or default to a reasonable number.
+    max_workers = getattr(config, 'MAX_PARALLEL_PARTICIPANTS', os.cpu_count() or 4)
+    main_logger.info(f"Using up to {max_workers} threads for parallel participant processing.")
+    
+    # Prepare task configurations for the parallel runner
+    participant_task_configs = []
     for p_id_raw in participant_ids:
+        # Assuming p_id_raw is the folder name and also the identifier used internally
         p_id = p_id_raw 
+        participant_task_configs.append({
+            'p_id_raw': p_id_raw,
+            'p_id': p_id,
+            'data_root_dir': data_root_dir,
+            'output_base_dir': output_base_dir,
+            'main_logger_name': main_logger.name
+        })
 
-        main_logger.info(f"--- Processing participant: {p_id} ---")
-        participant_output_dirs = create_output_directories(output_base_dir, p_id)
-        
-        p_log_manager = ParticipantLogger(participant_output_dirs['base_participant'], p_id, config.LOG_LEVEL)
-        participant_logger_instance = p_log_manager.get_logger()
-        
-        try:
-            participant_raw_data_path = os.path.join(data_root_dir, p_id_raw) 
-            
-            eprime_txt_file = None
-            if os.path.exists(participant_raw_data_path):
-                for f_name in os.listdir(participant_raw_data_path): 
-                    if p_id in f_name and f_name.lower().endswith('.txt'):
-                        eprime_txt_file = os.path.join(participant_raw_data_path, f_name)
-                        break
-            
-            if not os.path.exists(participant_raw_data_path) and not eprime_txt_file:
-                participant_logger_instance.warning(f"No data directory or E-Prime .txt file found for participant {p_id} in {participant_raw_data_path}. Skipping.")
-                all_participants_summary_artifacts.append({
-                    'participant_id': p_id, 'status': 'no_data_found',
-                    'log_file': p_log_manager.log_file_path
-                })
-                continue
-
-            processed_artifacts = process_participant_data(
-                p_id, 
-                participant_raw_data_path, # This is participant_raw_xdf_data_dir
-                eprime_txt_file,           # This is eprime_txt_file_path
-                participant_output_dirs, 
-                output_base_dir, participant_logger_instance
-            )
-            all_participants_summary_artifacts.append(processed_artifacts)
-            participant_logger_instance.info(f"--- Successfully processed participant: {p_id} ---")
-        except Exception as e:
-            participant_logger_instance.error(f"--- CRITICAL ERROR processing participant {p_id}: {e} ---", exc_info=True)
-            all_participants_summary_artifacts.append({
-                'participant_id': p_id, 'status': 'error', 'error_message': str(e),
-                'log_file': p_log_manager.log_file_path
-            })
-        finally:
-            p_log_manager.close_handlers() 
+    runner = ParallelTaskRunner(
+        task_function=_process_single_participant_task,
+        task_configs=participant_task_configs,
+        max_workers=max_workers,
+        main_logger_name=main_logger.name
+    )
+    all_participants_summary_artifacts = runner.run() # runner.run() now returns the list of results/errors
 
     main_logger.info("--- EmotiView Data Processor Finished Individual Participant Processing ---")
-    
-    # --- Group-Level Analyses (remains the same as your latest version) ---
-    # ... (WP1, WP2, WP3, WP4 group analysis logic with FDR and plotting calls) ...
-    group_analysis_service = AnalysisService(main_logger) 
-    group_plotting_service = PlottingService(main_logger, os.path.join(output_base_dir, "_GROUP_PLOTS"))
-    group_results_dir = os.path.join(output_base_dir, "_GROUP_RESULTS")
-    os.makedirs(group_results_dir, exist_ok=True)
 
-    # WP1: ANOVA on PLV
-    all_avg_plv_wp1_dfs = [
-        res['analysis_outputs']['dataframes']['avg_plv_wp1'] 
-        for res in all_participants_summary_artifacts 
-        if isinstance(res, dict) and res.get('analysis_outputs', {}).get('dataframes', {}).get('avg_plv_wp1') is not None
-    ]
-    if all_avg_plv_wp1_dfs:
-        group_plv_data_wp1 = pd.concat(all_avg_plv_wp1_dfs, ignore_index=True)
-        if not group_plv_data_wp1.empty:
-            main_logger.info(f"WP1: Aggregated PLV data from {group_plv_data_wp1['participant_id'].nunique()} participants for group ANOVA.")
-            df_for_anova_wp1 = group_plv_data_wp1[ 
-                (group_plv_data_wp1['eeg_band'] == config.PLV_PRIMARY_EEG_BAND_FOR_WP1) & 
-                (group_plv_data_wp1['modality_pair'] == 'EEG-HRV')
-            ].copy()
-            
-            if not df_for_anova_wp1.empty and df_for_anova_wp1['participant_id'].nunique() > 1:
-                anova_results_wp1 = group_analysis_service.run_repeated_measures_anova(
-                   data_df=df_for_anova_wp1, dv='plv', 
-                   within='condition', subject='participant_id'
-                )
-                main_logger.info(f"Group ANOVA results for PLV (WP1, {config.PLV_PRIMARY_EEG_BAND_FOR_WP1}, EEG-HRV):\n{anova_results_wp1}")
-                if anova_results_wp1 is not None and not anova_results_wp1.empty:
-                    p_values_to_correct_wp1 = anova_results_wp1['p-unc'].dropna().tolist()
-                    if p_values_to_correct_wp1:
-                        reject_fdr_wp1, pval_corr_fdr_wp1 = apply_fdr_correction(p_values_to_correct_wp1, alpha=0.05)
-                        fdr_series_pval = pd.Series(pval_corr_fdr_wp1, index=anova_results_wp1.dropna(subset=['p-unc']).index)
-                        fdr_series_reject = pd.Series(reject_fdr_wp1, index=anova_results_wp1.dropna(subset=['p-unc']).index)
-                        anova_results_wp1['p-corr-fdr'] = fdr_series_pval
-                        anova_results_wp1['reject_fdr'] = fdr_series_reject
-                        main_logger.info(f"WP1 ANOVA with FDR correction:\n{anova_results_wp1}")
-                    
-                    condition_effect_row = anova_results_wp1[anova_results_wp1['Source'] == 'condition'] 
-                    if not condition_effect_row.empty and 'p-corr-fdr' in condition_effect_row:
-                        main_logger.info(
-                            f"WP1 ANOVA 'condition' effect: p-unc={condition_effect_row['p-unc'].iloc[0]:.4f}, "
-                            f"p-fdr={condition_effect_row['p-corr-fdr'].iloc[0]:.4f}, "
-                            f"reject_fdr={condition_effect_row['reject_fdr'].iloc[0]}"
-                        )
-                    
-                    anova_results_wp1.to_csv(os.path.join(group_results_dir, f"group_anova_wp1_plv_{config.PLV_PRIMARY_EEG_BAND_FOR_WP1}_hrv.csv"))
-                    group_plotting_service.plot_anova_results("GROUP", anova_results_wp1, df_for_anova_wp1, 'plv', 'condition', f"WP1: PLV ({config.PLV_PRIMARY_EEG_BAND_FOR_WP1}, HRV) by Condition", f"wp1_plv_{config.PLV_PRIMARY_EEG_BAND_FOR_WP1}_hrv") 
-            else:
-                main_logger.warning(f"WP1: Not enough data or participants for ANOVA on PLV ({config.PLV_PRIMARY_EEG_BAND_FOR_WP1}, EEG-HRV).")
-
-    all_trial_plv_wp1_dfs_for_wp2 = [ 
-        res['analysis_outputs']['dataframes']['trial_plv_wp1']
-        for res in all_participants_summary_artifacts
-        if isinstance(res, dict) and res.get('analysis_outputs', {}).get('dataframes', {}).get('trial_plv_wp1') is not None
-    ]
-    all_survey_dfs_for_wp2 = [ 
-        res['analysis_outputs']['dataframes']['survey_data_per_trial'] 
-        for res in all_participants_summary_artifacts
-        if isinstance(res, dict) and res.get('analysis_outputs', {}).get('dataframes', {}).get('survey_data_per_trial') is not None
-    ]
-
-    if all_trial_plv_wp1_dfs_for_wp2 and all_survey_dfs_for_wp2:
-        group_trial_plv_df_wp2 = pd.concat(all_trial_plv_wp1_dfs_for_wp2, ignore_index=True)
-        group_survey_df_wp2 = pd.concat(all_survey_dfs_for_wp2, ignore_index=True)
-
-        if not group_trial_plv_df_wp2.empty and not group_survey_df_wp2.empty and \
-           'sam_arousal' in group_survey_df_wp2.columns and \
-           'trial_identifier_eprime' in group_trial_plv_df_wp2.columns and \
-           'trial_identifier_eprime' in group_survey_df_wp2.columns:
-            try:
-                merged_wp2_group_df = pd.merge(group_trial_plv_df_wp2, group_survey_df_wp2, 
-                                               on=['participant_id', 'condition', 'trial_identifier_eprime'], how='inner')
-                if not merged_wp2_group_df.empty:
-                    df_for_corr_wp2 = merged_wp2_group_df[
-                        (merged_wp2_group_df['eeg_band'] == config.PLV_PRIMARY_EEG_BAND_FOR_WP2) & 
-                        (merged_wp2_group_df['modality_pair'] == 'EEG-HRV') 
-                    ].copy()
-                    
-                    if not df_for_corr_wp2.empty and df_for_corr_wp2['participant_id'].nunique() > 1 and len(df_for_corr_wp2) > 2:
-                        corr_wp2 = group_analysis_service.run_correlation_analysis(
-                            df_for_corr_wp2['sam_arousal'], df_for_corr_wp2['plv'], 
-                            name1='SAM_Arousal', name2=f'Trial_PLV_{config.PLV_PRIMARY_EEG_BAND_FOR_WP2}_HRV'
-                        )
-                        main_logger.info(f"Group Correlation (WP2 - Trial SAM Arousal vs Trial PLV {config.PLV_PRIMARY_EEG_BAND_FOR_WP2}):\n{corr_wp2}")
-                        if corr_wp2 is not None and not corr_wp2.empty: 
-                            corr_wp2.to_csv(os.path.join(group_results_dir, f"group_corr_wp2_trial_arousal_vs_plv_{config.PLV_PRIMARY_EEG_BAND_FOR_WP2}.csv"))
-                            group_plotting_service.plot_correlation("GROUP", df_for_corr_wp2['sam_arousal'], df_for_corr_wp2['plv'], 
-                                                                    "SAM Arousal (Trial)", f"PLV ({config.PLV_PRIMARY_EEG_BAND_FOR_WP2}-HRV, Trial)", 
-                                                                    f"WP2: Trial Arousal vs PLV ({config.PLV_PRIMARY_EEG_BAND_FOR_WP2})", f"wp2_trial_arousal_plv_{config.PLV_PRIMARY_EEG_BAND_FOR_WP2}", corr_wp2)
-                    else:
-                        main_logger.warning(f"WP2: Not enough data for correlation after filtering for band {config.PLV_PRIMARY_EEG_BAND_FOR_WP2} and modality.")
-                else:
-                    main_logger.warning("WP2: Merged DataFrame for PLV and survey data is empty. Check merge keys and data content.")
-            except Exception as e_merge_wp2:
-                 main_logger.error(f"WP2: Error merging PLV and survey data for group analysis: {e_merge_wp2}", exc_info=True)
+    # --- Group-Level Analyses (Delegated) ---
+    if all_participants_summary_artifacts:
+        # Filter out participants that did not process successfully before group analysis
+        successful_artifacts = [
+            p_artifact for p_artifact in all_participants_summary_artifacts 
+            if isinstance(p_artifact, dict) and p_artifact.get('status') == 'success'
+        ]
+        if successful_artifacts:
+            group_orchestrator = GroupAnalyzer(main_logger, output_base_dir)
+            group_orchestrator.run_group_analysis(successful_artifacts)
         else:
-            main_logger.warning("WP2: Missing necessary columns ('sam_arousal', 'trial_identifier_eprime') in PLV or survey data for group merge.")
-
-    wp3_data_list = [{'participant_id': r['participant_id'],
-                      'baseline_rmssd': r['analysis_outputs']['metrics'].get('baseline_rmssd'),
-                      'plv_negative_specific': r['analysis_outputs']['metrics'].get('wp3_avg_plv_negative_specific')}
-                     for r in all_participants_summary_artifacts if isinstance(r, dict) and 
-                     r.get('analysis_outputs', {}).get('metrics', {}).get('baseline_rmssd') is not None and
-                     not np.isnan(r['analysis_outputs']['metrics'].get('baseline_rmssd'))] 
-    
-    if wp3_data_list:
-        wp3_group_df = pd.DataFrame(wp3_data_list).dropna() 
-        if not wp3_group_df.empty and len(wp3_group_df) >=3:
-            corr_wp3 = group_analysis_service.run_correlation_analysis(wp3_group_df['baseline_rmssd'], wp3_group_df['plv_negative_specific'], name1='Baseline_RMSSD', name2=f'Avg_PLV_{config.PLV_PRIMARY_EEG_BAND_FOR_WP3}_HRV_Negative')
-            main_logger.info(f"Group Correlation (WP3 - Baseline RMSSD vs Negative PLV {config.PLV_PRIMARY_EEG_BAND_FOR_WP3}):\n{corr_wp3}")
-            if corr_wp3 is not None and not corr_wp3.empty:
-                 corr_wp3.to_csv(os.path.join(group_results_dir, f"group_corr_wp3_rmssd_vs_plv_neg_{config.PLV_PRIMARY_EEG_BAND_FOR_WP3}.csv")) 
-                 group_plotting_service.plot_correlation("GROUP", wp3_group_df['baseline_rmssd'], wp3_group_df['plv_negative_specific'], "Baseline RMSSD (ms)", f"Avg PLV ({config.PLV_PRIMARY_EEG_BAND_FOR_WP3}-HRV-Negative)", f"WP3: RMSSD vs Negative PLV ({config.PLV_PRIMARY_EEG_BAND_FOR_WP3})", f"wp3_rmssd_plv_neg_{config.PLV_PRIMARY_EEG_BAND_FOR_WP3}", corr_wp3)
-        else:
-            main_logger.warning("WP3: Not enough valid data for RMSSD vs PLV correlation after NaN handling.")
-
-    wp4_fai_list = []
-    for res in all_participants_summary_artifacts:
-        if isinstance(res, dict) and res.get('analysis_outputs', {}).get('metrics', {}).get('wp4_avg_fai_f4f3_emotional') is not None:
-            avg_fai_val = res['analysis_outputs']['metrics']['wp4_avg_fai_f4f3_emotional']
-            if not np.isnan(avg_fai_val): 
-                 wp4_fai_list.append({'participant_id': res['participant_id'], 
-                                      'avg_fai_f4f3_emotional': avg_fai_val})
-    
-    if wp4_fai_list and all_avg_plv_wp1_dfs: 
-        wp4_fai_group_df = pd.DataFrame(wp4_fai_list)
-        group_plv_data_wp1_for_wp4 = pd.concat(all_avg_plv_wp1_dfs, ignore_index=True) 
-        
-        plv_hrv_alpha_avg_emotional_wp4 = group_plv_data_wp1_for_wp4[
-            (group_plv_data_wp1_for_wp4['eeg_band'] == config.PLV_PRIMARY_EEG_BAND_FOR_WP4_HRV) & 
-            (group_plv_data_wp1_for_wp4['modality_pair'] == 'EEG-HRV') &
-            (group_plv_data_wp1_for_wp4['condition'].isin(EMOTIONAL_CONDITIONS)) 
-        ].groupby('participant_id')['plv'].mean().reset_index().rename(columns={'plv': 'avg_plv_hrv_alpha_emotional'})
-
-        merged_wp4_hrv = pd.merge(wp4_fai_group_df, plv_hrv_alpha_avg_emotional_wp4, on='participant_id')
-        corr_wp4_hrv_result = None
-        if not merged_wp4_hrv.empty and len(merged_wp4_hrv) >= 3:
-            corr_wp4_hrv_result = group_analysis_service.run_correlation_analysis(merged_wp4_hrv['avg_fai_f4f3_emotional'], merged_wp4_hrv['avg_plv_hrv_alpha_emotional'], name1='Avg_FAI_F4F3_Emotional', name2=f'Avg_PLV_{config.PLV_PRIMARY_EEG_BAND_FOR_WP4_HRV}_HRV_Emotional')
-            main_logger.info(f"Group Correlation (WP4 - Avg FAI F4-F3 vs EEG-HRV PLV {config.PLV_PRIMARY_EEG_BAND_FOR_WP4_HRV}):\n{corr_wp4_hrv_result}")
-        
-        plv_eda_alpha_avg_emotional_wp4 = group_plv_data_wp1_for_wp4[ 
-            (group_plv_data_wp1_for_wp4['eeg_band'] == config.PLV_PRIMARY_EEG_BAND_FOR_WP4_EDA) & 
-            (group_plv_data_wp1_for_wp4['modality_pair'] == 'EEG-EDA') &
-            (group_plv_data_wp1_for_wp4['condition'].isin(EMOTIONAL_CONDITIONS))
-        ].groupby('participant_id')['plv'].mean().reset_index().rename(columns={'plv': 'avg_plv_eda_alpha_emotional'})
-        
-        merged_wp4_eda = pd.merge(wp4_fai_group_df, plv_eda_alpha_avg_emotional_wp4, on='participant_id')
-        corr_wp4_eda_result = None
-        if not merged_wp4_eda.empty and len(merged_wp4_eda) >= 3:
-            corr_wp4_eda_result = group_analysis_service.run_correlation_analysis(merged_wp4_eda['avg_fai_f4f3_emotional'], merged_wp4_eda['avg_plv_eda_alpha_emotional'], name1='Avg_FAI_F4F3_Emotional', name2=f'Avg_PLV_{config.PLV_PRIMARY_EEG_BAND_FOR_WP4_EDA}_EDA_Emotional')
-            main_logger.info(f"Group Correlation (WP4 - Avg FAI F4-F3 vs EEG-EDA PLV {config.PLV_PRIMARY_EEG_BAND_FOR_WP4_EDA}):\n{corr_wp4_eda_result}")
-
-        wp4_corr_p_values_fdr = []
-        wp4_corr_dfs_for_fdr = []
-        if corr_wp4_hrv_result is not None and not corr_wp4_hrv_result.empty:
-            wp4_corr_p_values_fdr.append(corr_wp4_hrv_result['p-val'].iloc[0])
-            wp4_corr_dfs_for_fdr.append(corr_wp4_hrv_result)
-        if corr_wp4_eda_result is not None and not corr_wp4_eda_result.empty:
-            wp4_corr_p_values_fdr.append(corr_wp4_eda_result['p-val'].iloc[0])
-            wp4_corr_dfs_for_fdr.append(corr_wp4_eda_result)
-
-        if wp4_corr_p_values_fdr:
-            reject_fdr_wp4, pval_corr_fdr_wp4 = apply_fdr_correction(wp4_corr_p_values_fdr, alpha=0.05)
-            for i, corr_df in enumerate(wp4_corr_dfs_for_fdr):
-                corr_df['p-corr-fdr'] = pval_corr_fdr_wp4[i]
-                corr_df['reject_fdr'] = reject_fdr_wp4[i]
-                main_logger.info(f"WP4 Correlation ({corr_df.index[0]}) with FDR:\n{corr_df}")
-                
-                if corr_df is corr_wp4_hrv_result: 
-                    corr_df.to_csv(os.path.join(group_results_dir, f"group_corr_wp4_fai_vs_plv_hrv_{config.PLV_PRIMARY_EEG_BAND_FOR_WP4_HRV}.csv"))
-                    group_plotting_service.plot_correlation("GROUP", merged_wp4_hrv['avg_fai_f4f3_emotional'], merged_wp4_hrv['avg_plv_hrv_alpha_emotional'], "Avg FAI (F4-F3) Emotional", f"Avg PLV ({config.PLV_PRIMARY_EEG_BAND_FOR_WP4_HRV}-HRV) Emotional", f"WP4: FAI vs EEG-HRV PLV ({config.PLV_PRIMARY_EEG_BAND_FOR_WP4_HRV})", f"wp4_fai_plv_hrv_{config.PLV_PRIMARY_EEG_BAND_FOR_WP4_HRV}", corr_df)
-                elif corr_df is corr_wp4_eda_result: 
-                    corr_df.to_csv(os.path.join(group_results_dir, f"group_corr_wp4_fai_vs_plv_eda_{config.PLV_PRIMARY_EEG_BAND_FOR_WP4_EDA}.csv"))
-                    group_plotting_service.plot_correlation("GROUP", merged_wp4_eda['avg_fai_f4f3_emotional'], merged_wp4_eda['avg_plv_eda_alpha_emotional'], "Avg FAI (F4-F3) Emotional", f"Avg PLV ({config.PLV_PRIMARY_EEG_BAND_FOR_WP4_EDA}-EDA) Emotional", f"WP4: FAI vs EEG-EDA PLV ({config.PLV_PRIMARY_EEG_BAND_FOR_WP4_EDA})", f"wp4_fai_plv_eda_{config.PLV_PRIMARY_EEG_BAND_FOR_WP4_EDA}", corr_df)
+            main_logger.warning("No successfully processed participant artifacts available for group analysis.")
     else:
-        main_logger.warning("WP4: Not enough FAI data or PLV data for group correlations.")
+        main_logger.warning("No participant artifacts collected. Skipping group analysis.")
 
     summary_list = []
     for r_idx, r_val in enumerate(all_participants_summary_artifacts):

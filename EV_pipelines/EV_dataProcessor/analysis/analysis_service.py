@@ -11,8 +11,9 @@ from ..orchestrators import config
 from .hrv_analyzer import HRVAnalyzer
 from .psd_analyzer import PSDAnalyzer
 from .fnirs_glm_analyzer import FNIRSGLMAnalyzer 
-from .connectivity_analyzer import ConnectivityAnalyzer
+from .connectivity_analyzer import ConnectivityAnalyzer 
 from .anova_analyzer import ANOVAAnalyzer
+from .eda_analyzer import EDAAnalyzer # Import EDAAnalyzer
 from .correlation_analyzer import CorrelationAnalyzer
 
 class AnalysisService:
@@ -24,6 +25,7 @@ class AnalysisService:
         self.fnirs_glm_analyzer = FNIRSGLMAnalyzer(logger) 
         self.connectivity_analyzer = ConnectivityAnalyzer(logger)
         self.anova_analyzer = ANOVAAnalyzer(logger)
+        self.eda_analyzer = EDAAnalyzer(logger) # Instantiate EDAAnalyzer
         self.correlation_analyzer = CorrelationAnalyzer(logger)
         self.logger.info("AnalysisService initialized (delegation mode).")
 
@@ -53,12 +55,8 @@ class AnalysisService:
         return self.psd_analyzer.calculate_psd_and_fai(raw_eeg_processed, events_array, event_id_map)
 
     # --- fNIRS GLM Related ---
-    def run_fnirs_glm_and_contrasts(self, fnirs_epochs_mne, participant_id, analysis_results_dir, events_df_for_design_matrix_context=None):
-        """
-        Delegates fNIRS GLM analysis on epoched data to FNIRSGLMAnalyzer.
-        The `events_df_for_design_matrix_context` is not directly used if GLM is on epochs
-        and `fnirs_epochs_mne.event_id` is sufficient.
-        """
+    def run_fnirs_glm_and_contrasts(self, fnirs_epochs_mne, participant_id, analysis_results_dir):
+        """Delegates fNIRS GLM analysis on epoched data to FNIRSGLMAnalyzer."""
         # The event_id_map for GLM should come from the epochs object itself or be passed if different
         event_id_map_for_glm = fnirs_epochs_mne.event_id if fnirs_epochs_mne else {}
         
@@ -85,10 +83,10 @@ class AnalysisService:
         )
 
     # --- Statistical Tests ---
-    def run_repeated_measures_anova(self, data_df, dv, within, subject, between=None, effsize="np2"):
+    def run_repeated_measures_anova(self, data_df, dv, within, subject, effsize="np2"):
         """Delegates Repeated Measures ANOVA."""
         return self.anova_analyzer.perform_rm_anova(data_df, dv, within, subject, 
-                                                    between=between, effsize=effsize, detailed=True)
+                                                    effsize=effsize, detailed=True)
 
     def run_correlation_analysis(self, series1, series2, method='pearson', name1='Series1', name2='Series2'):
         """Delegates correlation analysis."""
@@ -104,3 +102,12 @@ class AnalysisService:
         else: 
             self.logger.warning(f"Correlation analysis returned unexpected type: {type(corr_result_dict_or_df)}")
             return pd.DataFrame()
+
+    # --- EDA Features Related ---
+    def calculate_eda_features_per_condition(self, raw_eeg_with_events,
+                                             phasic_eda_full_signal_array,
+                                             eda_original_sfreq,
+                                             analysis_metrics_dict):
+        """Delegates EDA feature calculation per condition."""
+        self.eda_analyzer.calculate_eda_features_per_condition(
+            raw_eeg_with_events, phasic_eda_full_signal_array, eda_original_sfreq, analysis_metrics_dict)

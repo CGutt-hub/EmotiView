@@ -49,34 +49,35 @@ class ANOVAAnalyzer:
 
     def prepare_plv_data_for_anova(self, df_agg, band, autonomic):
         """Prepares (melts and parses) PLV data from wide aggregated format to long format for ANOVA."""
-        self.logger.info(f"ANOVAAnalyzer - Preparing PLV data for {band}-{autonomic} ANOVA.")
-        plv_cols = [col for col in df_agg.columns if col.startswith(f'plv_avg_{band}_') and f'_{autonomic}_' in col]
+        self.logger.info(f"ANOVAAnalyzer - Preparing PLV data for {band} band and {autonomic} signal for ANOVA.")
+        # Columns are expected to be named like: 'plv_avg_Alpha_HRV_Positive', 'plv_avg_Alpha_HRV_Negative'
+        # The regex will extract the condition part.
+        # If multiple ROIs were analyzed and stored as plv_avg_Alpha_ROI1_HRV_Positive, the regex and column search would need to be more complex.
+        # Assuming PLV is for THE functionally defined channel set for this band/autonomic pair.
+        prefix = f'plv_avg_{band}_{autonomic}_'
+        plv_cols = [col for col in df_agg.columns if col.startswith(prefix)]
+        
         if not plv_cols:
-            self.logger.warning(f"ANOVAAnalyzer - No PLV columns found for {band}-{autonomic}.")
+            self.logger.warning(f"ANOVAAnalyzer - No PLV columns found with prefix '{prefix}'.")
             return pd.DataFrame() # Return empty DataFrame
 
         df_plv_long = df_agg[['participant_id'] + plv_cols].melt(
             id_vars='participant_id',
             value_vars=plv_cols,
-            var_name='plv_metric_full',
+            var_name='metric_name', # e.g., plv_avg_Alpha_HRV_Positive
             value_name='plv_value'
         )
         df_plv_long.dropna(subset=['plv_value'], inplace=True)
         if df_plv_long.empty:
             self.logger.warning(f"ANOVAAnalyzer - No valid data for {band}-{autonomic} after melt and NaN drop.")
             return pd.DataFrame()
-
-        def parse_plv_metric(metric_str, band_in, autonomic_in):
-            pattern = re.compile(f"plv_avg_{band_in}_(.*)_{autonomic_in}_(.*)")
-            match = pattern.match(metric_str)
-            if match:
-                return match.group(1), match.group(2) # roi, condition
-            return None, None
-
-        parsed_cols = df_plv_long['plv_metric_full'].apply(lambda x: pd.Series(parse_plv_metric(x, band, autonomic)))
-        parsed_cols.columns = ['roi', 'condition']
-        df_plv_long = pd.concat([df_plv_long, parsed_cols], axis=1)
-        df_plv_long.dropna(subset=['roi', 'condition'], inplace=True)
+        
+        # Extract condition from metric_name
+        # e.g., from 'plv_avg_Alpha_HRV_Positive', extract 'Positive'
+        df_plv_long['condition'] = df_plv_long['metric_name'].apply(lambda x: x.replace(prefix, ''))
+        
+        # If 'Baseline' PLV is also included with a similar naming convention, it will be handled.
+        # Example: plv_avg_Alpha_HRV_Baseline
         return df_plv_long
 
     def prepare_fai_data_for_anova(self, df_agg):
