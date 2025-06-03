@@ -1,0 +1,202 @@
+% !TeX program = lualatex
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+
+\documentclass[
+    12pt                % Font size
+]{article} % Sets the base font size (12pt) and document class (article)
+
+% --- Language and Encoding ---
+\usepackage[english]{babel} % Language (adjust if primary language is German)
+
+\usepackage{amsmath}        % For advanced math typesetting
+\usepackage{amssymb}        % For math symbols
+\usepackage{graphicx}       % For including images
+\usepackage{csquotes}       % Context sensitive quotation marks, often needed by biblatex
+\usepackage{times}          % Uses Times New Roman font
+
+% --- Bibliography ---
+\usepackage[
+    backend=biber,        % Use biber backend
+    style=apa,            % APA citation style (or another like 'authoryear')
+    sorting=nyt,          % Sort by name, year, title
+    natbib=true           % Enable natbib compatibility commands if needed
+]{biblatex}
+\addbibresource{../EV_utils/resources.bib} % Specifies the bibliography file
+
+% --- Hyperlinks and PDF Metadata ---
+\usepackage{hyperref} % Enables clickable links within the PDF (e.g., ToC, citations, URLs)
+\hypersetup{
+    hidelinks, % Hides the borders/colors around links
+    colorlinks=true, % Colors the link text instead of using borders
+    breaklinks=true, % Allows links to break across lines
+    urlcolor=black, % Color for URLs
+    citecolor=black, % Color for citation links
+    linkcolor=black, % Color for internal links (sections, figures)
+    bookmarksopen=false, % Whether PDF bookmarks are initially expanded
+    pdftitle={EmotiView: Neural-Autonomic Synchrony in Conscious Emotional Processing}, % PDF metadata: Title
+    pdfauthor={Cagatay Özcan Jagiello Gutt} % PDF metadata: Author
+}
+
+% --- Graphics and Page Layout ---
+\usepackage{geometry} % For customizing page margins and layout
+\geometry{a4paper, margin=1in} % Sets paper size to A4 and all margins to 1 inch
+\usepackage{float} % Improves control over floating elements like figures and tables
+
+% --- Captions ---
+\usepackage{caption}
+\captionsetup{
+    justification=justified, % Justifies caption text
+    singlelinecheck=false, % Applies justification even to single-line captions
+    labelfont=bf, % Makes the caption label (e.g., "Figure 1:") bold
+    margin=1.5em, % Sets left/right margin for caption text
+    font={stretch=1.0} % Adjusts line spacing within captions (1.0 is normal)
+}
+
+% --- Diagrams and Drawing ---
+\usepackage{tikz} % Powerful package for creating graphics programmatically
+\usetikzlibrary{arrows.meta, shapes.geometric, positioning, decorations.pathreplacing} % Loads useful TikZ libraries
+
+% --- Text Formatting ---
+\usepackage{ragged2e} % Provides improved text alignment options (e.g., \RaggedRight)
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{setspace} % For adjusting line spacing (\setstretch, \singlespacing, etc.)
+
+% --- Colors ---
+\usepackage{xcolor} % Enables the use of colors
+\definecolor{rubblue}{RGB}{0,51,160} % Defines a custom color 'rubblue'
+\definecolor{rubgrey}{RGB}{153,153,153} % Defines a custom color 'rubgrey'
+\definecolor{borot}{RGB}{226,0,26}
+\definecolor{Grau}{gray}{0.96}
+
+% --- Section Spacing Customization ---
+\usepackage{titlesec} % Allows customization of section headings
+\titlespacing*{\section}{0pt}{*1.2}{*0.7} % Adjusts spacing around \section: {left}{before}{after}
+\titlespacing*{\subsection}{0pt}{*1.2}{*0.7} % Adjusts spacing around \subsection
+\titlespacing*{\paragraph}{0pt}{*1}{*0.5} % Adjusts spacing around \paragraph
+
+% --- Glossaries and Acronyms ---
+\usepackage[automake, % Automatically runs makeglossaries if needed
+            acronym, % Enables acronym handling
+            toc, % Adds glossaries to the Table of Contents
+            shortcuts, % Provides shorthand commands like \acs, \acp
+            nomain, % Disables the main glossary type if only acronyms are used
+            nonumberlist, % Suppresses page numbers in the glossary list
+            nopostdot, % Removes the period after descriptions in the list
+            nogroupskip % Removes vertical space between letter groups in the list
+           ]{glossaries}
+\loadglsentries{../EV_utils/EV_glossary.tex} % Path to your glossary definitions
+\makeglossaries % Processes the defined glossaries and acronyms
+
+% --- Glossary Formatting ---
+\renewcommand*{\glsnamefont}[1]{\textbf{\textit{#1}}} % Formats the acronym name in the list
+
+% --- Header/Footer Setup ---
+\usepackage{fancyhdr} % For creating custom headers and footers
+\renewcommand{\headrulewidth}{0.4pt} % Sets the thickness of the header rule line
+\renewcommand{\footrulewidth}{0.4pt} % Sets the thickness of the footer rule line
+\setlength{\headheight}{14.49998pt} % Sets the height reserved for the header
+\addtolength{\topmargin}{-2.49998pt} % Adjusts top margin
+\setlength{\parindent}{0 cm} % Sets paragraph indentation to zero
+
+% --- Page Style Setup ---
+\pagestyle{fancy} % Activates the fancy page style
+\fancyhf{} % Clears all existing header and footer fields
+\fancyhead[R]{EmotiView: Neural-Autonomic Synchrony} % Thesis title in header (shortened)
+\fancyhead[L]{\nouppercase{\leftmark}} % Current section title (lowercase) in top left header
+\fancyfoot[C]{-\thepage-} % Page number centered in the footer
+\fancyfoot[L]{Cagatay Özcan Jagiello Gutt} % Author name in bottom left footer
+\fancyfoot[R]{\href{https://orcid.org/0000-0002-1774-532X}{ORCID: 0000-0002-1774-532X}}
+% Title, Author, Date
+\title{EmotiView: Neural-Autonomic Synchrony in Conscious Emotional Processing} % Replace with your actual title
+\author{Cagatay Özcan Jagiello Gutt} % Replace with your name
+\date{\today}
+
+\begin{document}
+
+% --- Title Page ---
+\begin{titlepage}
+    \begin{center}
+        \begin{minipage}{0.2\textwidth}
+            \includegraphics[width=1.5\textwidth]{../EV_images/rub.jpg} % University logo
+        \end{minipage}
+        \hspace*{\fill}
+        \begin{minipage}{0.6\textwidth}
+            \hspace*{\fill}\textbf{Ruhr-University Bochum} \\ \hspace*{\fill}\textbf{Faculty of Psychology}
+        \end{minipage}
+
+        \vspace{2 cm}
+        {\textbf{\large MASTER THESIS}}
+
+        \vspace{0.2cm}
+        Submitted in partial fulfillment of the requirements for the degree of Master of Science in Cognitive Science at Ruhr-University Bochum
+
+        \vspace{0.5cm}
+        by the student
+
+        \vspace{0.5cm}
+        Cagatay Özcan Jagiello Gutt\\
+        Student Number: 108022246097
+
+        \vspace{0.5cm}
+        Submission Date: \today \\ % Or a specific date
+        Examination Period: Summer Semester 2025 % Adjust as needed
+
+        \vspace{0.5cm}
+        Thesis Title:
+
+        \vspace{0.2cm}
+        \textbf{Neural-Autonomic Synchrony and Embodied Integration}
+
+        \vspace{0.2cm}
+        Temporal Binding of Frontal-Parietal Networks and Autonomic Responses in Conscious Emotional Processing
+
+        \vspace{0.5cm}
+        \begin{minipage}{0.8\textwidth}
+            \begin{tabular}{p{0.4\textwidth} p{0.4\textwidth}}
+                1st Supervisor: & Dr. Julian Elias Reiser \\
+                & Leibniz Research Centre for Working Environment and Human Factors (IfADo) \\
+                & at TU Dortmund, Department of Psychology and Neurosciences\\
+                \\
+                2nd Supervisor: & Prof. Dr. Dirk Scheele \\
+                & Research Department of Neuroscience, Institute of Cognitive Neuroscience, \\
+                & Faculty of Psychology, Ruhr-University Bochum \\
+            \end{tabular}
+        \end{minipage}
+        \vspace{\fill}
+    \end{center}
+\end{titlepage}
+\newpage
+
+% Include your abstract - Placed immediately after the title page
+\phantomsection % Ensures hyperref links correctly to the Abstract from the ToC
+\addcontentsline{toc}{section}{Abstract} % Adds "Abstract" to the Table of Contents
+\begin{abstract}
+\input{../EV_abstract/EV_abstract.tex} % Inserts the content of your abstract file
+\end{abstract}
+\cleardoublepage % Ensure next content (e.g., ToC) starts on a new page
+
+\pagenumbering{Roman} % Roman numerals for front matter (ToC, LoF, Glossary)
+
+\tableofcontents
+\newpage
+\listoffigures
+% \listoftables % Uncomment if you have tables
+\newpage
+\printglossary[style=long3col, type=\acronymtype, title=List of Acronyms] % Acronyms list
+\newpage
+\pagenumbering{arabic} % Arabic numerals for main body
+
+% Include your chapters/sections
+% \include{introduction} % Example: create introduction.tex
+\input{EV_methods.tex}      % Your methods section (assuming it's in the same EV_thesis folder)
+% \include{results}       % Example: create results.tex
+% \include{discussion}    % Example: create discussion.tex
+% \include{conclusion}    % Example: create conclusion.tex
+
+\newpage
+\addcontentsline{toc}{section}{References} % Add "References" to the ToC
+\printbibliography % Print bibliography
+
+\end{document}

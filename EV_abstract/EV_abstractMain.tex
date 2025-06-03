@@ -1,0 +1,118 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Language and Encoding ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% --- Bibliography (Included for consistency, though not used in abstract) ---
+\usepackage[backend=biber, style=apa]{biblatex}
+% \addbibresource{resources.bib} % Specify your bibliography file if needed later
+
+% --- Hyperlinks and PDF Metadata ---
+\usepackage{hyperref}
+\hypersetup{
+    hidelinks,
+    colorlinks=true,
+    breaklinks=true,
+    urlcolor=black,
+    citecolor=black,
+    linkcolor=black,
+    bookmarksopen=false,
+    pdftitle={Temporal Binding of Brain and Body: Neural-Autonomic Phase Synchrony During Emotional Processing},
+    pdfauthor={Cagatay Özcan Jagiello Gutt}
+}
+
+% --- Graphics and Page Layout ---
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{float}
+
+% --- Captions (Included for consistency) ---
+\usepackage{caption}
+\captionsetup{
+    justification=justified,
+    singlelinecheck=false,
+    labelfont=bf,
+    margin=1.5em,
+    font={stretch=1.0}
+}
+
+% --- Diagrams and Drawing (Included for consistency) ---
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, shapes.geometric, positioning, decorations.pathreplacing}
+
+% --- Text Formatting ---
+\usepackage{ragged2e}
+\usepackage{enumitem}
+
+% --- Colors ---
+\usepackage{xcolor}
+\definecolor{rubblue}{RGB}{0,51,160}
+\definecolor{rubgrey}{RGB}{153,153,153}
+
+% --- Font and General Style Packages (from proposal) ---
+\usepackage{times}
+\usepackage{fancyhdr}
+\usepackage{csquotes}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makecell}
+\usepackage{setspace}
+
+% --- Section Spacing Customization (Included for consistency, though no sections here) ---
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{*1.2}{*0.7}
+\titlespacing*{\subsection}{0pt}{*1.2}{*0.7}
+\titlespacing*{\paragraph}{0pt}{*1}{*0.5}
+
+% --- Glossaries and Acronyms (REMOVED - Not needed for standalone abstract page) ---
+% \usepackage[acronym, shortcuts]{glossaries}
+% \newacronym{...} ...
+% \makeglossaries
+% \renewcommand*{\glsnamefont}[1]{\textbf{\textit{#1}}}
+
+% --- Header/Footer Setup (Matching proposal style, NO page number) ---
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\headheight}{14.49998pt}
+\addtolength{\topmargin}{-2.49998pt}
+\setlength{\parindent}{0 cm}
+
+% --- Custom Colors (Copied from proposal) ---
+\definecolor{borot}{RGB}{226,0,26}
+\definecolor{Grau}{gray}{0.96}
+
+% --- Custom Commands (Copied from proposal) ---
+\newcommand{\mt}[2][Grau]{\colorbox{#1}{#2}}
+\newcommand{\ts}[1]{\textsl{#1}}
+\newcommand{\q}[1]{\glqq #1\grqq}
+
+% --- Page Style Setup (using fancyhdr - matching proposal) ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{Neural-Autonomic Synchrony and Embodied Integration}
+\fancyhead[L]{\nouppercase{\leftmark Abstract}}
+\fancyfoot[R]{\href{https://orcid.org/0000-0002-1774-532X}{ORCID: 0000-0002-1774-532X}}
+
+% --- Title, Author, Date Information ---
+\title{Neural-Autonomic Synchrony and Embodied Integration}
+\author{Cagatay Özcan Jagiello Gutt}
+\date{\today}
+
+% --- Start of Document ---
+\begin{document}
+
+% --- Title Block Formatting ---
+{\bfseries\maketitle}
+\thispagestyle{fancy}
+\vspace{-2\baselineskip}
+
+% --- Abstract Environment ---
+\begin{abstract}
+    \input{EV_abstract.tex} % Load abstract text from the shared file
+\end{abstract}
+    
+\end{document}

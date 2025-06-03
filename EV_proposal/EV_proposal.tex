@@ -5,7 +5,7 @@
 
 % --- Bibliography ---
 \usepackage[backend=biber, style=apa]{biblatex} % Uses biblatex with the biber backend and APA citation style
-\addbibresource{resources.bib} % Specifies the bibliography file (must be in the same directory or provide path)
+\addbibresource{../EV_utils/resources.bib} % Specifies the bibliography file (must be in the same directory or provide path)
 
 % --- Hyperlinks and PDF Metadata ---
 \usepackage{hyperref} % Enables clickable links within the PDF (e.g., ToC, citations, URLs)
@@ -78,42 +78,7 @@
             nopostdot, % Removes the period after descriptions in the list
             nogroupskip % Removes vertical space between letter groups in the list
            ]{glossaries}
-
-% --- Define Acronyms Here ---
-% Format: \newacronym{label}{short_form}{long_form}
-% The 'label' is used in the text with \gls{label}, \Gls{label}, \glspl{label}, etc.
-\newacronym{ANS}{ANS}{autonomic nervous system}
-\newacronym{PFC}{PFC}{prefrontal cortex}
-\newacronym{BIS}{BIS}{Behavioural Inhibition System}
-\newacronym{BAS}{BAS}{Behavioural Approach System}
-\newacronym{HRV}{HRV}{Heart Rate Variability}
-\newacronym{ECG}{ECG}{Electrocardiography}
-\newacronym{RMSSD}{RMSSD}{Root Mean Square of Successive Differences}
-\newacronym{EDA}{EDA}{Electrodermal Activity}
-\newacronym{GSR}{GSR}{Galvanic Skin Response}
-\newacronym{SCR}{SCR}{Skin Conductance Responses}
-\newacronym{SCL}{SCL}{Skin Conductance Level}
-\newacronym{PLV}{PLV}{Phase locking value}
-\newacronym{EEG}{EEG}{Electroencephalography}
-\newacronym{fNIRS}{fNIRS}{Functional Near-Infrared Spectroscopy}
-\newacronym{ROI}{ROI}{regions of interest}
-\newacronym{SAM}{SAM}{Self-Assessment Manikin}
-\newacronym{HbO2}{HbO2}{Oxyhemoglobin}
-\newacronym{HbR}{HbR}{Deoxyhemoglobin}
-\newacronym{NN intervals}{NN intervals}{Time intervals between consecutive R-peaks}
-\newacronym{ICA}{ICA}{Independent Component Analysis}
-\newacronym{TDDR}{TDDR}{temporal derivation distribution repair}
-\newacronym{DLPFC}{DLPFC}{dorsolateral prefrontal cortex}
-\newacronym{VMPFC}{VMPFC}{ventromedial prefrontal cortex}
-\newacronym{ANOVA}{ANOVA}{Analysis of Variance}
-\newacronym{FAI}{FAI}{frontal asymmetry index}
-\newacronym{P wave}{P wave}{arterial depolarization}
-\newacronym{QRS complex}{QRS complex}{ventricular depolarization}
-\newacronym{T wave}{T wave}{ventricular repolarization}
-\newacronym{GLM}{GLM}{General Linear Model}
-\newacronym{PANAS}{PANAS}{Positive and Negative Affect Schedule}
-\newacronym{WP}{WP}{Work Packages}
-
+\loadglsentries{../EV_utils/EV_glossary.tex} % Path to your glossary definitions
 \makeglossaries % Processes the defined glossaries and acronyms
 
 % --- Glossary Formatting ---
@@ -156,7 +121,7 @@
 \begin{titlepage}
     \begin{center}
         \begin{minipage}{0.2\textwidth}
-            \includegraphics[width=1.5\textwidth]{EV_images/rub.jpg} % Include university logo (adjust path/size)
+            \includegraphics[width=1.5\textwidth]{../EV_images/rub.jpg} % Include university logo (adjust path/size)
         \end{minipage}
         \hspace*{\fill}
         \begin{minipage}{0.6\textwidth}
@@ -320,7 +285,7 @@ This study employs a multimodal approach, simultaneously recording \gls{fNIRS}, 
 % --- Figure Environment for Setup Diagram ---
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.48\textwidth]{EV_images/EV_cogMeasSetupMod.png} % Include setup image (adjust path/size)
+    \includegraphics[width=0.48\textwidth]{../EV_images/EV_cogMeasSetupMod.png} % Include setup image (adjust path/size)
     \caption{Placement Setup for Simultaneous \gls{EEG} and \gls{fNIRS}.}
     \label{fig:eegsetup} % Label for referencing
     \parbox{0.8\textwidth}{\scriptsize Combined \gls{EEG}/\gls{fNIRS} setup. Blue = detectors, Red = sources. Circled sources connect to short channel detectors.} % Detailed description

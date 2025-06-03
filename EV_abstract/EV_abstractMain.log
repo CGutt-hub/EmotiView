@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.5)  30 MAY 2025 16:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.5)  30 MAY 2025 15:51
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**d:/repoShaggy/EmotiView/EV_proposal/EV_proposal.tex
-(d:/repoShaggy/EmotiView/EV_proposal/EV_proposal.tex
+**d:/repoShaggy/EmotiView/EV_abstract/EV_abstractMain.tex
+(d:/repoShaggy/EmotiView/EV_abstract/EV_abstractMain.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
 (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
@@ -23,6 +23,12 @@ File: size12.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip48
 \belowcaptionskip=\skip49
 \bibindent=\dimen140
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
+Package: inputenc 2021/02/14 v1.3d Input encoding file
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
 Package: babel 2024/01/07 v24.1 The Babel package
 \babel@savecnt=\count195
@@ -67,7 +73,7 @@ Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count197
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
-\KV@toks@=\toks17
+\KV@toks@=\toks19
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
@@ -415,9 +421,9 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 )
 \Hy@SectionHShift=\skip72
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 22.
-Package hyperref Info: Option `breaklinks' set `true' on input line 22.
-Package hyperref Info: Option `bookmarksopen' set `false' on input line 22.
+Package hyperref Info: Option `colorlinks' set `true' on input line 24.
+Package hyperref Info: Option `breaklinks' set `true' on input line 24.
+Package hyperref Info: Option `bookmarksopen' set `false' on input line 24.
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
@@ -449,13 +455,13 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layoutheight=\dimen153
 \Gm@layouthoffset=\dimen154
 \Gm@layoutvoffset=\dimen155
-\Gm@dimlist=\toks18
+\Gm@dimlist=\toks20
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg)) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count415
-\float@exts=\toks19
+\float@exts=\toks21
 \float@box=\box52
-\@float@everytoks=\toks20
+\@float@everytoks=\toks22
 \@floatcapt=\box53
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
@@ -476,7 +482,7 @@ Package caption Info: Standard document class detected.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.sty (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.sty (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-common.tex
-\pgfutil@everybye=\toks21
+\pgfutil@everybye=\toks23
 \pgfutil@tempdima=\dimen164
 \pgfutil@tempdimb=\dimen165
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-latex.def
@@ -488,10 +494,10 @@ Package: pgf 2023-01-15 v3.1.10 (3.1.10)
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.sty (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.sty (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys.code.tex
 Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks22
-\pgfkeys@temptoks=\toks23
+\pgfkeys@pathtoks=\toks24
+\pgfkeys@temptoks=\toks25
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeyslibraryfiltered.code.tex
-\pgfkeys@tmptoks=\toks24
+\pgfkeys@tmptoks=\toks26
 ))
 \pgf@x=\dimen166
 \pgf@y=\dimen167
@@ -509,9 +515,9 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 \c@pgf@countb=\count419
 \c@pgf@countc=\count420
 \c@pgf@countd=\count421
-\t@pgf@toka=\toks25
-\t@pgf@tokb=\toks26
-\t@pgf@tokc=\toks27
+\t@pgf@toka=\toks27
+\t@pgf@tokb=\toks28
+\t@pgf@tokc=\toks29
 \pgf@sys@id@count=\count422
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
@@ -549,9 +555,9 @@ Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
 \pgfmath@dimen=\dimen176
 \pgfmath@count=\count425
 \pgfmath@box=\box55
-\pgfmath@toks=\toks28
-\pgfmath@stack@operand=\toks29
-\pgfmath@stack@operation=\toks30
+\pgfmath@toks=\toks30
+\pgfmath@stack@operand=\toks31
+\pgfmath@stack@operation=\toks32
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.code.tex) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.basic.code.tex) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.trigonometric.code.tex) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.random.code.tex) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.comparison.code.tex) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.base.code.tex) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.round.code.tex) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.misc.code.tex) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.integerarithmetics.code.tex) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.code.tex) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat.code.tex
 \c@pgfmathroundto@lastzeros=\count426
 )) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.tex) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepoints.code.tex
@@ -635,8 +641,8 @@ Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
 \pgffor@iter=\dimen259
 \pgffor@skip=\dimen260
-\pgffor@stack=\toks31
-\pgffor@toks=\toks32
+\pgffor@stack=\toks33
+\pgffor@toks=\toks34
 )) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz\tikz.code.tex
 Package: tikz 2023-01-15 v3.1.10 (3.1.10)
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibraryplothandlers.code.tex
@@ -712,62 +718,37 @@ Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 Package: enumitem 2025/02/06 v3.11 Customized lists
 \labelindent=\skip87
 \enit@outerparindent=\dimen281
-\enit@toks=\toks33
+\enit@toks=\toks35
 \enit@inbox=\box66
 \enit@count@id=\count440
 \enitdp@description=\count441
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.sty
-Package: microtype 2025/02/11 v3.2a Micro-typographical refinements (RS)
-\MT@toks=\toks34
-\MT@tempbox=\box67
-\MT@count=\count442
-LaTeX Info: Redefining \noprotrusionifhmode on input line 1087.
-LaTeX Info: Redefining \leftprotrusion on input line 1088.
-\MT@prot@toks=\toks35
-LaTeX Info: Redefining \rightprotrusion on input line 1107.
-LaTeX Info: Redefining \textls on input line 1449.
-\MT@outer@kern=\dimen282
-LaTeX Info: Redefining \microtypecontext on input line 2053.
-LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
-\MT@listname@count=\count443
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype-pdftex.def
-File: microtype-pdftex.def 2025/02/11 v3.2a Definitions specific to pdftex (RS)
-LaTeX Info: Redefining \lsstyle on input line 944.
-LaTeX Info: Redefining \lslig on input line 944.
-\MT@outer@space=\skip88
-)
-Package microtype Info: Loading configuration file microtype.cfg.
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.cfg
-File: microtype.cfg 2025/02/11 v3.2a microtype main configuration file (RS)
-)
-LaTeX Info: Redefining \microtypesetup on input line 3065.
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\times.sty
 Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyhdr.sty
 Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
-\f@nch@headwidth=\skip89
-\f@nch@offset@elh=\skip90
-\f@nch@offset@erh=\skip91
-\f@nch@offset@olh=\skip92
-\f@nch@offset@orh=\skip93
-\f@nch@offset@elf=\skip94
-\f@nch@offset@erf=\skip95
-\f@nch@offset@olf=\skip96
-\f@nch@offset@orf=\skip97
-\f@nch@height=\skip98
-\f@nch@footalignment=\skip99
-\f@nch@widthL=\skip100
-\f@nch@widthC=\skip101
-\f@nch@widthR=\skip102
+\f@nch@headwidth=\skip88
+\f@nch@offset@elh=\skip89
+\f@nch@offset@erh=\skip90
+\f@nch@offset@olh=\skip91
+\f@nch@offset@orh=\skip92
+\f@nch@offset@elf=\skip93
+\f@nch@offset@erf=\skip94
+\f@nch@offset@olf=\skip95
+\f@nch@offset@orf=\skip96
+\f@nch@height=\skip97
+\f@nch@footalignment=\skip98
+\f@nch@widthL=\skip99
+\f@nch@widthC=\skip100
+\f@nch@widthR=\skip101
 \@temptokenb=\toks36
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.sty
 Package: csquotes 2024-04-04 v5.2o context-sensitive quotations (JAW)
-\csq@reset=\count444
-\csq@gtype=\count445
-\csq@glevel=\count446
-\csq@qlevel=\count447
-\csq@maxlvl=\count448
-\csq@tshold=\count449
+\csq@reset=\count442
+\csq@gtype=\count443
+\csq@glevel=\count444
+\csq@qlevel=\count445
+\csq@maxlvl=\count446
+\csq@tshold=\count447
 \csq@ltx@everypar=\toks37
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.def
 File: csquotes.def 2024-04-04 v5.2o csquotes generic definitions (JAW)
@@ -778,7 +759,7 @@ Package csquotes Info: ... configuration file loaded successfully.
 File: csquotes.cfg 
 )) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
 Package: amsmath 2023/05/13 v2.17o AMS math features
-\@mathmargin=\skip103
+\@mathmargin=\skip102
 
 For additional information on amsmath, use the `?' option.
 (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
@@ -786,57 +767,57 @@ Package: amstext 2021/08/26 v2.01 AMS text
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks38
-\ex@=\dimen283
+\ex@=\dimen282
 )) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen284
+\pmbraise@=\dimen283
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count450
+\inf@bad=\count448
 LaTeX Info: Redefining \frac on input line 234.
-\uproot@=\count451
-\leftroot@=\count452
+\uproot@=\count449
+\leftroot@=\count450
 LaTeX Info: Redefining \overline on input line 399.
 LaTeX Info: Redefining \colon on input line 410.
-\classnum@=\count453
-\DOTSCASE@=\count454
+\classnum@=\count451
+\DOTSCASE@=\count452
 LaTeX Info: Redefining \ldots on input line 496.
 LaTeX Info: Redefining \dots on input line 499.
 LaTeX Info: Redefining \cdots on input line 620.
-\Mathstrutbox@=\box68
-\strutbox@=\box69
+\Mathstrutbox@=\box67
+\strutbox@=\box68
 LaTeX Info: Redefining \big on input line 722.
 LaTeX Info: Redefining \Big on input line 723.
 LaTeX Info: Redefining \bigg on input line 724.
 LaTeX Info: Redefining \Bigg on input line 725.
-\big@size=\dimen285
+\big@size=\dimen284
 LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
-\macc@depth=\count455
+\macc@depth=\count453
 LaTeX Info: Redefining \bmod on input line 905.
 LaTeX Info: Redefining \pmod on input line 910.
 LaTeX Info: Redefining \smash on input line 940.
 LaTeX Info: Redefining \relbar on input line 970.
 LaTeX Info: Redefining \Relbar on input line 971.
-\c@MaxMatrixCols=\count456
+\c@MaxMatrixCols=\count454
 \dotsspace@=\muskip21
-\c@parentequation=\count457
-\dspbrk@lvl=\count458
+\c@parentequation=\count455
+\dspbrk@lvl=\count456
 \tag@help=\toks39
-\row@=\count459
-\column@=\count460
-\maxfields@=\count461
+\row@=\count457
+\column@=\count458
+\maxfields@=\count459
 \andhelp@=\toks40
-\eqnshift@=\dimen286
-\alignsep@=\dimen287
-\tagshift@=\dimen288
-\tagwidth@=\dimen289
-\totwidth@=\dimen290
-\lineht@=\dimen291
+\eqnshift@=\dimen285
+\alignsep@=\dimen286
+\tagshift@=\dimen287
+\tagwidth@=\dimen288
+\totwidth@=\dimen289
+\lineht@=\dimen290
 \@envbody=\toks41
-\multlinegap=\skip104
-\multlinetaggap=\skip105
+\multlinegap=\skip103
+\multlinetaggap=\skip104
 \mathdisplay@stack=\toks42
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
@@ -853,204 +834,59 @@ Package: amssymb 2013/01/14 v3.01 AMS font symbols
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
 Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
-\col@sep=\dimen292
-\ar@mcellbox=\box70
-\extrarowheight=\dimen293
+\col@sep=\dimen291
+\ar@mcellbox=\box69
+\extrarowheight=\dimen292
 \NC@list=\toks43
-\extratabsurround=\skip106
-\backup@length=\skip107
-\ar@cellbox=\box71
+\extratabsurround=\skip105
+\backup@length=\skip106
+\ar@cellbox=\box70
 )
-\rotheadsize=\dimen294
-\c@nlinenum=\count462
+\rotheadsize=\dimen293
+\c@nlinenum=\count460
 \TeXr@lab=\toks44
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titlesec.sty
 Package: titlesec 2025/01/04 v2.17 Sectioning titles
-\ttl@box=\box72
-\beforetitleunit=\skip108
-\aftertitleunit=\skip109
-\ttl@plus=\dimen295
-\ttl@minus=\dimen296
+\ttl@box=\box71
+\beforetitleunit=\skip107
+\aftertitleunit=\skip108
+\ttl@plus=\dimen294
+\ttl@minus=\dimen295
 \ttl@toksa=\toks45
-\titlewidth=\dimen297
-\titlewidthlast=\dimen298
-\titlewidthfirst=\dimen299
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/base\glossaries.sty
-Package: glossaries 2025/04/14 v4.6 (NLCT)
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
-Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
-\XKV@toks=\toks46
-\XKV@tempa@toks=\toks47
+\titlewidth=\dimen296
+\titlewidthlast=\dimen297
+\titlewidthfirst=\dimen298
 )
-\XKV@depth=\count463
-File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
-)) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/mfirstuc\mfirstuc.sty
-Package: mfirstuc 2025/04/03 v2.09 (NLCT)
-\@glsmfirst=\toks48
-\@glsmrest=\toks49
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/xfor\xfor.sty
-Package: xfor 2009/02/05 v1.05 (NLCT)
-) () (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/tracklang\tracklang.sty
-Package: tracklang 2025/03/11 v1.6.6 (NLCT) Track Languages
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/tracklang\tracklang.tex)
-Package tracklang Info: Tracking dialect `english' (language `english') on input line 264.
-Package tracklang Info: Tracking dialect `english' (language `english') on input line 264.
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator.sty
-Package: translator 2021-05-31 v1.12d Easy translation of strings in LaTeX
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries-english\glossaries-english.ldf
-File: glossaries-english.ldf 2014/11/23 v1.0
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/datatool\datatool-base.sty
-Package: datatool-base 2025/04/25 v3.4.1 (NLCT)
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/datatool\datatool-l3fp.def
-File: datatool-l3fp.def 2025/04/25 v3.4.1 (NLCT)
-)
-\@dtl@toks=\toks50
-\@dtl@tmpcount=\count464
-\dtl@tmplength=\skip110
-\l__datatool_measure_box=\box73
-\dtl@sortresult=\count465
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/datatool\datatool-utf8.ldf
-File: datatool-utf8.ldf 2025/04/25 v3.4.1 (NLCT)
-)
-\@dtl@datatype=\count466
-\l__datatool_tmpa_int=\count467
-\l__datatool_tmpb_int=\count468
-\l__datatool_tmpc_int=\count469
-\l__datatool_tmpd_int=\count470
-\l__datatool_count_int=\count471
-\l__datatool_tmp_datatype_int=\count472
-\l__datatool_tmpa_dim=\dimen300
-\l__datatool_tmpb_dim=\dimen301
-\c_datatool_unknown_int=\count473
-\l__datatool_year_int=\count474
-\l__datatool_month_int=\count475
-\l__datatool_day_int=\count476
-\l__datatool_hour_int=\count477
-\l__datatool_minute_int=\count478
-\l__datatool_second_int=\count479
-\l__datatool_tzhour_int=\count480
-\l__datatool_tzminute_int=\count481
-\l__datatool_julian_int=\count482
-\l__datatool_local_julian_int=\count483
-\l__datatool_prefix_int=\count484
-\l__datatool_suffix_int=\count485
-\@dtl@foreach@level=\count486
-
-
-Package tracklang Warning: No `datatool' support for dialect `english'  on input line 9908.
-
-\dtl@codeA=\count487
-\dtl@codeB=\count488
-)
-\gls@level=\count489
-\@gls@tmpb=\toks51
-\gls@tmplen=\skip111
-\l__glossaries_tmpa_dim=\dimen302
-\l__glossaries_tmpb_dim=\dimen303
-\glskeylisttok=\toks52
-\glslabeltok=\toks53
-\glsshorttok=\toks54
-\glslongtok=\toks55
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-hypernav.sty
-Package: glossary-hypernav 2025/04/14 v4.6 (NLCT)
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-list.sty
-Package: glossary-list 2025/04/14 v4.6 (NLCT)
-\glslistdottedwidth=\skip112
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-long.sty
-Package: glossary-long 2025/04/14 v4.6 (NLCT)
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
-Package: longtable 2023-11-01 v4.19 Multi-page Table package (DPC)
-\LTleft=\skip113
-\LTright=\skip114
-\LTpre=\skip115
-\LTpost=\skip116
-\LTchunksize=\count490
-\LTcapwidth=\dimen304
-\LT@head=\box74
-\LT@firsthead=\box75
-\LT@foot=\box76
-\LT@lastfoot=\box77
-\LT@gbox=\box78
-\LT@cols=\count491
-\LT@rows=\count492
-\c@LT@tables=\count493
-\c@LT@chunks=\count494
-\LT@p@ftn=\toks56
-)
-\glsdescwidth=\skip117
-\glspagelistwidth=\skip118
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-super.sty
-Package: glossary-super 2025/04/14 v4.6 (NLCT)
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/supertabular\supertabular.sty
-Package: supertabular 2024/07/20 v4.2c the supertabular environment
-\c@tracingst=\count495
-\ST@wd=\dimen305
-\ST@rightskip=\skip119
-\ST@leftskip=\skip120
-\ST@parfillskip=\skip121
-\ST@pageleft=\dimen306
-\ST@headht=\dimen307
-\ST@tailht=\dimen308
-\ST@pagesofar=\dimen309
-\ST@pboxht=\dimen310
-\ST@rowht=\dimen311
-\ST@prevht=\dimen312
-\ST@toadd=\dimen313
-\ST@dimen=\dimen314
-\ST@pbox=\box79
-)) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-tree.sty
-Package: glossary-tree 2025/04/14 v4.6 (NLCT)
-\l__glossaries_tree_max_known_level_int=\count496
-\l__glossaries_tree_offset_dim=\dimen315
-\l__glossaries_tree_namewidth_dim=\dimen316
-\l__glossaries_tree_symbolwidth_dim=\dimen317
-\l__glossaries_tree_prenamesym_width_dim=\dimen318
-\l__glossaries_tree_presubnamesym_width_dim=\dimen319
-\l__glossaries_tree_namewidth_padding_dim=\dimen320
-\l__glossaries_tree_symbolwidth_padding_dim=\dimen321
-\l__glossaries_tree_namesymbolwidth_dim=\dimen322
-\l__glossaries_tree_namesymbolwidth_padding_dim=\dimen323
-\l__glossaries_tree_level_int=\count497
-\glstreeindent=\skip122
-)) (../EV_utils/EV_glossary.tex)
-runsystem(makeindex -s EV_proposal.ist -t EV_proposal.alg -o EV_proposal.acr EV_proposal.acn)...executed safely (allowed).
-
-\glswrite=\write5
-\glo@acronym@file=\write6
-\openout6 = `EV_proposal.acn'.
-
-Package glossaries Info: Writing glossary file EV_proposal.acn on input line 82.
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'english'.
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 115.
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ptm.fd
-File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
-) (EV_proposal.aux)
-\openout1 = `EV_proposal.aux'.
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 106.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+) (EV_abstractMain.aux)
+\openout1 = `EV_abstractMain.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 115.
-LaTeX Font Info:    ... okay on input line 115.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 115.
-LaTeX Font Info:    ... okay on input line 115.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 115.
-LaTeX Font Info:    ... okay on input line 115.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 115.
-LaTeX Font Info:    ... okay on input line 115.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 115.
-LaTeX Font Info:    ... okay on input line 115.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 115.
-LaTeX Font Info:    ... okay on input line 115.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 115.
-LaTeX Font Info:    ... okay on input line 115.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 115.
-LaTeX Font Info:    ... okay on input line 115.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 115.
-LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
 Package biblatex Info: Trying to load language 'english' -> 'english-apa'...
 Package biblatex Info: ... file 'english-apa.lbx' found.
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/biblatex-apa\english-apa.lbx
@@ -1076,31 +912,31 @@ File: english.lbx 2023/03/05 v3.19 biblatex localization (PK/MW)
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout3 = `EV_proposal.bcf'.
+\openout3 = `EV_abstractMain.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'EV_proposal.bbl' found.
- (EV_proposal.bbl)
-Package biblatex Info: Reference section=0 on input line 115.
-Package biblatex Info: Reference segment=0 on input line 115.
-Package hyperref Info: Link coloring ON on input line 115.
- (EV_proposal.out) (EV_proposal.out)
-\@outlinefile=\write7
-\openout7 = `EV_proposal.out'.
+Package biblatex Info: ... file 'EV_abstractMain.bbl' found.
+ (EV_abstractMain.bbl)
+Package biblatex Info: Reference section=0 on input line 106.
+Package biblatex Info: Reference segment=0 on input line 106.
+Package hyperref Info: Link coloring ON on input line 106.
+ (EV_abstractMain.out) (EV_abstractMain.out)
+\@outlinefile=\write5
+\openout5 = `EV_abstractMain.out'.
 
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count498
-\scratchdimen=\dimen324
-\scratchbox=\box80
-\nofMPsegments=\count499
-\nofMParguments=\count500
-\everyMPshowfont=\toks57
-\MPscratchCnt=\count501
-\MPscratchDim=\dimen325
-\MPnumerator=\count502
-\makeMPintoPDFobject=\count503
-\everyMPtoPDFconversion=\toks58
+\scratchcounter=\count461
+\scratchdimen=\dimen299
+\scratchbox=\box72
+\nofMPsegments=\count462
+\nofMParguments=\count463
+\everyMPshowfont=\toks46
+\MPscratchCnt=\count464
+\MPscratchDim=\dimen300
+\MPnumerator=\count465
+\makeMPintoPDFobject=\count466
+\everyMPtoPDFconversion=\toks47
 ) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -1128,7 +964,7 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \headsep=25.0pt
 * \topskip=12.0pt
 * \footskip=30.0pt
-* \marginparwidth=44.0pt
+* \marginparwidth=35.0pt
 * \marginparsep=10.0pt
 * \columnsep=10.0pt
 * \skip\footins=10.8pt plus 4.0pt minus 2.0pt
@@ -1142,144 +978,39 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: longtable package is loaded.
-(C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/caption\ltcaption.sty
-Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
-)
-Package caption Info: supertabular package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \microtypecontext on input line 115.
-Package microtype Info: Applying patch `item' on input line 115.
-Package microtype Info: Applying patch `toc' on input line 115.
-Package microtype Info: Applying patch `eqnum' on input line 115.
-
-
-Package microtype Warning: Unable to apply patch `footnote' on input line 115.
-
-Package microtype Info: Applying patch `verbatim' on input line 115.
-LaTeX Info: Redefining \microtypesetup on input line 115.
-Package microtype Info: Generating PDF output.
-Package microtype Info: Character protrusion enabled (level 2).
-Package microtype Info: Using default protrusion set `alltext'.
-Package microtype Info: Automatic font expansion enabled (level 2),
-(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
-Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 115.
-Package microtype Info: No adjustment of tracking.
-Package microtype Info: No adjustment of interword spacing.
-Package microtype Info: No adjustment of character kerning.
-(C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-ptm.cfg
-File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
-)
-<../EV_images/rub.jpg, id=73, 199.8906pt x 84.8387pt>
-File: ../EV_images/rub.jpg Graphic file (type jpg)
-<use ../EV_images/rub.jpg>
-Package pdftex.def Info: ../EV_images/rub.jpg  used on input line 124.
-(pdftex.def)             Requested size: 135.88829pt x 57.67789pt.
-
-Overfull \hbox (45.2961pt too wide) in paragraph at lines 124--125
-[][] 
- []
-
-(C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg
-File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
-)
-LaTeX Font Info:    Trying to load font information for U+msa on input line 125.
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+LaTeX Font Info:    Trying to load font information for U+msa on input line 109.
+(C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
-File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 125.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 109.
  (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
-File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-)
-Underfull \hbox (badness 3872) in paragraph at lines 162--163
-\OT1/ptm/m/n/12 (+20) of Psy-chol-ogy and Neu-ro-
- []
+) (EV_abstract.tex) [1{C:/Users/gutt/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
-[1
-
-\openout5 = `EV_proposal.ist'.
-
-{C:/Users/gutt/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc} <../EV_images/rub.jpg>] (EV_proposal.toc)
-\tf@toc=\write8
-\openout8 = `EV_proposal.toc'.
-
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.179 \newpage
-               [1] (EV_proposal.lof)
-\tf@lof=\write9
-\openout9 = `EV_proposal.lof'.
-
- [2] (EV_proposal.acr) [3]
-Underfull \hbox (badness 10000) in paragraph at lines 201--202
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 203--204
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 206--207
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 208--209
-
- []
-
-[1]
-Underfull \hbox (badness 10000) in paragraph at lines 210--211
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 212--213
-
- []
-
-[2] [3] [4] [5]
-<../EV_images/EV_cogMeasSetupMod.png, id=438, 656.4525pt x 585.68813pt>
-File: ../EV_images/EV_cogMeasSetupMod.png Graphic file (type png)
-<use ../EV_images/EV_cogMeasSetupMod.png>
-Package pdftex.def Info: ../EV_images/EV_cogMeasSetupMod.png  used on input line 288.
-(pdftex.def)             Requested size: 217.42265pt x 193.98369pt.
- [6 <../EV_images/EV_cogMeasSetupMod.png>] [7] [8]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 334.
- (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [9] [10] [11] [12] [13] [14] (EV_proposal.aux)
+] (EV_abstractMain.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-Package rerunfilecheck Info: File `EV_proposal.out' has not changed.
-(rerunfilecheck)             Checksum: 334B660FF7F4AB61F030AB6C164D9941;3360.
-Package logreq Info: Writing requests to 'EV_proposal.run.xml'.
-\openout1 = `EV_proposal.run.xml'.
+Package rerunfilecheck Info: File `EV_abstractMain.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+Package logreq Info: Writing requests to 'EV_abstractMain.run.xml'.
+\openout1 = `EV_abstractMain.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 45355 strings out of 474485
- 910831 string characters out of 5744207
- 1949542 words of memory out of 5000000
- 66594 multiletter control sequences out of 15000+600000
- 589185 words of font info for 258 fonts, out of 8000000 for 9000
+ 33974 strings out of 474485
+ 655584 string characters out of 5744207
+ 1937542 words of memory out of 5000000
+ 55759 multiletter control sequences out of 15000+600000
+ 577279 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,11n,107p,2847b,5183s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on EV_proposal.pdf (18 pages, 1143714 bytes).
+ 84i,11n,93p,883b,5050s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb>
+Output written on EV_abstractMain.pdf (1 page, 37090 bytes).
 PDF statistics:
- 784 PDF objects out of 1000 (max. 8388607)
- 137 named destinations out of 1000 (max. 500000)
- 38559 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 26 PDF objects out of 1000 (max. 8388607)
+ 2 named destinations out of 1000 (max. 500000)
+ 13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
