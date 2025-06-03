@@ -779,4 +779,819 @@ File: tikzlibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
 File: pgflibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarydecorations.pathreplacing.code.tex (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarydecorations.co
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarydecorations.pathreplacing.code.tex (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarydecorations.code.tex (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmoduledecorations.code.tex
+\pgfdecoratedcompleteddistance=\dimen283
+\pgfdecoratedremainingdistance=\dimen284
+\pgfdecoratedinputsegmentcompleteddistance=\dimen285
+\pgfdecoratedinputsegmentremainingdistance=\dimen286
+\pgf@decorate@distancetomove=\dimen287
+\pgf@decorate@repeatstate=\count457
+\pgfdecorationsegmentamplitude=\dimen288
+\pgfdecorationsegmentlength=\dimen289
+)
+\tikz@lib@dec@box=\box67
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorations\pgflibrarydecorations.pathreplacing.code.tex)) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/ragged2e\ragged2e.sty
+Package: ragged2e 2023/06/22 v3.6 ragged2e Package
+\CenteringLeftskip=\skip76
+\RaggedLeftLeftskip=\skip77
+\RaggedRightLeftskip=\skip78
+\CenteringRightskip=\skip79
+\RaggedLeftRightskip=\skip80
+\RaggedRightRightskip=\skip81
+\CenteringParfillskip=\skip82
+\RaggedLeftParfillskip=\skip83
+\RaggedRightParfillskip=\skip84
+\JustifyingParfillskip=\skip85
+\CenteringParindent=\skip86
+\RaggedLeftParindent=\skip87
+\RaggedRightParindent=\skip88
+\JustifyingParindent=\skip89
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty
+Package: enumitem 2025/02/06 v3.11 Customized lists
+\labelindent=\skip90
+\enit@outerparindent=\dimen290
+\enit@toks=\toks39
+\enit@inbox=\box68
+\enit@count@id=\count458
+\enitdp@description=\count459
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.sty
+Package: microtype 2025/02/11 v3.2a Micro-typographical refinements (RS)
+\MT@toks=\toks40
+\MT@tempbox=\box69
+\MT@count=\count460
+LaTeX Info: Redefining \noprotrusionifhmode on input line 1087.
+LaTeX Info: Redefining \leftprotrusion on input line 1088.
+\MT@prot@toks=\toks41
+LaTeX Info: Redefining \rightprotrusion on input line 1107.
+LaTeX Info: Redefining \textls on input line 1449.
+\MT@outer@kern=\dimen291
+LaTeX Info: Redefining \microtypecontext on input line 2053.
+LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
+\MT@listname@count=\count461
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype-pdftex.def
+File: microtype-pdftex.def 2025/02/11 v3.2a Definitions specific to pdftex (RS)
+LaTeX Info: Redefining \lsstyle on input line 944.
+LaTeX Info: Redefining \lslig on input line 944.
+\MT@outer@space=\skip91
+)
+Package microtype Info: Loading configuration file microtype.cfg.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.cfg
+File: microtype.cfg 2025/02/11 v3.2a microtype main configuration file (RS)
+)
+LaTeX Info: Redefining \microtypesetup on input line 3065.
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
+Package: setspace 2022/12/04 v6.7b set line spacing
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titlesec.sty
+Package: titlesec 2025/01/04 v2.17 Sectioning titles
+\ttl@box=\box70
+\beforetitleunit=\skip92
+\aftertitleunit=\skip93
+\ttl@plus=\dimen292
+\ttl@minus=\dimen293
+\ttl@toksa=\toks42
+\titlewidth=\dimen294
+\titlewidthlast=\dimen295
+\titlewidthfirst=\dimen296
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/base\glossaries.sty
+Package: glossaries 2025/04/14 v4.6 (NLCT)
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
+Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
+\XKV@toks=\toks43
+\XKV@tempa@toks=\toks44
+)
+\XKV@depth=\count462
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+)) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/mfirstuc\mfirstuc.sty
+Package: mfirstuc 2025/04/03 v2.09 (NLCT)
+\@glsmfirst=\toks45
+\@glsmrest=\toks46
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/xfor\xfor.sty
+Package: xfor 2009/02/05 v1.05 (NLCT)
+) () (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/tracklang\tracklang.sty
+Package: tracklang 2025/03/11 v1.6.6 (NLCT) Track Languages
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/generic/tracklang\tracklang.tex)
+Package tracklang Info: Tracking dialect `english' (language `english') on input line 264.
+Package tracklang Info: Tracking dialect `english' (language `english') on input line 264.
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator.sty
+Package: translator 2021-05-31 v1.12d Easy translation of strings in LaTeX
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries-english\glossaries-english.ldf
+File: glossaries-english.ldf 2014/11/23 v1.0
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/datatool\datatool-base.sty
+Package: datatool-base 2025/04/25 v3.4.1 (NLCT)
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/datatool\datatool-l3fp.def
+File: datatool-l3fp.def 2025/04/25 v3.4.1 (NLCT)
+)
+\@dtl@toks=\toks47
+\@dtl@tmpcount=\count463
+\dtl@tmplength=\skip94
+\l__datatool_measure_box=\box71
+\dtl@sortresult=\count464
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/datatool\datatool-utf8.ldf
+File: datatool-utf8.ldf 2025/04/25 v3.4.1 (NLCT)
+)
+\@dtl@datatype=\count465
+\l__datatool_tmpa_int=\count466
+\l__datatool_tmpb_int=\count467
+\l__datatool_tmpc_int=\count468
+\l__datatool_tmpd_int=\count469
+\l__datatool_count_int=\count470
+\l__datatool_tmp_datatype_int=\count471
+\l__datatool_tmpa_dim=\dimen297
+\l__datatool_tmpb_dim=\dimen298
+\c_datatool_unknown_int=\count472
+\l__datatool_year_int=\count473
+\l__datatool_month_int=\count474
+\l__datatool_day_int=\count475
+\l__datatool_hour_int=\count476
+\l__datatool_minute_int=\count477
+\l__datatool_second_int=\count478
+\l__datatool_tzhour_int=\count479
+\l__datatool_tzminute_int=\count480
+\l__datatool_julian_int=\count481
+\l__datatool_local_julian_int=\count482
+\l__datatool_prefix_int=\count483
+\l__datatool_suffix_int=\count484
+\@dtl@foreach@level=\count485
+
+
+Package tracklang Warning: No `datatool' support for dialect `english'  on input line 9908.
+
+\dtl@codeA=\count486
+\dtl@codeB=\count487
+)
+\gls@level=\count488
+\@gls@tmpb=\toks48
+\gls@tmplen=\skip95
+\l__glossaries_tmpa_dim=\dimen299
+\l__glossaries_tmpb_dim=\dimen300
+\glskeylisttok=\toks49
+\glslabeltok=\toks50
+\glsshorttok=\toks51
+\glslongtok=\toks52
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-hypernav.sty
+Package: glossary-hypernav 2025/04/14 v4.6 (NLCT)
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-list.sty
+Package: glossary-list 2025/04/14 v4.6 (NLCT)
+\glslistdottedwidth=\skip96
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-long.sty
+Package: glossary-long 2025/04/14 v4.6 (NLCT)
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
+Package: longtable 2023-11-01 v4.19 Multi-page Table package (DPC)
+\LTleft=\skip97
+\LTright=\skip98
+\LTpre=\skip99
+\LTpost=\skip100
+\LTchunksize=\count489
+\LTcapwidth=\dimen301
+\LT@head=\box72
+\LT@firsthead=\box73
+\LT@foot=\box74
+\LT@lastfoot=\box75
+\LT@gbox=\box76
+\LT@cols=\count490
+\LT@rows=\count491
+\c@LT@tables=\count492
+\c@LT@chunks=\count493
+\LT@p@ftn=\toks53
+)
+\glsdescwidth=\skip101
+\glspagelistwidth=\skip102
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-super.sty
+Package: glossary-super 2025/04/14 v4.6 (NLCT)
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/supertabular\supertabular.sty
+Package: supertabular 2024/07/20 v4.2c the supertabular environment
+\c@tracingst=\count494
+\ST@wd=\dimen302
+\ST@rightskip=\skip103
+\ST@leftskip=\skip104
+\ST@parfillskip=\skip105
+\ST@pageleft=\dimen303
+\ST@headht=\dimen304
+\ST@tailht=\dimen305
+\ST@pagesofar=\dimen306
+\ST@pboxht=\dimen307
+\ST@rowht=\dimen308
+\ST@prevht=\dimen309
+\ST@toadd=\dimen310
+\ST@dimen=\dimen311
+\ST@pbox=\box77
+)) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-tree.sty
+Package: glossary-tree 2025/04/14 v4.6 (NLCT)
+\l__glossaries_tree_max_known_level_int=\count495
+\l__glossaries_tree_offset_dim=\dimen312
+\l__glossaries_tree_namewidth_dim=\dimen313
+\l__glossaries_tree_symbolwidth_dim=\dimen314
+\l__glossaries_tree_prenamesym_width_dim=\dimen315
+\l__glossaries_tree_presubnamesym_width_dim=\dimen316
+\l__glossaries_tree_namewidth_padding_dim=\dimen317
+\l__glossaries_tree_symbolwidth_padding_dim=\dimen318
+\l__glossaries_tree_namesymbolwidth_dim=\dimen319
+\l__glossaries_tree_namesymbolwidth_padding_dim=\dimen320
+\l__glossaries_tree_level_int=\count496
+\glstreeindent=\skip106
+)) (../EV_utils/EV_glossary.tex)
+runsystem(makeindex -s EV_thesis.ist -t EV_thesis.alg -o EV_thesis.acr EV_thesis.acn)...executed safely (allowed).
+
+\glswrite=\write5
+\glo@acronym@file=\write6
+\openout6 = `EV_thesis.acn'.
+
+Package glossaries Info: Writing glossary file EV_thesis.acn on input line 90.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyhdr.sty
+Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
+\f@nch@headwidth=\skip107
+\f@nch@offset@elh=\skip108
+\f@nch@offset@erh=\skip109
+\f@nch@offset@olh=\skip110
+\f@nch@offset@orh=\skip111
+\f@nch@offset@elf=\skip112
+\f@nch@offset@erf=\skip113
+\f@nch@offset@olf=\skip114
+\f@nch@offset@orf=\skip115
+\f@nch@height=\skip116
+\f@nch@footalignment=\skip117
+\f@nch@widthL=\skip118
+\f@nch@widthC=\skip119
+\f@nch@widthR=\skip120
+\@temptokenb=\toks54
+)
+Package csquotes Info: Checking for multilingual support...
+Package csquotes Info: ... found 'babel' package.
+Package csquotes Info: Adjusting default style.
+Package csquotes Info: Redefining alias 'default' -> 'english'.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 116.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+) (EV_thesis.aux)
+\openout1 = `EV_thesis.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count497
+\scratchdimen=\dimen321
+\scratchbox=\box78
+\nofMPsegments=\count498
+\nofMParguments=\count499
+\everyMPshowfont=\toks55
+\MPscratchCnt=\count500
+\MPscratchDim=\dimen322
+\MPnumerator=\count501
+\makeMPintoPDFobject=\count502
+\everyMPtoPDFconversion=\toks56
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+Package biblatex Info: Trying to load language 'english' -> 'english-apa'...
+Package biblatex Info: ... file 'english-apa.lbx' found.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/biblatex-apa\english-apa.lbx
+File: english-apa.lbx 2023/03/20 v9.17 APA biblatex localisation
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\english.lbx
+File: english.lbx 2023/03/05 v3.19 biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load language 'american' -> 'american-apa'...
+Package biblatex Info: ... file 'american-apa.lbx' found.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/biblatex-apa\american-apa.lbx
+File: american-apa.lbx 2023/03/20 v9.17 APA biblatex localisation
+Package biblatex Info: Trying to load language 'american'...
+Package biblatex Info: ... file 'american.lbx' found.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\american.lbx
+File: american.lbx 2023/03/05 v3.19 biblatex localization (PK/MW)
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\english.lbx
+File: english.lbx 2023/03/05 v3.19 biblatex localization (PK/MW)
+))))
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout3 = `EV_thesis.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'EV_thesis.bbl' not found.
+
+No file EV_thesis.bbl.
+Package biblatex Info: Reference section=0 on input line 116.
+Package biblatex Info: Reference segment=0 on input line 116.
+Package hyperref Info: Link coloring ON on input line 116.
+(EV_thesis.out) (EV_thesis.out)
+\@outlinefile=\write7
+\openout7 = `EV_thesis.out'.
+
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=452.9679pt
+* \textheight=700.50687pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-39.49998pt
+* \headheight=14.49998pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=44.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: longtable package is loaded.
+(C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/caption\ltcaption.sty
+Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
+)
+Package caption Info: supertabular package is loaded.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Info: Redefining \microtypecontext on input line 116.
+Package microtype Info: Applying patch `item' on input line 116.
+Package microtype Info: Applying patch `toc' on input line 116.
+Package microtype Info: Applying patch `eqnum' on input line 116.
+
+
+Package microtype Warning: Unable to apply patch `footnote' on input line 116.
+
+Package microtype Info: Applying patch `verbatim' on input line 116.
+LaTeX Info: Redefining \microtypesetup on input line 116.
+Package microtype Info: Generating PDF output.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: Automatic font expansion enabled (level 2),
+(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
+Package microtype Info: Using default expansion set `alltext-nott'.
+LaTeX Info: Redefining \showhyphens on input line 116.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of interword spacing.
+Package microtype Info: No adjustment of character kerning.
+(C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-ptm.cfg
+File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
+)
+<../EV_images/rub.jpg, id=50, 199.8906pt x 84.8387pt>
+File: ../EV_images/rub.jpg Graphic file (type jpg)
+<use ../EV_images/rub.jpg>
+Package pdftex.def Info: ../EV_images/rub.jpg  used on input line 122.
+(pdftex.def)             Requested size: 135.88829pt x 57.67789pt.
+
+Overfull \hbox (45.2961pt too wide) in paragraph at lines 122--123
+[][] 
+ []
+
+(C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msa on input line 123.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 123.
+ (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) (C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+)
+Underfull \hbox (badness 3872) in paragraph at lines 160--161
+\OT1/ptm/m/n/12 (+20) of Psy-chol-ogy and Neu-ro-
+ []
+
+[1
+
+\openout5 = `EV_thesis.ist'.
+
+{C:/Users/gutt/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc} <../EV_images/rub.jpg>] (../EV_abstract/EV_abstract.tex)
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.178 \cleardoublepage
+                       % Ensure next content (e.g., ToC) starts on a new page [1] (EV_thesis.toc)
+\tf@toc=\write8
+\openout8 = `EV_thesis.toc'.
+
+ [1
+
+] (EV_thesis.lof)
+\tf@lof=\write9
+\openout9 = `EV_thesis.lof'.
+
+ [2] (EV_thesis.acr) [3] (EV_methods.tex
+
+LaTeX Warning: Citation 'sharmaEmergingTrendsEEG2024' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation 'chaddadElectroencephalographySignalProcessing2023' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation 'cohenAnalyzingNeuralTime2014' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation 'allenIssuesAssumptionsRoad2004' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation 'klimeschEEGAlphaTheta1999' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation 'engelDynamicPredictionsOscillations2001' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation 'koenigMillisecondMillisecondYear2002' on page 1 undefined on input line 4.
+
+
+Overfull \hbox (14.62129pt too wide) in paragraph at lines 4--5
+\OT1/ptm/m/n/12 (-20) ([]; []).
+ []
+
+
+Overfull \hbox (56.33063pt too wide) in paragraph at lines 4--5
+\OT1/ptm/m/n/12 (-20) lock-ing value (PLV)[][]) with con-cur-rently mea-sured phys-i-o-log-i-cal sig-nals ([]).
+ []
+
+
+LaTeX Warning: Citation 'scholkmannReviewContinuousWave2014' on page 1 undefined on input line 7.
+
+
+LaTeX Warning: Citation 'jobsisNoninvasiveInfraredMonitoring1977' on page 1 undefined on input line 7.
+
+
+LaTeX Warning: Citation 'obrigVisibleImagingHuman2003' on page 1 undefined on input line 7.
+
+
+LaTeX Warning: Citation 'pintiCurrentStatusIssues2019' on page 1 undefined on input line 7.
+
+
+Overfull \hbox (98.4641pt too wide) in paragraph at lines 7--8
+\OT1/ptm/m/n/12 (-20) neu-rovas-cu-lar cou-pling ([]; [];
+ []
+
+
+LaTeX Warning: Citation 'malikHeartRateVariability1996' on page 1 undefined on input line 10.
+
+
+LaTeX Warning: Citation 'berntsonHeartRateVariability1997' on page 1 undefined on input line 10.
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.15 \end{equation}
+                    [1]
+
+LaTeX Warning: Citation 'malikHeartRateVariability1996' on page 2 undefined on input line 16.
+
+
+LaTeX Warning: Citation 'shafferOverviewHeartRate2017' on page 2 undefined on input line 16.
+
+
+LaTeX Warning: Citation 'thayerRelationshipAutonomicImbalance2010' on page 2 undefined on input line 16.
+
+
+Overfull \hbox (158.09576pt too wide) in paragraph at lines 15--17
+\OT1/ptm/m/n/12 (-20) rest-ing [][][]RMSSD[][] gen-er-ally in-di-cates greater va-gal tone and au-to-nomic flex-i-bil-ity ([]).
+ []
+
+
+LaTeX Warning: Citation 'dawsonElectrodermalSystem2007' on page 2 undefined on input line 20.
+
+
+LaTeX Warning: Citation 'boucseinElectrodermalActivity2012' on page 2 undefined on input line 20.
+
+
+LaTeX Warning: Citation 'kreibigAutonomicNervousSystem2010' on page 2 undefined on input line 20.
+
+
+LaTeX Warning: Citation 'boucseinElectrodermalActivity2012' on page 2 undefined on input line 20.
+
+
+LaTeX Warning: Citation 'dawsonElectrodermalSystem2007' on page 2 undefined on input line 20.
+
+
+Overfull \hbox (18.77942pt too wide) in paragraph at lines 20--21
+\OT1/ptm/m/n/12 (-20) as a di-rect in-di-ca-tor of sym-pa-thetic arousal and ac-ti-va-tion ([]).
+ []
+
+
+Overfull \hbox (54.9888pt too wide) in paragraph at lines 20--21
+[][][]\OT1/ptm/m/n/12 (-20) EDA[][] was mea-sured via skin sur-face elec-trodes placed on the fin-gers ([]).
+ []
+
+
+Overfull \hbox (61.84152pt too wide) in paragraph at lines 20--21
+\OT1/ptm/m/n/12 (-20) duc-tance Re-sponses (SCR)[][], in-di-cat-ing event-related sym-pa-thetic bursts ([]).
+ []
+
+
+LaTeX Warning: Citation 'gagnonShortSeparationChannel2012' on page 2 undefined on input line 25.
+
+
+LaTeX Warning: Citation 'chenStrategicIntegrationCrossDisciplinary2024' on page 2 undefined on input line 25.
+
+
+LaTeX Warning: Citation 'fusterPrefrontalCortex2008' on page 2 undefined on input line 25.
+
+
+LaTeX Warning: Citation 'etkinEmotionalProcessingAnterior2011' on page 2 undefined on input line 25.
+
+
+LaTeX Warning: Citation 'pessoaRelationshipEmotionCognition2008' on page 2 undefined on input line 25.
+
+
+LaTeX Warning: Citation 'critchleyNeuralMechanismsAutonomic2005' on page 2 undefined on input line 25.
+
+
+LaTeX Warning: Citation 'culhamHumanParietalCortex2006' on page 2 undefined on input line 25.
+
+
+LaTeX Warning: Citation 'sharmaEmergingTrendsEEG2024' on page 2 undefined on input line 26.
+
+
+LaTeX Warning: Citation 'kotheLabStreamingLayerFramework2024' on page 2 undefined on input line 28.
+
+[2]
+<../EV_images/EV_cogMeasSetupMod.png, id=213, 656.4525pt x 585.68813pt>
+File: ../EV_images/EV_cogMeasSetupMod.png Graphic file (type png)
+<use ../EV_images/EV_cogMeasSetupMod.png>
+Package pdftex.def Info: ../EV_images/EV_cogMeasSetupMod.png  used on input line 33.
+(pdftex.def)             Requested size: 217.42265pt x 193.98369pt.
+
+
+LaTeX Warning: Citation 'peircePsychoPyPsychophysicsSoftware2007' on page 3 undefined on input line 40.
+
+
+LaTeX Warning: Citation 'peircePsychoPy2BuilderCoder2019' on page 3 undefined on input line 40.
+
+
+LaTeX Warning: Citation 'maffeiEMOVIEExperimentalMOVies2019' on page 3 undefined on input line 40.
+
+
+Overfull \hbox (75.4336pt too wide) in paragraph at lines 40--41
+\OT1/ptm/m/n/12 (-20) hav-ioral re-sponses recorded, us-ing Psy-choPy (v[e.g., 2022.2.5]) ([];
+ []
+
+[3 <../EV_images/EV_cogMeasSetupMod.png>]
+
+LaTeX Warning: Citation 'carverBehavioralInhibitionBehavioral1994' on page 4 undefined on input line 42.
+
+
+LaTeX Warning: Citation 'strobelDeutschsprachigeVersionBIS2006' on page 4 undefined on input line 42.
+
+
+LaTeX Warning: Citation 'watsonDevelopmentValidationBrief1988' on page 4 undefined on input line 42.
+
+
+LaTeX Warning: Citation 'breyerDeutscheVersionPositive2016' on page 4 undefined on input line 42.
+
+
+LaTeX Warning: Citation 'maffeiEMOVIEExperimentalMOVies2019' on page 4 undefined on input line 42.
+
+
+LaTeX Warning: Citation 'oldfieldAssessmentAnalysisHandedness1971' on page 4 undefined on input line 45.
+
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 45.
+(C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+) [4]
+
+LaTeX Warning: Citation 'harrisArrayProgrammingNumPy2020' on page 5 undefined on input line 48.
+
+
+LaTeX Warning: Citation 'virtanenSciPy10Fundamental2020' on page 5 undefined on input line 48.
+
+
+LaTeX Warning: Citation 'gramfortMEGEEGData2013' on page 5 undefined on input line 48.
+
+
+LaTeX Warning: Citation 'makowskiNeuroKit2PythonToolbox2021' on page 5 undefined on input line 48.
+
+
+LaTeX Warning: Citation 'yucelBestPracticesFNIRS2021' on page 5 undefined on input line 48.
+
+
+LaTeX Warning: Citation 'virtanenSciPy10Fundamental2020' on page 5 undefined on input line 48.
+
+
+LaTeX Warning: Citation 'seaboldStatsmodelsEconometricStatistical2010' on page 5 undefined on input line 48.
+
+
+LaTeX Warning: Citation 'vallatPingouinStatisticsPython2018' on page 5 undefined on input line 48.
+
+
+LaTeX Warning: Citation 'YourToolboxCitationPlaceholder' on page 5 undefined on input line 48.
+
+LaTeX Font Info:    Trying to load font information for OML+ptm on input line 48.
+(C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\omlptm.fd
+File: omlptm.fd 
+)
+LaTeX Font Info:    Font shape `OML/ptm/b/n' in size <12> not available
+(Font)              Font shape `OML/cmm/b/it' tried instead on input line 48.
+
+
+LaTeX Warning: Citation '' on page 5 undefined on input line 48.
+
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 49.
+(C:\Users\gutt\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `pcr' (encoding: OT1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+
+
+LaTeX Warning: Citation 'fieldDiscoveringStatisticsUsing2024' on page 5 undefined on input line 49.
+
+
+LaTeX Warning: Citation 'benjaminControllingFalseDiscovery1995' on page 5 undefined on input line 49.
+
+
+Overfull \hbox (71.96324pt too wide) in paragraph at lines 48--50
+\OT1/ptm/m/n/12 (-20) (Python ver-sion [e.g., 3.9.X]) ([]; [])
+ []
+
+
+Overfull \hbox (35.00533pt too wide) in paragraph at lines 48--50
+\OT1/ptm/m/n/12 (-20) Tool-box[][] (ver-sion [e.g., 0.1.0]; [If citable, add: [][]]).
+ []
+
+[5]
+
+LaTeX Warning: Citation 'bellIndependentComponentAnalysis1995' on page 6 undefined on input line 56.
+
+
+LaTeX Warning: Citation 'hyvarinenFastRobustFixedPoint1997' on page 6 undefined on input line 56.
+
+
+LaTeX Warning: Citation 'delormeEEGLABOpenSource2004' on page 6 undefined on input line 56.
+
+
+LaTeX Warning: Citation 'pion-tonachiniICLabelAutomatedEEG2019' on page 6 undefined on input line 56.
+
+
+LaTeX Warning: Citation 'panRealTimeQRSDetection1985' on page 6 undefined on input line 59.
+
+
+LaTeX Warning: Citation 'malikHeartRateVariability1996' on page 6 undefined on input line 59.
+
+
+LaTeX Warning: Citation 'lagunaPowerSpectralDensity1998' on page 6 undefined on input line 59.
+
+
+LaTeX Warning: Citation 'benedekDecompositionSkinConductance2010' on page 6 undefined on input line 61.
+
+
+LaTeX Warning: Citation 'boucseinElectrodermalActivity2012' on page 6 undefined on input line 61.
+
+[6]
+
+LaTeX Warning: Citation 'scholkmannReviewContinuousWave2014' on page 7 undefined on input line 63.
+
+
+LaTeX Warning: Citation '' on page 7 undefined on input line 63.
+
+
+LaTeX Warning: Citation 'delpyEstimationOpticalPathlength1988' on page 7 undefined on input line 63.
+
+
+LaTeX Warning: Citation '' on page 7 undefined on input line 63.
+
+
+LaTeX Warning: Citation 'scholkmannReviewContinuousWave2014' on page 7 undefined on input line 63.
+
+
+LaTeX Warning: Citation 'gagnonShortSeparationChannel2012' on page 7 undefined on input line 63.
+
+
+LaTeX Warning: Citation 'tzourio-mazoyerAutomatedAnatomicalLabeling2002' on page 7 undefined on input line 63.
+
+
+Overfull \hbox (168.92024pt too wide) in paragraph at lines 63--64
+[][] \OT1/ptm/m/n/12 (-20) or [][]].
+ []
+
+
+LaTeX Warning: Citation 'lachauxMeasuringPhaseSynchrony1999' on page 7 undefined on input line 67.
+
+
+LaTeX Warning: Citation 'lagunaPowerSpectralDensity1998' on page 7 undefined on input line 72.
+
+
+LaTeX Warning: Citation 'shafferOverviewHeartRate2017' on page 7 undefined on input line 72.
+
+
+LaTeX Warning: Citation 'virtanenSciPy10Fundamental2020' on page 7 undefined on input line 72.
+
+
+LaTeX Warning: Citation 'virtanenSciPy10Fundamental2020' on page 7 undefined on input line 72.
+
+
+LaTeX Warning: Citation 'rodriguesMethodsMatterExamination2021' on page 7 undefined on input line 72.
+
+
+LaTeX Warning: Citation 'cohenAnalyzingNeuralTime2014' on page 7 undefined on input line 72.
+
+
+Overfull \hbox (117.37036pt too wide) in paragraph at lines 71--73
+[]\OT1/ptm/m/n/12 (-20) )) via `scipy.interpolate` (SciPy ver-sion X.X.X) ([]).
+ []
+
+
+Overfull \hbox (13.7777pt too wide) in paragraph at lines 71--73
+\OT1/ptm/m/n/12 (-20) nals via the Hilbert trans-form, im-ple-mented in `scipy.signal` ([]).
+ []
+
+[7]
+
+LaTeX Warning: Citation 'yucelBestPracticesFNIRS2021' on page 8 undefined on input line 76.
+
+
+LaTeX Warning: Citation 'gramfortMEGEEGData2013' on page 8 undefined on input line 76.
+
+
+LaTeX Warning: Citation 'rodriguesMethodsMatterExamination2021' on page 8 undefined on input line 79.
+
+
+LaTeX Warning: Citation 'allenIssuesAssumptionsRoad2004' on page 8 undefined on input line 79.
+
+
+Overfull \hbox (38.11299pt too wide) in paragraph at lines 79--80
+\OT1/ptm/m/n/12 (-20) based on their com-mon use in asym-me-try re-search ([];
+ []
+
+[8]) [9]
+
+LaTeX Warning: Empty bibliography on input line 200.
+
+(EV_thesis.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+ ***********
+
+
+LaTeX Warning: There were undefined references.
+
+Package rerunfilecheck Info: File `EV_thesis.out' has not changed.
+(rerunfilecheck)             Checksum: A7503C55B5A0CD88BDB103CE37DD4E72;1806.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                EV_thesis
+(biblatex)                and rerun LaTeX afterwards.
+
+Package logreq Info: Writing requests to 'EV_thesis.run.xml'.
+\openout1 = `EV_thesis.run.xml'.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 44387 strings out of 474485
+ 880886 string characters out of 5744207
+ 1944542 words of memory out of 5000000
+ 65732 multiletter control sequences out of 15000+600000
+ 587729 words of font info for 234 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 84i,12n,107p,2591b,5183s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/gutt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb>
+Output written on EV_thesis.pdf (14 pages, 1069013 bytes).
+PDF statistics:
+ 434 PDF objects out of 1000 (max. 8388607)
+ 61 named destinations out of 1000 (max. 500000)
+ 43119 words of extra memory for PDF output out of 51595 (max. 10000000)
+
