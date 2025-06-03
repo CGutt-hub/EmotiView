@@ -10,5 +10,5 @@
 \contentsline {subsection}{\numberline {1.6}Experimental Design}{3}{subsection.1.6}%
 \contentsline {subsection}{\numberline {1.7}Participants}{4}{subsection.1.7}%
 \contentsline {subsection}{\numberline {1.8}Data Analysis and Statistics}{5}{subsection.1.8}%
-\contentsline {paragraph}{Preprocessing and Feature Extraction}{5}{subsection.1.8}%
+\contentsline {paragraph}{Preprocessing and Feature Extraction}{6}{subsection.1.8}%
 \contentsline {paragraph}{Neural-Autonomic Synchrony and Statistical Testing}{7}{subsection.1.8}%
