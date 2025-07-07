@@ -1,0 +1,40 @@
+name: Publish Public Files
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Get all history
+
+      - name: Update main branch
+        run: |
+          git config --global user.name "CGutt-hub"
+          git config --global user.email "cagatay.gutt@gmail.com"
+          git checkout main
+
+          # Stage all files for removal to ensure a clean slate.
+          # This prepares the main branch to be a perfect mirror of the source folder.
+          git rm -rf .
+
+          # Re-introduce the README.md from the dev branch to preserve it.
+          git checkout dev -- README.md
+
+          # Define the folder from 'dev' that you want to publish.
+          SOURCE_FOLDER="EV_main"
+
+          # Copy files from the source folder in dev to the root of main.
+          if [ -d "dev/$SOURCE_FOLDER" ] && [ -n "$(ls -A dev/$SOURCE_FOLDER)" ]; then
+            cp -r dev/$SOURCE_FOLDER/* .
+          fi
+
+          git add .
+          git commit --allow-empty -m "Deploy: Sync public files to main from dev"
+          git push origin main
