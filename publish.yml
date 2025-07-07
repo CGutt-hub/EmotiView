@@ -35,43 +35,34 @@ jobs:
           git checkout main
 
           echo "--- Cleaning main branch ---"
-          # Stage all files for removal to ensure a clean slate.
-          git rm -rf .
-
-          echo "--- Restoring README.md ---"
-          # Re-introduce the README.md from the dev branch to preserve it.
-          git checkout dev -- README.md
+          # Remove all old files from the main branch.
+          # The `|| true` prevents the script from failing if the directory is already empty.
+          git rm -rf . || true
 
           # --- ACTION REQUIRED ---
-          # Define the specific files you want to publish to the main branch.
-          # Add or remove files from this list as needed.
-          # Paths are relative to the repository root.
-          FILES_TO_COPY=(
+          # Define the specific files and directories you want to publish to the main branch.
+          # These will be pulled directly from the 'dev' branch.
+          FILES_TO_PUBLISH=(
+            "README.md" # Keep the README
             "EV_proposal/EV_proposal.tex"
             "EV_results"
             "EV_analysis"
           )
 
-          echo "--- Copying selected files to main branch root ---"
-          for file_path in "${FILES_TO_COPY[@]}"; do
-            # Check if the file or directory exists in the checked-out dev branch
-            if [ -e "$file_path" ]; then
-              echo "Copying '$file_path' to main branch root..."
-              # Use -r to recursively copy directories
-              cp -r "$file_path" .
-            else
-              echo "Warning: Item '$file_path' not found in dev branch. Skipping."
-            fi
-          done
+          echo "--- Checking out selected files from dev branch ---"
+          # Use git to checkout the specific files/dirs from the dev branch into our main branch workspace
+          git checkout dev -- "${FILES_TO_PUBLISH[@]}"
 
           echo "--- Final file structure in main branch: ---"
-          ls -la
+          # Use -R to show contents of directories as well
+          ls -laR
 
           git add .
 
           # Only commit and push if there are actual changes
           if git diff --staged --quiet; then
             echo "No changes to deploy. Main branch is already up-to-date."
+            # Exit successfully
             exit 0
           fi
 
