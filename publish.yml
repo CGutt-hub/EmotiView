@@ -30,22 +30,34 @@ jobs:
           # --- CONFIGURATION ---
           # This is the primary configuration for the workflow.
           # Add the names of all files and directories you want to publish to the 'main' branch.
-          # Paths are relative to the root of your repository.
-          ITEMS_TO_PUBLISH=(
-            "README.md"
+          # Separate directories and files for clarity and robust handling.
+          DIRS_TO_PUBLISH=(
             "EV_analysis"
             "EV_results"
+          )
+          FILES_TO_PUBLISH=(
+            "README.md"
             "EV_proposal/EV_proposal.pdf"
           )
 
-          echo "--- Copying specified items to the public directory ---"
-          for item in "${ITEMS_TO_PUBLISH[@]}"; do
-            if [ -e "$item" ]; then
-              echo "Copying '$item'..."
-              # Use -r to copy directories recursively
-              cp -r "$item" public/
+          echo "--- Copying directories ---"
+          for dir in "${DIRS_TO_PUBLISH[@]}"; do
+            if [ -d "$dir" ]; then
+              echo "Copying directory '$dir'..."
+              cp -r "$dir" public/
             else
-              echo "Warning: Item '$item' not found in 'dev' branch. Skipping."
+              echo "Warning: Directory '$dir' not found. Skipping."
+            fi
+          done
+
+          echo "--- Copying files ---"
+          for file in "${FILES_TO_PUBLISH[@]}"; do
+            if [ -f "$file" ]; then
+              echo "Copying file '$file' to the root..."
+              # This copies the file to the root of the 'public' directory
+              cp "$file" public/
+            else
+              echo "Warning: File '$file' not found. Skipping."
             fi
           done
 
