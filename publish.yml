@@ -16,6 +16,15 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GH_PAT }} # Use a PAT for permissions
 
+      - name: Verify Token Permissions
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          echo "--- Verifying GitHub CLI authentication ---"
+          gh auth status
+          echo "--- Verifying git remote access ---"
+          git ls-remote
+
       - name: Update main branch
         run: |
           # Use the standard Actions bot for the commit for better security and standards
