@@ -1,74 +1,72 @@
-name: Publish Public Files
+name: Publish Curated Files to Main Branch
 
 on:
   push:
     branches:
-      - dev
+      - dev # Trigger the workflow on pushes to the 'dev' branch
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # Grant permission for the action to push to the repository
+    permissions:
+      contents: write
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout dev branch content
+        uses: actions/checkout@v4
         with:
-          # We need to fetch all history to be able to checkout other branches
-          fetch-depth: 0
-          token: ${{ secrets.GH_PAT }} # Use a PAT for permissions
+          # A Personal Access Token (PAT) is required to trigger subsequent workflows
+          # or to push to a protected branch if you set one up.
+          token: ${{ secrets.GH_PAT }}
 
-      - name: Verify Token Permissions
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+      - name: Stage Files for Publication
         run: |
-          echo "--- Verifying GitHub CLI authentication ---"
-          gh auth status
-          echo "--- Verifying git remote access ---"
-          git ls-remote
-
-      - name: Update main branch
-        run: |
-          # Use the standard Actions bot for the commit for better security and standards
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          echo "--- Switching to main branch ---"
-          git checkout main
-
-          echo "--- Cleaning main branch ---"
-          # Remove all old files from the main branch.
-          # The `|| true` prevents the script from failing if the directory is already empty.
-          git rm -rf . || true
-
-          # --- ACTION REQUIRED ---
-          # Define the specific files and directories you want to publish to the main branch.
-          # These will be pulled directly from the 'dev' branch.
-          FILES_TO_PUBLISH=(
-            "README.md" # Keep the README
-            "EV_proposal/EV_proposal.tex"
-            "EV_results"
+          echo "--- Preparing files for the 'main' branch ---"
+          # Create a temporary directory to hold the files for the main branch.
+          # This ensures no unwanted files are accidentally included.
+          mkdir public
+          
+          # --- CONFIGURATION ---
+          # This is the primary configuration for the workflow.
+          # Add the names of all files and directories you want to publish to the 'main' branch.
+          # Paths are relative to the root of your repository.
+          ITEMS_TO_PUBLISH=(
+            "README.md"
             "EV_analysis"
+            "EV_results"
+            "EV_proposal/EV_proposal.pdf"
           )
 
-          echo "--- Checking out selected files from dev branch ---"
-          # Use git to checkout the specific files/dirs from the dev branch into our main branch workspace
-          git checkout dev -- "${FILES_TO_PUBLISH[@]}"
+          echo "--- Copying specified items to the public directory ---"
+          for item in "${ITEMS_TO_PUBLISH[@]}"; do
+            if [ -e "$item" ]; then
+              echo "Copying '$item'..."
+              # Use -r to copy directories recursively
+              cp -r "$item" public/
+            else
+              echo "Warning: Item '$item' not found in 'dev' branch. Skipping."
+            fi
+          done
 
-          echo "--- Final file structure in main branch: ---"
-          # Use -R to show contents of directories as well
-          ls -laR
+          echo "--- Final structure of the public directory: ---"
+          # List the contents for debugging purposes.
+          ls -laR public
 
-          git add .
-
-          # Only commit and push if there are actual changes
-          if git diff --staged --quiet; then
-            echo "No changes to deploy. Main branch is already up-to-date."
-            # Exit successfully
-            exit 0
-          fi
-
-          git commit -m "Deploy: Sync selected files to main"
-
-          echo "--- Force pushing to main ---"
-          # Force push to overwrite the main branch completely. This is necessary
-          # to avoid conflicts with the old history.
-          git push --force origin main
+      - name: Deploy to main branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          # The PAT you created and stored in repository secrets.
+          personal_token: ${{ secrets.GH_PAT }}
+          # The branch to publish to.
+          publish_branch: main
+          # The directory containing the files to be published.
+          publish_dir: ./public
+          # This option creates a commit with no parent history on the 'main' branch.
+          # It's perfect for keeping the public branch clean and separate from the 'dev' history.
+          force_orphan: true
+          # The user details for the commit.
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          # The commit message for the deployment.
+          commit_message: "Deploy: Sync public files to main"
