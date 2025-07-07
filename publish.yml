@@ -42,15 +42,25 @@ jobs:
           # Re-introduce the README.md from the dev branch to preserve it.
           git checkout dev -- README.md
 
-          # Define the source folder from 'dev' that you want to publish
-          SOURCE_FOLDER="EV_main"
+          # --- ACTION REQUIRED ---
+          # Define the specific files you want to publish to the main branch.
+          # Add or remove files from this list as needed.
+          # Paths are relative to the repository root.
+          FILES_TO_COPY=(
+            "dev/EV_proposal/EV_proposal.tex"
+            "dev/EV_results"
+            "dev/EV_analysis"
+          )
 
-          echo "--- Copying files from dev/${SOURCE_FOLDER} ---"
-          # Copy all files from the source folder to the root of the main branch.
-          # The `/.` at the end of the source path ensures dotfiles are also copied.
-          if [ -d "dev/$SOURCE_FOLDER" ] && [ -n "$(ls -A "dev/$SOURCE_FOLDER")" ]; then
-            cp -a "dev/$SOURCE_FOLDER"/. .
-          fi
+          echo "--- Copying selected files to main branch root ---"
+          for file_path in "${FILES_TO_COPY[@]}"; do
+            if [ -f "$file_path" ]; then
+              echo "Copying '$file_path'..."
+              cp "$file_path" .
+            else
+              echo "Warning: File '$file_path' not found in dev branch. Skipping."
+            fi
+          done
 
           echo "--- Final file structure in main branch: ---"
           ls -la
@@ -63,7 +73,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Deploy: Sync files from dev/EV_main to main"
+          git commit -m "Deploy: Sync selected files to main"
 
           echo "--- Force pushing to main ---"
           # Force push to overwrite the main branch completely. This is necessary
