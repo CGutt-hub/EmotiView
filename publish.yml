@@ -22,24 +22,41 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+          echo "--- Switching to main branch ---"
           git checkout main
 
+          echo "--- Cleaning main branch ---"
           # Stage all files for removal to ensure a clean slate.
           git rm -rf .
 
+          echo "--- Restoring README.md ---"
           # Re-introduce the README.md from the dev branch to preserve it.
           git checkout dev -- README.md
 
           # Define the source folder from 'dev' that you want to publish
           SOURCE_FOLDER="EV_main"
 
+          echo "--- Copying files from dev/${SOURCE_FOLDER} ---"
           # Copy all files from the source folder to the root of the main branch.
+          # The `/.` at the end of the source path ensures dotfiles are also copied.
           if [ -d "dev/$SOURCE_FOLDER" ] && [ -n "$(ls -A "dev/$SOURCE_FOLDER")" ]; then
-            cp -r "dev/$SOURCE_FOLDER"/* .
+            cp -a "dev/$SOURCE_FOLDER"/. .
           fi
 
+          echo "--- Final file structure in main branch: ---"
+          ls -la
+
           git add .
-          git commit --allow-empty -m "Deploy: Sync files from dev/EV_main to main"
+
+          # Only commit and push if there are actual changes
+          if git diff --staged --quiet; then
+            echo "No changes to deploy. Main branch is already up-to-date."
+            exit 0
+          fi
+
+          git commit -m "Deploy: Sync files from dev/EV_main to main"
+
+          echo "--- Force pushing to main ---"
           # Force push to overwrite the main branch completely. This is necessary
           # to avoid conflicts with the old history.
           git push --force origin main
