@@ -47,18 +47,20 @@ jobs:
           # Add or remove files from this list as needed.
           # Paths are relative to the repository root.
           FILES_TO_COPY=(
-            "dev/EV_proposal/EV_proposal.tex"
-            "dev/EV_results"
-            "dev/EV_analysis"
+            "EV_proposal/EV_proposal.tex"
+            "EV_results"
+            "EV_analysis"
           )
 
           echo "--- Copying selected files to main branch root ---"
           for file_path in "${FILES_TO_COPY[@]}"; do
-            if [ -f "$file_path" ]; then
-              echo "Copying '$file_path'..."
-              cp "$file_path" .
+            # Check if the file or directory exists in the checked-out dev branch
+            if [ -e "$file_path" ]; then
+              echo "Copying '$file_path' to main branch root..."
+              # Use -r to recursively copy directories
+              cp -r "$file_path" .
             else
-              echo "Warning: File '$file_path' not found in dev branch. Skipping."
+              echo "Warning: Item '$file_path' not found in dev branch. Skipping."
             fi
           done
 
