@@ -1,0 +1,36 @@
+2025-07-29 14:43:58,709 - INFO - ParticipantLogger_EV_002 - ParticipantLogger initialized for EV_002. Logging to D:\repoShaggy\EmotiViewPrivate\EV_results\EV_002\EV_002_processing.log at level INFO.
+2025-07-29 14:43:58,710 - INFO - ParticipantLogger_EV_002 - --- Starting analysis for participant: EV_002 ---
+2025-07-29 14:43:58,712 - INFO - ParticipantLogger_EV_002 - --- Step 1: Data Loading ---
+2025-07-29 14:44:48,108 - INFO - ParticipantLogger_EV_002 - XDF reader found the following streams and metadata keys: ['eeg_df', 'fnirs_od_df', 'fnirs_stream_start_time_xdf', 'xdf_markers_df']
+2025-07-29 14:44:48,111 - INFO - ParticipantLogger_EV_002 - EEG stream mapping: expected 'BrainAmpSeries-1', found 'eeg_df' (modality keyword 'eeg' in 'eeg_df'). Candidates: ['eeg_df', 'fnirs_od_df', 'fnirs_stream_start_time_xdf', 'xdf_markers_df']
+2025-07-29 14:44:48,113 - INFO - ParticipantLogger_EV_002 - fNIRS stream mapping: expected 'NIRStar', found 'fnirs_od_df' (modality keyword 'fnirs' in 'fnirs_od_df'). Candidates: ['eeg_df', 'fnirs_od_df', 'fnirs_stream_start_time_xdf', 'xdf_markers_df']
+2025-07-29 14:44:48,115 - INFO - ParticipantLogger_EV_002 - Marker stream mapping: expected 'BrainAmpSeries-1-Markers', found 'xdf_markers_df' (modality keyword 'marker' in 'xdf_markers_df'). Candidates: ['eeg_df', 'fnirs_od_df', 'fnirs_stream_start_time_xdf', 'xdf_markers_df']
+2025-07-29 14:44:48,118 - INFO - ParticipantLogger_EV_002 - Configuration check: Looking for EEG stream named 'BrainAmpSeries-1'.
+2025-07-29 14:44:48,122 - INFO - ParticipantLogger_EV_002 - Configuration check: Looking for Marker stream named 'BrainAmpSeries-1-Markers'.
+2025-07-29 14:44:48,123 - INFO - ParticipantLogger_EV_002 - Configuration check: Looking for fNIRS stream named 'NIRStar'.
+2025-07-29 14:44:48,124 - INFO - ParticipantLogger_EV_002 - Stored unmapped metadata from XDF reader: 'fnirs_stream_start_time_xdf' = '6423.927104606709'
+2025-07-29 14:44:48,125 - INFO - ParticipantLogger_EV_002 - Found and mapped valid stream 'eeg_df' to standard key 'eeg_df'.
+2025-07-29 14:44:48,128 - INFO - ParticipantLogger_EV_002 - Found and mapped valid stream 'fnirs_od_df' to standard key 'fnirs_od_df'.
+2025-07-29 14:44:48,129 - INFO - ParticipantLogger_EV_002 - Found and mapped valid stream 'xdf_markers_df' to standard key 'xdf_markers_df'.
+2025-07-29 14:44:48,132 - INFO - ParticipantLogger_EV_002 - Final standardized stream keys available after loading and mapping: ['eeg_df', 'fnirs_od_df', 'xdf_markers_df']
+2025-07-29 14:44:48,133 - INFO - ParticipantLogger_EV_002 - --- Running Data Quality Checks on Loaded Streams ---
+2025-07-29 14:44:49,034 - WARNING - ParticipantLogger_EV_002 - Data Quality Issue in 'fnirs_od_df': Found 576 NaN values (0.02% of total). This may affect subsequent analyses.
+2025-07-29 14:44:49,036 - INFO - ParticipantLogger_EV_002 - Converting EEG DataFrame to MNE Raw object...
+2025-07-29 14:44:49,057 - INFO - ParticipantLogger_EV_002 - Calculated EEG sampling frequency: 1000.00 Hz
+2025-07-29 14:44:49,058 - INFO - ParticipantLogger_EV_002 - Identified 60 EEG, 1 stim, and 3 auxiliary channels.
+2025-07-29 14:44:50,245 - INFO - ParticipantLogger_EV_002 - Applied 'standard_1020' montage to EEG data.
+2025-07-29 14:44:50,247 - INFO - ParticipantLogger_EV_002 - EEG DataFrame successfully converted to MNE Raw for preprocessing.
+2025-07-29 14:44:50,248 - INFO - ParticipantLogger_EV_002 - Skipping fNIRS MNE object creation because 'process_fnirs' is set to False in config.
+2025-07-29 14:44:50,331 - INFO - ParticipantLogger_EV_002 - Detached unmodified trigger stream 'triggerStream' after loading raw EEG data.
+2025-07-29 14:44:50,456 - INFO - ParticipantLogger_EV_002 - Extracted EKG data from main EEG stream.
+2025-07-29 14:44:50,577 - INFO - ParticipantLogger_EV_002 - Extracted EDA data from main EEG stream.
+2025-07-29 14:44:50,674 - INFO - ParticipantLogger_EV_002 - Detached unmodified trigger stream 'triggerStream' after loading raw EEG data.
+2025-07-29 14:44:50,678 - INFO - ParticipantLogger_EV_002 - Interpreted config delimiter '\t' as a tab character.
+2025-07-29 14:44:50,679 - INFO - ParticipantLogger_EV_002 - Questionnaire reader type from config: 'eprime'
+2025-07-29 14:44:50,706 - INFO - ParticipantLogger_EV_002 - Questionnaire raw data loaded.
+2025-07-29 14:44:50,711 - INFO - ParticipantLogger_EV_002 - Data loading complete. (Elapsed: 52.02s)
+2025-07-29 14:44:50,713 - INFO - ParticipantLogger_EV_002 - Starting parallel execution with up to 4 workers for 3 tasks.
+2025-07-29 14:44:50,715 - INFO - ParticipantLogger_EV_002 - Preprocessing eeg data...
+2025-07-29 14:44:50,716 - INFO - ParticipantLogger_EV_002 - Preprocessing ecg data...
+2025-07-29 14:44:50,717 - INFO - ParticipantLogger_EV_002 - EEG config for preprocessing: {'eeg_filter_band': (1.0, 40.0), 'ica_n_components': 30, 'ica_random_state': 42, 'ica_accept_labels': ['brain', 'Other'], 'ica_reject_threshold': 0.8, 'ica_method': 'infomax', 'ica_extended': True, 'eeg_reference': 'average', 'eeg_reference_projection': False, 'filter_fir_design': 'firwin', 'ica_max_iter': 'auto', 'resample_sfreq': None, 'ica_labeling_method': 'iclabel'}
+2025-07-29 14:44:50,719 - INFO - ParticipantLogger_EV_002 - Preprocessing eda data...

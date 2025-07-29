@@ -1,0 +1,141 @@
+2025-07-25 12:39:17,240 - INFO - ParticipantLogger_EV_001 - ParticipantLogger initialized for EV_001. Logging to D:\repoShaggy\EmotiViewPrivate\EV_results\EV_001\EV_001_processing.log at level INFO.
+2025-07-25 12:39:17,241 - INFO - ParticipantLogger_EV_001 - --- Starting analysis for participant: EV_001 ---
+2025-07-25 12:39:17,243 - INFO - ParticipantLogger_EV_001 - --- Step 1: Data Loading ---
+2025-07-25 12:39:17,243 - INFO - ParticipantLogger_EV_001 - Configuration check: Looking for EEG stream named 'BrainAmpSeries-1'.
+2025-07-25 12:39:17,244 - INFO - ParticipantLogger_EV_001 - Configuration check: Looking for Marker stream named 'BrainAmpSeries-1-Markers'.
+2025-07-25 12:39:17,245 - INFO - ParticipantLogger_EV_001 - Configuration check: Looking for fNIRS stream named 'NIRStar'.
+2025-07-25 12:40:04,190 - INFO - ParticipantLogger_EV_001 - XDF reader found the following streams and metadata keys: ['eeg_df', 'fnirs_od_df', 'fnirs_stream_start_time_xdf', 'xdf_markers_df']
+2025-07-25 12:40:04,192 - INFO - ParticipantLogger_EV_001 - Stored unmapped metadata from XDF reader: 'fnirs_stream_start_time_xdf' = '5940.150089784822'
+2025-07-25 12:40:04,193 - INFO - ParticipantLogger_EV_001 - Found valid, non-empty stream: 'eeg_df' (unmapped, kept original name).
+2025-07-25 12:40:04,194 - INFO - ParticipantLogger_EV_001 - Found valid, non-empty stream: 'fnirs_od_df' (unmapped, kept original name).
+2025-07-25 12:40:04,195 - INFO - ParticipantLogger_EV_001 - Found valid, non-empty stream: 'xdf_markers_df' (unmapped, kept original name).
+2025-07-25 12:40:04,195 - INFO - ParticipantLogger_EV_001 - Final standardized stream keys available after loading and mapping: ['eeg_df', 'fnirs_od_df', 'xdf_markers_df']
+2025-07-25 12:40:04,197 - INFO - ParticipantLogger_EV_001 - --- Running Data Quality Checks on Loaded Streams ---
+2025-07-25 12:40:05,036 - WARNING - ParticipantLogger_EV_001 - Data Quality Issue in 'fnirs_od_df': Found 2203768 NaN values (63.83% of total). This may affect subsequent analyses.
+2025-07-25 12:40:05,039 - INFO - ParticipantLogger_EV_001 - Converting EEG DataFrame to MNE Raw object...
+2025-07-25 12:40:05,060 - INFO - ParticipantLogger_EV_001 - Calculated EEG sampling frequency: 1000.00 Hz
+2025-07-25 12:40:05,062 - INFO - ParticipantLogger_EV_001 - Identified 60 EEG, 1 stim, and 3 auxiliary channels.
+2025-07-25 12:40:06,160 - INFO - ParticipantLogger_EV_001 - Applied 'standard_1020' montage to EEG data.
+2025-07-25 12:40:06,161 - INFO - ParticipantLogger_EV_001 - Skipping fNIRS MNE object creation because 'process_fnirs' is set to False in config.
+2025-07-25 12:40:06,247 - INFO - ParticipantLogger_EV_001 - Detached unmodified trigger stream 'triggerStream' after loading raw EEG data.
+2025-07-25 12:40:06,354 - INFO - ParticipantLogger_EV_001 - Extracted EKG data from main EEG stream.
+2025-07-25 12:40:06,469 - INFO - ParticipantLogger_EV_001 - Extracted EDA data from main EEG stream.
+2025-07-25 12:40:06,567 - INFO - ParticipantLogger_EV_001 - Detached unmodified trigger stream 'triggerStream' after loading raw EEG data.
+2025-07-25 12:40:06,572 - INFO - ParticipantLogger_EV_001 - Interpreted config delimiter '\t' as a tab character.
+2025-07-25 12:40:06,573 - INFO - ParticipantLogger_EV_001 - Questionnaire reader type from config: 'eprime'
+2025-07-25 12:40:06,593 - INFO - ParticipantLogger_EV_001 - Questionnaire raw data loaded.
+2025-07-25 12:40:06,596 - INFO - ParticipantLogger_EV_001 - Data loading complete. (Elapsed: 49.37s)
+2025-07-25 12:40:06,597 - INFO - ParticipantLogger_EV_001 - --- Step 3: Physiological Data Preprocessing (in parallel) ---
+2025-07-25 12:40:06,598 - INFO - ParticipantLogger_EV_001 - Starting parallel execution with up to 4 workers for 3 tasks.
+2025-07-25 12:40:06,600 - INFO - ParticipantLogger_EV_001 - [EEG Worker] Python Executable: C:\Users\gutt\AppData\Local\Programs\Python\Python313\python.exe
+2025-07-25 12:40:06,601 - INFO - ParticipantLogger_EV_001 - [ECG/HRV Worker] Python Executable: C:\Users\gutt\AppData\Local\Programs\Python\Python313\python.exe
+2025-07-25 12:40:06,601 - INFO - ParticipantLogger_EV_001 - [EEG Worker] sys.path: ['d:\\repoShaggy\\PsyAnalysisToolbox\\Python', 'd:\\repoShaggy', 'd:\\repoShaggy\\EmotiViewPrivate\\EV_analysis', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\DLLs', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages']
+2025-07-25 12:40:06,602 - INFO - ParticipantLogger_EV_001 - [EDA Worker] Python Executable: C:\Users\gutt\AppData\Local\Programs\Python\Python313\python.exe
+2025-07-25 12:40:06,602 - INFO - ParticipantLogger_EV_001 - [ECG/HRV Worker] sys.path: ['d:\\repoShaggy\\PsyAnalysisToolbox\\Python', 'd:\\repoShaggy', 'd:\\repoShaggy\\EmotiViewPrivate\\EV_analysis', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\DLLs', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages']
+2025-07-25 12:40:06,603 - INFO - ParticipantLogger_EV_001 - Preprocessing EEG stream...
+2025-07-25 12:40:06,604 - INFO - ParticipantLogger_EV_001 - [EDA Worker] sys.path: ['d:\\repoShaggy\\PsyAnalysisToolbox\\Python', 'd:\\repoShaggy', 'd:\\repoShaggy\\EmotiViewPrivate\\EV_analysis', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\DLLs', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages']
+2025-07-25 12:40:06,604 - INFO - ParticipantLogger_EV_001 - Preprocessing ECG stream...
+2025-07-25 12:40:06,606 - INFO - ParticipantLogger_EV_001 - Preprocessing EDA stream...
+2025-07-25 12:40:07,279 - INFO - ParticipantLogger_EV_001 - ECG R-peak detection completed.
+2025-07-25 12:40:38,021 - INFO - ParticipantLogger_EV_001 - EDA preprocessing completed and artifacts stored.
+2025-07-25 12:48:58,482 - INFO - ParticipantLogger_EV_001 - EEG preprocessing completed.
+2025-07-25 12:48:58,488 - INFO - ParticipantLogger_EV_001 - Parallel execution finished. Collected 3 results/statuses.
+2025-07-25 12:48:58,489 - INFO - ParticipantLogger_EV_001 - Finished parallel preprocessing for all submitted tasks.
+2025-07-25 12:48:58,490 - INFO - ParticipantLogger_EV_001 - Launching task: preprocess_eeg (deps: set())
+2025-07-25 12:48:58,492 - INFO - ParticipantLogger_EV_001 - Preprocessing EEG stream...
+2025-07-25 12:48:58,492 - INFO - ParticipantLogger_EV_001 - Launching task: preprocess_ecg (deps: set())
+2025-07-25 12:48:58,493 - INFO - ParticipantLogger_EV_001 - Generating diagnostic plot for raw FAI channels: ['F3', 'F4', 'Fp1', 'Fp2']
+2025-07-25 12:48:58,494 - INFO - ParticipantLogger_EV_001 - Preprocessing ECG stream...
+2025-07-25 12:48:58,495 - INFO - ParticipantLogger_EV_001 - Launching task: preprocess_eda (deps: set())
+2025-07-25 12:48:58,497 - INFO - ParticipantLogger_EV_001 - Preprocessing EDA stream...
+2025-07-25 12:48:58,498 - INFO - ParticipantLogger_EV_001 - Launching task: preprocess_fnirs (deps: set())
+2025-07-25 12:48:58,501 - ERROR - ParticipantLogger_EV_001 - fNIRS preprocessing skipped: 'fnirs_cw_amplitude' not found in xdf_streams.
+2025-07-25 12:48:58,502 - INFO - ParticipantLogger_EV_001 - Launching task: process_questionnaires (deps: set())
+2025-07-25 12:48:58,505 - INFO - ParticipantLogger_EV_001 - Task completed: preprocess_fnirs
+2025-07-25 12:48:58,508 - WARNING - ParticipantLogger_EV_001 - Questionnaire preprocessing produced no data.
+2025-07-25 12:48:58,511 - INFO - ParticipantLogger_EV_001 - Task completed: process_questionnaires
+2025-07-25 12:48:59,756 - INFO - ParticipantLogger_EV_001 - ECG R-peak detection completed.
+2025-07-25 12:48:59,758 - INFO - ParticipantLogger_EV_001 - Task completed: preprocess_ecg
+2025-07-25 12:49:03,861 - INFO - ParticipantLogger_EV_001 - Saved raw data diagnostic plot to: D:\repoShaggy\EmotiViewPrivate\EV_results\EV_001\EEG_Preproc_Diagnostics\EV_001_raw_fai_channels_diagnostic.png
+2025-07-25 12:49:35,578 - INFO - ParticipantLogger_EV_001 - EDA preprocessing completed and artifacts stored.
+2025-07-25 12:49:35,579 - INFO - ParticipantLogger_EV_001 - Task completed: preprocess_eda
+2025-07-25 12:57:19,552 - INFO - ParticipantLogger_EV_001 - EEG preprocessing completed.
+2025-07-25 12:57:19,554 - INFO - ParticipantLogger_EV_001 - Task completed: preprocess_eeg
+2025-07-25 12:57:19,556 - INFO - ParticipantLogger_EV_001 - Launching task: run_analyses (deps: {'fnirs_preprocessed', 'questionnaire_processed', 'eeg_preprocessed', 'ecg_preprocessed', 'eda_preprocessed'})
+2025-07-25 12:57:19,557 - ERROR - ParticipantLogger_EV_001 - Analysis step skipped: missing required preprocessed data: ['fnirs_preprocessed', 'questionnaire_processed']
+2025-07-25 12:57:19,558 - ERROR - ParticipantLogger_EV_001 - Present preprocessed data: ['eeg_preprocessed', 'ecg_preprocessed', 'eda_preprocessed']
+2025-07-25 12:57:19,559 - INFO - ParticipantLogger_EV_001 - Task completed: run_analyses
+2025-07-25 12:57:19,559 - INFO - ParticipantLogger_EV_001 - Launching task: generate_reports (deps: {'analyses_done'})
+2025-07-25 12:57:19,560 - ERROR - ParticipantLogger_EV_001 - Reporting skipped: analysis was skipped due to missing preprocessed data. See 'analysis_missing_keys' in artifacts for details.
+2025-07-25 12:57:19,561 - INFO - ParticipantLogger_EV_001 - Task completed: generate_reports
+2025-07-25 12:57:19,585 - INFO - ParticipantLogger_EV_001 - --- Participant EV_001 analysis completed successfully in 1082.36 seconds. ---
+2025-07-25 12:57:19,685 - INFO - ParticipantLogger_EV_001 - --- Starting analysis for participant: EV_001 ---
+2025-07-25 12:57:19,686 - INFO - ParticipantLogger_EV_001 - --- Step 1: Data Loading ---
+2025-07-25 12:57:19,687 - INFO - ParticipantLogger_EV_001 - Configuration check: Looking for EEG stream named 'BrainAmpSeries-1'.
+2025-07-25 12:57:19,688 - INFO - ParticipantLogger_EV_001 - Configuration check: Looking for Marker stream named 'BrainAmpSeries-1-Markers'.
+2025-07-25 12:57:19,689 - INFO - ParticipantLogger_EV_001 - Configuration check: Looking for fNIRS stream named 'NIRStar'.
+2025-07-25 12:58:06,590 - INFO - ParticipantLogger_EV_001 - XDF reader found the following streams and metadata keys: ['eeg_df', 'fnirs_od_df', 'fnirs_stream_start_time_xdf', 'xdf_markers_df']
+2025-07-25 12:58:06,592 - INFO - ParticipantLogger_EV_001 - Stored unmapped metadata from XDF reader: 'fnirs_stream_start_time_xdf' = '5940.150089784822'
+2025-07-25 12:58:06,593 - INFO - ParticipantLogger_EV_001 - Found valid, non-empty stream: 'eeg_df' (unmapped, kept original name).
+2025-07-25 12:58:06,593 - INFO - ParticipantLogger_EV_001 - Found valid, non-empty stream: 'fnirs_od_df' (unmapped, kept original name).
+2025-07-25 12:58:06,594 - INFO - ParticipantLogger_EV_001 - Found valid, non-empty stream: 'xdf_markers_df' (unmapped, kept original name).
+2025-07-25 12:58:06,595 - INFO - ParticipantLogger_EV_001 - Final standardized stream keys available after loading and mapping: ['eeg_df', 'fnirs_od_df', 'xdf_markers_df']
+2025-07-25 12:58:06,595 - INFO - ParticipantLogger_EV_001 - --- Running Data Quality Checks on Loaded Streams ---
+2025-07-25 12:58:07,467 - WARNING - ParticipantLogger_EV_001 - Data Quality Issue in 'fnirs_od_df': Found 2203768 NaN values (63.83% of total). This may affect subsequent analyses.
+2025-07-25 12:58:07,470 - INFO - ParticipantLogger_EV_001 - Converting EEG DataFrame to MNE Raw object...
+2025-07-25 12:58:07,498 - INFO - ParticipantLogger_EV_001 - Calculated EEG sampling frequency: 1000.00 Hz
+2025-07-25 12:58:07,500 - INFO - ParticipantLogger_EV_001 - Identified 60 EEG, 1 stim, and 3 auxiliary channels.
+2025-07-25 12:58:08,749 - INFO - ParticipantLogger_EV_001 - Applied 'standard_1020' montage to EEG data.
+2025-07-25 12:58:08,751 - INFO - ParticipantLogger_EV_001 - Skipping fNIRS MNE object creation because 'process_fnirs' is set to False in config.
+2025-07-25 12:58:08,836 - INFO - ParticipantLogger_EV_001 - Detached unmodified trigger stream 'triggerStream' after loading raw EEG data.
+2025-07-25 12:58:08,953 - INFO - ParticipantLogger_EV_001 - Extracted EKG data from main EEG stream.
+2025-07-25 12:58:09,053 - INFO - ParticipantLogger_EV_001 - Extracted EDA data from main EEG stream.
+2025-07-25 12:58:09,140 - INFO - ParticipantLogger_EV_001 - Detached unmodified trigger stream 'triggerStream' after loading raw EEG data.
+2025-07-25 12:58:09,144 - INFO - ParticipantLogger_EV_001 - Interpreted config delimiter '\t' as a tab character.
+2025-07-25 12:58:09,144 - INFO - ParticipantLogger_EV_001 - Questionnaire reader type from config: 'eprime'
+2025-07-25 12:58:09,162 - INFO - ParticipantLogger_EV_001 - Questionnaire raw data loaded.
+2025-07-25 12:58:09,167 - INFO - ParticipantLogger_EV_001 - Data loading complete. (Elapsed: 49.49s)
+2025-07-25 12:58:09,168 - INFO - ParticipantLogger_EV_001 - --- Step 3: Physiological Data Preprocessing (in parallel) ---
+2025-07-25 12:58:09,168 - INFO - ParticipantLogger_EV_001 - Starting parallel execution with up to 4 workers for 3 tasks.
+2025-07-25 12:58:09,171 - INFO - ParticipantLogger_EV_001 - [EEG Worker] Python Executable: C:\Users\gutt\AppData\Local\Programs\Python\Python313\python.exe
+2025-07-25 12:58:09,171 - INFO - ParticipantLogger_EV_001 - [ECG/HRV Worker] Python Executable: C:\Users\gutt\AppData\Local\Programs\Python\Python313\python.exe
+2025-07-25 12:58:09,172 - INFO - ParticipantLogger_EV_001 - [EEG Worker] sys.path: ['d:\\repoShaggy\\PsyAnalysisToolbox\\Python', 'd:\\repoShaggy', 'd:\\repoShaggy\\EmotiViewPrivate\\EV_analysis', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\DLLs', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages']
+2025-07-25 12:58:09,172 - INFO - ParticipantLogger_EV_001 - [EDA Worker] Python Executable: C:\Users\gutt\AppData\Local\Programs\Python\Python313\python.exe
+2025-07-25 12:58:09,173 - INFO - ParticipantLogger_EV_001 - [ECG/HRV Worker] sys.path: ['d:\\repoShaggy\\PsyAnalysisToolbox\\Python', 'd:\\repoShaggy', 'd:\\repoShaggy\\EmotiViewPrivate\\EV_analysis', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\DLLs', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages']
+2025-07-25 12:58:09,173 - INFO - ParticipantLogger_EV_001 - Preprocessing EEG stream...
+2025-07-25 12:58:09,174 - INFO - ParticipantLogger_EV_001 - [EDA Worker] sys.path: ['d:\\repoShaggy\\PsyAnalysisToolbox\\Python', 'd:\\repoShaggy', 'd:\\repoShaggy\\EmotiViewPrivate\\EV_analysis', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\DLLs', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313', 'C:\\Users\\gutt\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages']
+2025-07-25 12:58:09,174 - INFO - ParticipantLogger_EV_001 - Preprocessing ECG stream...
+2025-07-25 12:58:09,176 - INFO - ParticipantLogger_EV_001 - Preprocessing EDA stream...
+2025-07-25 12:58:09,813 - INFO - ParticipantLogger_EV_001 - ECG R-peak detection completed.
+2025-07-25 12:58:38,544 - INFO - ParticipantLogger_EV_001 - EDA preprocessing completed and artifacts stored.
+2025-07-25 13:06:37,998 - INFO - ParticipantLogger_EV_001 - EEG preprocessing completed.
+2025-07-25 13:06:38,023 - INFO - ParticipantLogger_EV_001 - Parallel execution finished. Collected 3 results/statuses.
+2025-07-25 13:06:38,025 - INFO - ParticipantLogger_EV_001 - Finished parallel preprocessing for all submitted tasks.
+2025-07-25 13:06:38,026 - INFO - ParticipantLogger_EV_001 - Launching task: preprocess_eeg (deps: set())
+2025-07-25 13:06:38,028 - INFO - ParticipantLogger_EV_001 - Preprocessing EEG stream...
+2025-07-25 13:06:38,028 - INFO - ParticipantLogger_EV_001 - Launching task: preprocess_ecg (deps: set())
+2025-07-25 13:06:38,028 - INFO - ParticipantLogger_EV_001 - Generating diagnostic plot for raw FAI channels: ['F3', 'F4', 'Fp1', 'Fp2']
+2025-07-25 13:06:38,030 - INFO - ParticipantLogger_EV_001 - Preprocessing ECG stream...
+2025-07-25 13:06:38,030 - INFO - ParticipantLogger_EV_001 - Launching task: preprocess_eda (deps: set())
+2025-07-25 13:06:38,034 - INFO - ParticipantLogger_EV_001 - Preprocessing EDA stream...
+2025-07-25 13:06:38,034 - INFO - ParticipantLogger_EV_001 - Launching task: preprocess_fnirs (deps: set())
+2025-07-25 13:06:38,039 - ERROR - ParticipantLogger_EV_001 - fNIRS preprocessing skipped: 'fnirs_cw_amplitude' not found in xdf_streams.
+2025-07-25 13:06:38,039 - INFO - ParticipantLogger_EV_001 - Launching task: process_questionnaires (deps: set())
+2025-07-25 13:06:38,041 - INFO - ParticipantLogger_EV_001 - Task completed: preprocess_fnirs
+2025-07-25 13:06:38,042 - WARNING - ParticipantLogger_EV_001 - Questionnaire preprocessing produced no data.
+2025-07-25 13:06:38,044 - INFO - ParticipantLogger_EV_001 - Task completed: process_questionnaires
+2025-07-25 13:06:38,695 - INFO - ParticipantLogger_EV_001 - ECG R-peak detection completed.
+2025-07-25 13:06:38,696 - INFO - ParticipantLogger_EV_001 - Task completed: preprocess_ecg
+2025-07-25 13:06:42,286 - INFO - ParticipantLogger_EV_001 - Saved raw data diagnostic plot to: D:\repoShaggy\EmotiViewPrivate\EV_results\EV_001\EEG_Preproc_Diagnostics\EV_001_raw_fai_channels_diagnostic.png
+2025-07-25 13:07:11,105 - INFO - ParticipantLogger_EV_001 - EDA preprocessing completed and artifacts stored.
+2025-07-25 13:07:11,107 - INFO - ParticipantLogger_EV_001 - Task completed: preprocess_eda
+2025-07-25 13:14:22,174 - INFO - ParticipantLogger_EV_001 - EEG preprocessing completed.
+2025-07-25 13:14:22,176 - INFO - ParticipantLogger_EV_001 - Task completed: preprocess_eeg
+2025-07-25 13:14:22,178 - INFO - ParticipantLogger_EV_001 - Launching task: run_analyses (deps: {'fnirs_preprocessed', 'questionnaire_processed', 'eeg_preprocessed', 'ecg_preprocessed', 'eda_preprocessed'})
+2025-07-25 13:14:22,179 - ERROR - ParticipantLogger_EV_001 - Analysis step skipped: missing required preprocessed data: ['fnirs_preprocessed', 'questionnaire_processed']
+2025-07-25 13:14:22,180 - ERROR - ParticipantLogger_EV_001 - Present preprocessed data: ['eeg_preprocessed', 'ecg_preprocessed', 'eda_preprocessed']
+2025-07-25 13:14:22,181 - INFO - ParticipantLogger_EV_001 - Task completed: run_analyses
+2025-07-25 13:14:22,182 - INFO - ParticipantLogger_EV_001 - Launching task: generate_reports (deps: {'analyses_done'})
+2025-07-25 13:14:22,183 - ERROR - ParticipantLogger_EV_001 - Reporting skipped: analysis was skipped due to missing preprocessed data. See 'analysis_missing_keys' in artifacts for details.
+2025-07-25 13:14:22,185 - INFO - ParticipantLogger_EV_001 - Task completed: generate_reports
+2025-07-25 13:14:22,211 - INFO - ParticipantLogger_EV_001 - --- Participant EV_001 analysis completed successfully in 1022.53 seconds. ---
