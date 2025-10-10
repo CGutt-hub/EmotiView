@@ -1,0 +1,6 @@
+[Nextflow] Questionnaire analysis started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/83/6875fccc0ae3137ece0d8d4b948611/EV_004_txt.parquet
+[Nextflow] Loaded questionnaire DataFrame shape: (7424, 1)
+[Nextflow] Found answer key columns: []
+[Nextflow] Found tick columns: []
+[Nextflow] Extracted data shape: (0, 0)
+[Nextflow] Questionnaire analysis finished. Output: EV_004_txt_quest.parquet

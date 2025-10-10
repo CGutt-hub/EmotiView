@@ -1,0 +1,92 @@
+Oct-09 20:41:01.143 [main] DEBUG nextflow.cli.Launcher - $> nextflow EV_pipeline.nf
+Oct-09 20:41:01.307 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.09.0-beta
+Oct-09 20:41:01.396 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/root/.nextflow/plugins; core-plugins: nf-amazon@3.2.0,nf-azure@1.20.0,nf-cloudcache@0.5.0,nf-codecommit@0.4.0,nf-console@1.3.0,nf-google@1.23.0,nf-k8s@1.2.0,nf-tower@1.15.0,nf-wave@1.15.0
+Oct-09 20:41:01.428 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Oct-09 20:41:01.429 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Oct-09 20:41:01.433 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Oct-09 20:41:01.450 [main] DEBUG nextflow.util.RetryConfig - Missing nextflow session - using default retry config
+Oct-09 20:41:01.585 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Oct-09 20:41:01.587 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Oct-09 20:41:01.587 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Oct-09 20:41:01.599 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /root/.nextflow/secrets/store.json
+Oct-09 20:41:01.609 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6c65860d] - activable => nextflow.secret.LocalSecretsProvider@6c65860d
+Oct-09 20:41:01.623 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+Oct-09 20:41:01.638 [main] DEBUG nextflow.cli.CmdRun - Launching `EV_pipeline.nf` [elegant_fermat] DSL2 - revision: 38776d86ca
+Oct-09 20:41:01.687 [main] DEBUG nextflow.Session - Session UUID: 2e76ecb9-f4bc-4f18-8ec2-fefc61f2a98b
+Oct-09 20:41:01.687 [main] DEBUG nextflow.Session - Run name: elegant_fermat
+Oct-09 20:41:01.687 [main] DEBUG nextflow.Session - Executor pool size: 16
+Oct-09 20:41:01.694 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Oct-09 20:41:01.699 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=48; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Oct-09 20:41:01.725 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.09.0-beta build 5957
+  Created: 23-09-2025 20:20 UTC 
+  System: Linux 6.8.0-84-generic
+  Runtime: Groovy 4.0.28 on OpenJDK 64-Bit Server VM 21.0.8+9-Ubuntu-0ubuntu124.04.1
+  Encoding: UTF-8 (UTF-8)
+  Process: 122355@ubuntults24 [127.0.1.1]
+  CPUs: 16 - Mem: 30.6 GB (19.9 GB) - Swap: 8 GB (8 GB)
+Oct-09 20:41:01.778 [main] DEBUG nextflow.Session - Work-dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work [smb2]
+Oct-09 20:41:01.779 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/bin
+Oct-09 20:41:01.787 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Oct-09 20:41:01.795 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Oct-09 20:41:01.798 [main] DEBUG nextflow.Session - Observer factory (v2): DefaultObserverFactory
+Oct-09 20:41:01.837 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Oct-09 20:41:01.855 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 17; maxThreads: 1000
+Oct-09 20:41:01.998 [main] DEBUG nextflow.Session - Session start
+Oct-09 20:41:02.397 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+Oct-09 20:41:02.415 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=0; peakCpus=0; peakMemory=0; ]
+Oct-09 20:41:02.613 [main] ERROR nextflow.cli.Launcher - Script compilation error
+- file : /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/EV_pipeline.nf
+- cause: Unexpected character: '"' @ line 221, column 98.
+   alyzer_script, quest_preproc, "ea11 ea11
+                                 ^
+
+1 error
+
+nextflow.exception.ScriptCompilationException: Script compilation error
+- file : /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/EV_pipeline.nf
+- cause: Unexpected character: '"' @ line 221, column 98.
+   alyzer_script, quest_preproc, "ea11 ea11
+                                 ^
+
+1 error
+
+	at nextflow.script.parser.v1.ScriptLoaderV1.parse0(ScriptLoaderV1.groovy:204)
+	at nextflow.script.parser.v1.ScriptLoaderV1.parse(ScriptLoaderV1.groovy:215)
+	at nextflow.script.parser.v1.ScriptLoaderV1.parse(ScriptLoaderV1.groovy)
+	at nextflow.script.ScriptRunner.parseScript(ScriptRunner.groovy:232)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:137)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:428)
+	at nextflow.cli.Launcher.run(Launcher.groovy:513)
+	at nextflow.cli.Launcher.main(Launcher.groovy:673)
+Caused by: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+Script_ceaf188b0eab0155: 221: Unexpected character: '"' @ line 221, column 98.
+   alyzer_script, quest_preproc, "ea11 ea11
+                                 ^
+
+1 error
+
+	at org.codehaus.groovy.control.ErrorCollector.failIfErrors(ErrorCollector.java:292)
+	at org.codehaus.groovy.control.ErrorCollector.addFatalError(ErrorCollector.java:148)
+	at org.apache.groovy.parser.antlr4.AstBuilder.collectSyntaxError(AstBuilder.java:4739)
+	at org.apache.groovy.parser.antlr4.AstBuilder.createParsingFailedException(AstBuilder.java:4722)
+	at org.apache.groovy.parser.antlr4.AstBuilder.convertException(AstBuilder.java:254)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:228)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildAST(AstBuilder.java:262)
+	at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin.buildAST(Antlr4ParserPlugin.java:58)
+	at org.codehaus.groovy.control.SourceUnit.buildAST(SourceUnit.java:256)
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:133)
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:631)
+	at groovy.lang.GroovyClassLoader.doParseClass(GroovyClassLoader.java:365)
+	at groovy.lang.GroovyClassLoader.lambda$parseClass$2(GroovyClassLoader.java:314)
+	at org.codehaus.groovy.runtime.memoize.StampedCommonCache.compute(StampedCommonCache.java:163)
+	at org.codehaus.groovy.runtime.memoize.StampedCommonCache.getAndPut(StampedCommonCache.java:154)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:314)
+	at groovy.lang.GroovyShell.parseClass(GroovyShell.java:572)
+	at groovy.lang.GroovyShell.parse(GroovyShell.java:585)
+	at groovy.lang.GroovyShell.parse(GroovyShell.java:639)
+	at groovy.lang.GroovyShell.parse(GroovyShell.java:643)
+	at nextflow.script.parser.v1.ScriptLoaderV1.parse0(ScriptLoaderV1.groovy:183)
+	... 7 common frames omitted

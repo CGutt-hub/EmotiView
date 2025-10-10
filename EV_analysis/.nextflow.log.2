@@ -1,0 +1,687 @@
+Oct-10 14:57:40.993 [main] DEBUG nextflow.cli.Launcher - $> nextflow EV_pipeline.nf
+Oct-10 14:57:41.158 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.09.0-beta
+Oct-10 14:57:41.256 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/root/.nextflow/plugins; core-plugins: nf-amazon@3.2.0,nf-azure@1.20.0,nf-cloudcache@0.5.0,nf-codecommit@0.4.0,nf-console@1.3.0,nf-google@1.23.0,nf-k8s@1.2.0,nf-tower@1.15.0,nf-wave@1.15.0
+Oct-10 14:57:41.288 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Oct-10 14:57:41.290 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Oct-10 14:57:41.293 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Oct-10 14:57:41.308 [main] DEBUG nextflow.util.RetryConfig - Missing nextflow session - using default retry config
+Oct-10 14:57:41.454 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Oct-10 14:57:41.455 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Oct-10 14:57:41.455 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Oct-10 14:57:41.478 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /root/.nextflow/secrets/store.json
+Oct-10 14:57:41.487 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6c65860d] - activable => nextflow.secret.LocalSecretsProvider@6c65860d
+Oct-10 14:57:41.502 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+Oct-10 14:57:41.517 [main] DEBUG nextflow.cli.CmdRun - Launching `EV_pipeline.nf` [evil_escher] DSL2 - revision: 5ec1e079ad
+Oct-10 14:57:41.568 [main] DEBUG nextflow.Session - Session UUID: 3ea29f05-a05e-44d2-a239-28b4cf655670
+Oct-10 14:57:41.569 [main] DEBUG nextflow.Session - Run name: evil_escher
+Oct-10 14:57:41.569 [main] DEBUG nextflow.Session - Executor pool size: 16
+Oct-10 14:57:41.577 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Oct-10 14:57:41.584 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=48; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Oct-10 14:57:41.605 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.09.0-beta build 5957
+  Created: 23-09-2025 20:20 UTC 
+  System: Linux 6.8.0-84-generic
+  Runtime: Groovy 4.0.28 on OpenJDK 64-Bit Server VM 21.0.8+9-Ubuntu-0ubuntu124.04.1
+  Encoding: UTF-8 (UTF-8)
+  Process: 127230@ubuntults24 [127.0.1.1]
+  CPUs: 16 - Mem: 30.6 GB (20 GB) - Swap: 8 GB (8 GB)
+Oct-10 14:57:41.647 [main] DEBUG nextflow.Session - Work-dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work [smb2]
+Oct-10 14:57:41.648 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/bin
+Oct-10 14:57:41.657 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Oct-10 14:57:41.667 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Oct-10 14:57:41.669 [main] DEBUG nextflow.Session - Observer factory (v2): DefaultObserverFactory
+Oct-10 14:57:41.710 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Oct-10 14:57:41.732 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 17; maxThreads: 1000
+Oct-10 14:57:41.906 [main] DEBUG nextflow.Session - Session start
+Oct-10 14:57:43.213 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Oct-10 14:57:43.231 [main] WARN  nextflow.script.ScriptBinding - `params.fai_band_name` is defined multiple times -- Assignments following the first are ignored
+Oct-10 14:57:43.232 [main] WARN  nextflow.script.ScriptBinding - `params.electrode_pairs` is defined multiple times -- Assignments following the first are ignored
+Oct-10 14:57:43.437 [main] DEBUG nextflow.file.DirWatcherV2 - Watch service for path=/mnt/emotiview/rawData/; syntax=glob; pattern=*; skipHidden=true; events=create
+Oct-10 14:57:43.562 [main] WARN  nextflow.script.ProcessConfig - The `echo` directive has been deprecated - use to `debug` instead
+Oct-10 14:57:43.590 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.591 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.599 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Oct-10 14:57:43.606 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=16; memory=30.6 GB; capacity=16; pollInterval=100ms; dumpInterval=5m
+Oct-10 14:57:43.609 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+Oct-10 14:57:43.648 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'xdf_reader': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.686 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.686 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.687 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'txt_reader': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.709 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.709 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.710 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'select_streams': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.717 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.717 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.719 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'stream_extractor': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.726 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.726 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.727 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'select_channels': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.731 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.731 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.732 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'fnirs_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.736 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.736 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.737 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'eeg_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.742 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.742 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.742 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'event_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.747 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.748 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.748 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'eda_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.754 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.755 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.756 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ecg_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.762 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.762 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.763 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'quest_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.768 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.769 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.770 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ic_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.776 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.776 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.777 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'fnirs_epoching': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.781 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.782 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.782 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'eda_epoching': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.789 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.790 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.791 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ecg_epoching': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.798 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.798 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.800 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'eeg_epoching': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.806 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.807 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.808 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'plv_merging_processor': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.815 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.815 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.816 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'psd_merging_processor': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.823 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.823 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.824 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ea11_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.831 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.832 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.833 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'panas_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.839 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.839 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.841 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'bis_bas_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.850 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.851 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.851 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'sam_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.859 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.859 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.860 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'be7_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.866 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.866 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.867 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'hrv_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.872 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.872 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.873 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'scr_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.879 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.879 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.879 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'glm_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.885 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.886 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.886 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'psd_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.893 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.894 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.894 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'fai_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.902 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.902 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.903 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'plv_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:57:43.989 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:43.989 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:43.990 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ic_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.005 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.005 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.007 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'hrv_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.017 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.018 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.019 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'scr_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.029 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.030 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.030 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'glm_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.044 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.044 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.045 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'psd_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.061 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.062 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.062 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'fai_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.076 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.076 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.077 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'plv_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.089 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.089 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.089 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ea11_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.100 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.100 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.101 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'panas_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.112 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.112 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.112 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'bis_bas_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.125 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.126 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.126 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'sam_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.140 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.140 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.141 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'be7_plotter': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.157 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:57:44.157 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:57:44.158 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'git_sync': maxForks=0; fair=false; array=0
+Oct-10 14:57:44.165 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: quest_preprocessor, git_sync, hrv_plotter, glm_plotter, fai_plotter, plv_merging_processor, eeg_preprocessor, ic_plotter, bis_bas_plotter, scr_plotter, sam_analyzer, statistical_processor, psd_plotter, panas_plotter, be7_plotter, filtering_processor, psd_analyzer, ic_analyzer, plv_plotter, plv_analyzer, panas_analyzer, normalization_processor, ecg_epoching, xdf_reader, event_preprocessor, ecg_preprocessor, ea11_plotter, eeg_epoching, glm_analyzer, fai_analyzer, quest_analyzer, bis_bas_analyzer, fnirs_epoching, sam_plotter, select_channels, ea11_analyzer, stream_extractor, be7_analyzer, txt_reader, hrv_analyzer, scr_analyzer, python_dispatcher, psd_merging_processor, make_output_folder, eda_epoching, correlation_processor, plotter, select_streams, fnirs_preprocessor, eda_preprocessor
+Oct-10 14:57:44.168 [main] DEBUG nextflow.Session - Igniting dataflow network (44)
+Oct-10 14:57:44.173 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /mnt/emotiview/rawData/; pattern: EV_*; options: [type:dir]
+Oct-10 14:57:44.191 [Actor Thread 15] INFO  nextflow.script.BaseScript - [participant_id] EV_004
+Oct-10 14:57:44.194 [Actor Thread 15] INFO  nextflow.script.BaseScript - [participant_id] EV_003
+Oct-10 14:57:44.194 [Actor Thread 15] INFO  nextflow.script.BaseScript - [participant_id] EV_002
+Oct-10 14:57:44.194 [Actor Thread 15] INFO  nextflow.script.BaseScript - [participant_id] EV_001
+Oct-10 14:57:44.195 [Actor Thread 12] INFO  nextflow.script.BaseScript - [xdf_file] /mnt/emotiview/rawData/EV_004/EV_004.xdf
+Oct-10 14:57:44.195 [Actor Thread 11] INFO  nextflow.script.BaseScript - [output_folder] /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_results/EV_004
+Oct-10 14:57:44.195 [Actor Thread 13] INFO  nextflow.script.BaseScript - [txt_file] /mnt/emotiview/rawData/EV_004/EV_004.txt
+Oct-10 14:57:44.195 [Actor Thread 12] INFO  nextflow.script.BaseScript - [xdf_file] /mnt/emotiview/rawData/EV_003/EV_003.xdf
+Oct-10 14:57:44.196 [Actor Thread 13] INFO  nextflow.script.BaseScript - [txt_file] /mnt/emotiview/rawData/EV_003/EV_003.txt
+Oct-10 14:57:44.196 [Actor Thread 11] INFO  nextflow.script.BaseScript - [output_folder] /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_results/EV_003
+Oct-10 14:57:44.196 [Actor Thread 12] INFO  nextflow.script.BaseScript - [xdf_file] /mnt/emotiview/rawData/EV_002/EV_002.xdf
+Oct-10 14:57:44.197 [Actor Thread 13] INFO  nextflow.script.BaseScript - [txt_file] /mnt/emotiview/rawData/EV_002/EV_002.txt
+Oct-10 14:57:44.197 [Actor Thread 12] INFO  nextflow.script.BaseScript - [xdf_file] /mnt/emotiview/rawData/EV_001/EV_001.xdf
+Oct-10 14:57:44.198 [Actor Thread 13] INFO  nextflow.script.BaseScript - [txt_file] /mnt/emotiview/rawData/EV_001/EV_001.txt
+Oct-10 14:57:44.198 [Actor Thread 11] INFO  nextflow.script.BaseScript - [output_folder] /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_results/EV_002
+Oct-10 14:57:44.198 [Actor Thread 11] INFO  nextflow.script.BaseScript - [output_folder] /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_results/EV_001
+Oct-10 14:57:44.478 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > xdf_reader
+Oct-10 14:57:44.478 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > txt_reader
+Oct-10 14:57:44.478 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > select_streams
+Oct-10 14:57:44.478 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > stream_extractor
+Oct-10 14:57:44.478 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > select_channels
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > fnirs_preprocessor
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > eeg_preprocessor
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > event_preprocessor
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > eda_preprocessor
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ecg_preprocessor
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > quest_preprocessor
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ic_analyzer
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > fnirs_epoching
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > eda_epoching
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ecg_epoching
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > eeg_epoching
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > plv_merging_processor
+Oct-10 14:57:44.479 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > psd_merging_processor
+Oct-10 14:57:44.480 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ea11_analyzer
+Oct-10 14:57:44.481 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > panas_analyzer
+Oct-10 14:57:44.481 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > bis_bas_analyzer
+Oct-10 14:57:44.482 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > sam_analyzer
+Oct-10 14:57:44.482 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > be7_analyzer
+Oct-10 14:57:44.482 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > hrv_analyzer
+Oct-10 14:57:44.482 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > scr_analyzer
+Oct-10 14:57:44.482 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > glm_analyzer
+Oct-10 14:57:44.482 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > psd_analyzer
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > fai_analyzer
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > plv_analyzer
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ic_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > hrv_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > scr_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > glm_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > psd_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > fai_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > plv_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ea11_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > panas_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > bis_bas_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > sam_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > be7_plotter
+Oct-10 14:57:44.483 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > git_sync
+Oct-10 14:57:44.484 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_e9b5f2c25469cb4c: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/EV_pipeline.nf
+  Script_f036dff8c1a9b3ed: /mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/python_dispatcher.nf
+Oct-10 14:57:44.484 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Oct-10 14:57:44.484 [main] DEBUG nextflow.Session - Session await
+Oct-10 14:57:44.713 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:57:44.715 [Task submitter] INFO  nextflow.Session - [65/deafb2] Submitted process > xdf_reader (4)
+Oct-10 14:57:44.741 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:57:44.742 [Task submitter] INFO  nextflow.Session - [2c/f5d7b5] Submitted process > txt_reader (2)
+Oct-10 14:57:44.771 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:57:44.772 [Task submitter] INFO  nextflow.Session - [19/e917d9] Submitted process > txt_reader (1)
+Oct-10 14:57:44.795 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:57:44.796 [Task submitter] INFO  nextflow.Session - [3f/767639] Submitted process > xdf_reader (1)
+Oct-10 14:57:44.818 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:57:44.822 [Task submitter] INFO  nextflow.Session - [ba/0ab6e9] Submitted process > txt_reader (3)
+Oct-10 14:57:44.852 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:57:44.856 [Task submitter] INFO  nextflow.Session - [27/cb082d] Submitted process > xdf_reader (3)
+Oct-10 14:57:44.877 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:57:44.880 [Task submitter] INFO  nextflow.Session - [d7/00a0d0] Submitted process > xdf_reader (2)
+Oct-10 14:57:44.903 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:57:44.904 [Task submitter] INFO  nextflow.Session - [43/7cfb86] Submitted process > txt_reader (4)
+Oct-10 14:57:45.937 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 4; name: txt_reader (2); status: COMPLETED; exit: 0; error: -; workDir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/2c/f5d7b5ed32cfcdca46f30ec83b7ed4]
+Oct-10 14:57:45.938 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=48; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Oct-10 14:57:52.706 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 2; name: txt_reader (1); status: COMPLETED; exit: 0; error: -; workDir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/19/e917d9c68d3738b8dd7b114e6372e6]
+Oct-10 14:57:52.708 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 6; name: txt_reader (3); status: COMPLETED; exit: 0; error: -; workDir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/ba/0ab6e9bfa39a6a636a224a2597e3a1]
+Oct-10 14:57:52.709 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 8; name: txt_reader (4); status: COMPLETED; exit: 0; error: -; workDir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/43/7cfb86aee18b4325648bce4d2637e1]
+Oct-10 14:58:08.683 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:08.720 [Task submitter] INFO  nextflow.Session - [81/3bbf8d] Submitted process > quest_preprocessor (1)
+Oct-10 14:58:08.968 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:08.969 [Task submitter] INFO  nextflow.Session - [2b/793aa6] Submitted process > quest_preprocessor (2)
+Oct-10 14:58:09.327 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:09.329 [Task submitter] INFO  nextflow.Session - [99/db32b5] Submitted process > quest_preprocessor (3)
+Oct-10 14:58:09.437 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:09.438 [Task submitter] INFO  nextflow.Session - [24/ec8e75] Submitted process > quest_preprocessor (4)
+Oct-10 14:58:10.676 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 9; name: quest_preprocessor (1); status: COMPLETED; exit: 0; error: -; workDir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/81/3bbf8d45909163a61fecb7ae53985b]
+Oct-10 14:58:10.876 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:10.877 [Task submitter] INFO  nextflow.Session - [ca/d7421c] Submitted process > ea11_analyzer (1)
+Oct-10 14:58:11.052 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 10; name: quest_preprocessor (2); status: COMPLETED; exit: 0; error: -; workDir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/2b/793aa608bff2e6101a05b884e03e8b]
+Oct-10 14:58:11.059 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:11.060 [Task submitter] INFO  nextflow.Session - [f5/bd970e] Submitted process > sam_analyzer (1)
+Oct-10 14:58:11.185 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:11.186 [Task submitter] INFO  nextflow.Session - [40/dc287c] Submitted process > be7_analyzer (1)
+Oct-10 14:58:11.193 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 11; name: quest_preprocessor (3); status: COMPLETED; exit: 0; error: -; workDir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/99/db32b5f668570035bd5a0b69a59ba4]
+Oct-10 14:58:11.194 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 12; name: quest_preprocessor (4); status: COMPLETED; exit: 0; error: -; workDir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/24/ec8e75718835a55b99d8dc49bf82d5]
+Oct-10 14:58:11.382 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:11.383 [Task submitter] INFO  nextflow.Session - [7c/932219] Submitted process > panas_analyzer (1)
+Oct-10 14:58:11.403 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:11.404 [Task submitter] INFO  nextflow.Session - [56/d4a991] Submitted process > bis_bas_analyzer (1)
+Oct-10 14:58:11.427 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:11.428 [Task submitter] INFO  nextflow.Session - [18/8da36d] Submitted process > ea11_analyzer (2)
+Oct-10 14:58:11.452 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:11.453 [Task submitter] INFO  nextflow.Session - [9e/365b28] Submitted process > sam_analyzer (2)
+Oct-10 14:58:11.472 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:11.473 [Task submitter] INFO  nextflow.Session - [8d/3c337b] Submitted process > bis_bas_analyzer (2)
+Oct-10 14:58:11.703 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:11.704 [Task submitter] INFO  nextflow.Session - [2f/b21b6f] Submitted process > be7_analyzer (2)
+Oct-10 14:58:12.057 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:12.057 [Task submitter] INFO  nextflow.Session - [b0/28b245] Submitted process > panas_analyzer (2)
+Oct-10 14:58:12.399 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:12.400 [Task submitter] INFO  nextflow.Session - [43/d0981b] Submitted process > panas_analyzer (3)
+Oct-10 14:58:12.416 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 17; name: ea11_analyzer (1); status: COMPLETED; exit: 127; error: -; workDir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/ca/d7421ccf54aaed8ce529afb8365600]
+Oct-10 14:58:12.424 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:12.424 [Task submitter] INFO  nextflow.Session - [b8/788591] Submitted process > be7_analyzer (3)
+Oct-10 14:58:12.426 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=ea11_analyzer (1); work-dir=/mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/ca/d7421ccf54aaed8ce529afb8365600
+  error [nextflow.exception.ProcessFailedException]: Process `ea11_analyzer (1)` terminated with an error exit status (127)
+Oct-10 14:58:12.605 [TaskFinalizer-9] ERROR nextflow.processor.TaskProcessor - Error executing process > 'ea11_analyzer (1)'
+
+Caused by:
+  Process `ea11_analyzer (1)` terminated with an error exit status (127)
+
+
+Command executed:
+
+  /home/gutt/EV_venv/bin/python3 -u /mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/analyzers/quest_analyzer.py /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/81/3bbf8d45909163a61fecb7ae53985b/EV_003_txt_quest_preproc.parquet ea11 ea11\.Choice1\.Value leftScaleWord|rightScaleWord
+
+Command exit status:
+  127
+
+Command output:
+  (empty)
+
+Command error:
+  .command.sh: line 2: rightScaleWord: command not found
+  Traceback (most recent call last):
+    File "/mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/analyzers/quest_analyzer.py", line 124, in <module>
+      run(input_parquet, question_pattern, response_pattern, scale_pattern)
+    File "/mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/analyzers/quest_analyzer.py", line 6, in <lambda>
+      print(f"[Nextflow] Questionnaire analysis started for: {input_parquet}") or (
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  BrokenPipeError: [Errno 32] Broken pipe
+  
+  During handling of the above exception, another exception occurred:
+  
+  Traceback (most recent call last):
+    File "/mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/analyzers/quest_analyzer.py", line 126, in <module>
+      print(f"[Nextflow] Questionnaire analysis errored. Error: {e}")
+  BrokenPipeError: [Errno 32] Broken pipe
+
+Work dir:
+  /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/ca/d7421ccf54aaed8ce529afb8365600
+
+Tip: you can replicate the issue by changing to the process work dir and entering the command `bash .command.run`
+Oct-10 14:58:12.610 [TaskFinalizer-9] DEBUG nextflow.Session - Session aborted -- Cause: Process `ea11_analyzer (1)` terminated with an error exit status (127)
+Oct-10 14:58:12.619 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+Oct-10 14:58:12.678 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-10 14:58:12.679 [Task submitter] INFO  nextflow.Session - [35/3a1a13] Submitted process > bis_bas_analyzer (3)
+Oct-10 14:58:12.699 [TaskFinalizer-9] DEBUG nextflow.Session - The following nodes are still active:
+[process] xdf_reader
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] txt_reader
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] select_streams
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: streams_folder
+  port 1: (cntrl) -     ; channel: $
+
+[process] stream_extractor
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] select_channels
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: channel_folder
+  port 1: (cntrl) -     ; channel: $
+
+[process] fnirs_preprocessor
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] eeg_preprocessor
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] event_preprocessor
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] eda_preprocessor
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] ecg_preprocessor
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] quest_preprocessor
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] ic_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] fnirs_epoching
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] eda_epoching
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] ecg_epoching
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] eeg_epoching
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] plv_merging_processor
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] psd_merging_processor
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] ea11_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] panas_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] bis_bas_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] sam_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] be7_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] hrv_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] scr_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] glm_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] psd_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] fai_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] plv_analyzer
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] ic_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] hrv_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] scr_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] glm_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] psd_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] fai_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] plv_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] ea11_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] panas_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] bis_bas_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] sam_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] be7_plotter
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (queue) OPEN  ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+[process] git_sync
+  status=ACTIVE
+  port 0: (value) bound ; channel: python_exe
+  port 1: (value) bound ; channel: script_name
+  port 2: (queue) OPEN  ; channel: input_file
+  port 3: (value) bound ; channel: script_args
+  port 4: (cntrl) -     ; channel: $
+
+Oct-10 14:58:12.705 [TaskFinalizer-9] WARN  n.processor.TaskPollingMonitor - Killing running tasks (16)
+Oct-10 14:58:13.410 [TaskFinalizer-9] DEBUG n.executor.local.LocalTaskHandler - Unable to kill sam_analyzer (1) -- command: kill -TERM 127850; exit: 1 
+ bash: line 1: kill: (127850) - No such process
+
+Oct-10 14:58:13.422 [TaskFinalizer-9] DEBUG n.executor.local.LocalTaskHandler - Unable to kill be7_analyzer (1) -- command: kill -TERM 127871; exit: 1 
+ bash: line 1: kill: (127871) - No such process
+
+Oct-10 14:58:13.450 [TaskFinalizer-9] DEBUG n.executor.local.LocalTaskHandler - Unable to kill sam_analyzer (2) -- command: kill -TERM 127910; exit: 1 
+ bash: line 1: kill: (127910) - No such process
+
+Oct-10 14:58:13.478 [TaskFinalizer-9] DEBUG n.executor.local.LocalTaskHandler - Unable to kill be7_analyzer (3) -- command: kill -TERM 127966; exit: 1 
+ bash: line 1: kill: (127966) - No such process
+
+Oct-10 14:58:13.489 [TaskFinalizer-9] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=8; failedCount=1; ignoredCount=0; cachedCount=0; pendingCount=7; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=16; succeedDuration=31.5s; failedDuration=1.4s; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=16; peakCpus=16; peakMemory=0; ]
+Oct-10 14:58:13.656 [main] DEBUG nextflow.Session - Session await > all processes finished
+Oct-10 14:58:13.657 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Oct-10 14:58:13.660 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=8; failedCount=1; ignoredCount=0; cachedCount=0; pendingCount=7; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=16; succeedDuration=31.5s; failedDuration=1.4s; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=16; peakCpus=16; peakMemory=0; ]
+Oct-10 14:58:13.674 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Oct-10 14:58:13.730 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

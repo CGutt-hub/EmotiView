@@ -1,0 +1,9 @@
+[Nextflow] Questionnaire analysis started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/b9/b7681470a7684f5d030d56180df6fc/EV_004_txt_quest_preproc.parquet
+[Nextflow] Loaded questionnaire DataFrame shape: (49, 2)
+[Nextflow] Found matching keys: 1
+[Nextflow] Sample matching keys: ['bisBasInstruction.DEVICE']
+[Nextflow] Filtered data shape: (1, 2)
+[Nextflow] Found 0 question items, 0 scale items, 0 choice responses
+[Nextflow] Structured data shape: (0, 9)
+[Nextflow] Structured columns: ['questionnaire_type', 'item_id', 'question_text', 'response_value', 'scale_text', 'scale_numeric', 'x_axis', 'y_axis', 'plot_weight']
+[Nextflow] Questionnaire analysis finished. Output: EV_004_txt_quest_preproc_quest.parquet

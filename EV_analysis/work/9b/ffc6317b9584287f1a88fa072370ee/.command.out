@@ -1,0 +1,8 @@
+[Nextflow] Questionnaire preprocessor started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/ab/fab15ff89f1ea7526f7efdb3c6e16d/EV_001_txt.parquet
+[Nextflow] Read DataFrame with shape: (7424, 1)
+[Nextflow] DataFrame columns: ['*** Header Start ***']
+[Nextflow] Extracted 52 text lines
+[Nextflow] Extracted 49 questionnaire entries
+[Nextflow] Created DataFrame with shape: (49, 2)
+[Nextflow] Sample keys: ['VersionPersist', 'LevelName', 'LevelName', 'LevelName', 'LevelName', 'LevelName', 'LevelName', 'LevelName', 'LevelName', 'LevelName']
+[Nextflow] Questionnaire preprocessing finished. Output: EV_001_txt_quest_preproc.parquet

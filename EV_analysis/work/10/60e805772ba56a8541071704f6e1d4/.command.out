@@ -1,0 +1,1 @@
+[Nextflow] Usage: python xdf_reader.py <input_xdf> <output_dir> [--dry-run]

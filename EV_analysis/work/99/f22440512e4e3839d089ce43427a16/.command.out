@@ -1,0 +1,5 @@
+[Nextflow] Enhanced questionnaire preprocessor started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/f8/a82d0f9b857ecd0e82d4d5b15e6c43/EV_001_txt.parquet
+[Nextflow] Read DataFrame with shape: (7424, 1)
+[Nextflow] DataFrame columns: ['*** Header Start ***']
+[Nextflow] Extracted 7424 text lines
+[Nextflow] Enhanced questionnaire preprocessing errored. Error: argument of type 'NoneType' is not iterable

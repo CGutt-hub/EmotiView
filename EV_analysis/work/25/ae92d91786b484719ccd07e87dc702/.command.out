@@ -1,0 +1,4 @@
+[Nextflow] Enhanced questionnaire preprocessor started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/2b/a9107ca8701f9fd14ba30e563af29a/EV_004_txt.parquet
+[Nextflow] Read DataFrame with shape: (7424, 1)
+[Nextflow] DataFrame columns: ['*** Header Start ***']
+[Nextflow] Enhanced questionnaire preprocessing errored. Error: No module named 'pyarrow'

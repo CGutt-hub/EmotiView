@@ -1,0 +1,8 @@
+[DISPATCHER] Starting: /mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/utils/plotter.py with /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/82/8e40c0cb8a1bbe2ed8c96f0537275c/EV_004_txt_quest.parquet
+[Nextflow] Plotting started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/82/8e40c0cb8a1bbe2ed8c96f0537275c/EV_004_txt_quest.parquet as bar
+[Nextflow] Parquet file loaded: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/82/8e40c0cb8a1bbe2ed8c96f0537275c/EV_004_txt_quest.parquet, shape: (0, 0)
+[Nextflow] Figure created for plot type: bar
+[Nextflow] Axes created, plotting data...
+[Nextflow] Plot style set to greyscale.
+[Nextflow] Plot type selected: bar
+[Nextflow] Plotting errored. Error: list index out of range

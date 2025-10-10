@@ -1,0 +1,4 @@
+[Nextflow] Questionnaire analysis started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/49/468fecc2a26f304ac9eb29badcc612/EV_003_txt_quest_preproc.parquet
+[Nextflow] Loaded questionnaire DataFrame shape: (49, 2)
+[Nextflow] Found matching keys: 0
+[Nextflow] Sample matching keys: None

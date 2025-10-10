@@ -1,0 +1,148 @@
+Oct-10 14:43:02.829 [main] DEBUG nextflow.cli.Launcher - $> nextflow EV_pipeline.nf
+Oct-10 14:43:03.016 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.09.0-beta
+Oct-10 14:43:03.110 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/root/.nextflow/plugins; core-plugins: nf-amazon@3.2.0,nf-azure@1.20.0,nf-cloudcache@0.5.0,nf-codecommit@0.4.0,nf-console@1.3.0,nf-google@1.23.0,nf-k8s@1.2.0,nf-tower@1.15.0,nf-wave@1.15.0
+Oct-10 14:43:03.142 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Oct-10 14:43:03.143 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Oct-10 14:43:03.146 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Oct-10 14:43:03.160 [main] DEBUG nextflow.util.RetryConfig - Missing nextflow session - using default retry config
+Oct-10 14:43:03.322 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Oct-10 14:43:03.323 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Oct-10 14:43:03.324 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Oct-10 14:43:03.341 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /root/.nextflow/secrets/store.json
+Oct-10 14:43:03.352 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6c65860d] - activable => nextflow.secret.LocalSecretsProvider@6c65860d
+Oct-10 14:43:03.370 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+Oct-10 14:43:03.385 [main] DEBUG nextflow.cli.CmdRun - Launching `EV_pipeline.nf` [elated_wright] DSL2 - revision: 13544c1d25
+Oct-10 14:43:03.443 [main] DEBUG nextflow.Session - Session UUID: 71437f09-465b-407c-b705-03a2581fcb9e
+Oct-10 14:43:03.443 [main] DEBUG nextflow.Session - Run name: elated_wright
+Oct-10 14:43:03.444 [main] DEBUG nextflow.Session - Executor pool size: 16
+Oct-10 14:43:03.456 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Oct-10 14:43:03.462 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=48; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Oct-10 14:43:03.489 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.09.0-beta build 5957
+  Created: 23-09-2025 20:20 UTC 
+  System: Linux 6.8.0-84-generic
+  Runtime: Groovy 4.0.28 on OpenJDK 64-Bit Server VM 21.0.8+9-Ubuntu-0ubuntu124.04.1
+  Encoding: UTF-8 (UTF-8)
+  Process: 125342@ubuntults24 [127.0.1.1]
+  CPUs: 16 - Mem: 30.6 GB (19.8 GB) - Swap: 8 GB (8 GB)
+Oct-10 14:43:03.532 [main] DEBUG nextflow.Session - Work-dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work [smb2]
+Oct-10 14:43:03.534 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/bin
+Oct-10 14:43:03.546 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Oct-10 14:43:03.556 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Oct-10 14:43:03.561 [main] DEBUG nextflow.Session - Observer factory (v2): DefaultObserverFactory
+Oct-10 14:43:03.629 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Oct-10 14:43:03.649 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 17; maxThreads: 1000
+Oct-10 14:43:03.831 [main] DEBUG nextflow.Session - Session start
+Oct-10 14:43:05.070 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Oct-10 14:43:05.084 [main] WARN  nextflow.script.ScriptBinding - `params.fai_band_name` is defined multiple times -- Assignments following the first are ignored
+Oct-10 14:43:05.085 [main] WARN  nextflow.script.ScriptBinding - `params.electrode_pairs` is defined multiple times -- Assignments following the first are ignored
+Oct-10 14:43:05.270 [main] DEBUG nextflow.file.DirWatcherV2 - Watch service for path=/mnt/emotiview/rawData/; syntax=glob; pattern=*; skipHidden=true; events=create
+Oct-10 14:43:05.385 [main] WARN  nextflow.script.ProcessConfig - The `echo` directive has been deprecated - use to `debug` instead
+Oct-10 14:43:05.415 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.416 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.426 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Oct-10 14:43:05.433 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=16; memory=30.6 GB; capacity=16; pollInterval=100ms; dumpInterval=5m
+Oct-10 14:43:05.436 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+Oct-10 14:43:05.472 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'xdf_reader': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.513 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.513 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.514 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'txt_reader': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.538 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.539 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.540 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'select_streams': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.547 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.547 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.548 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'stream_extractor': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.555 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.555 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.556 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'select_channels': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.564 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.564 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.565 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'fnirs_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.572 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.572 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.573 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'eeg_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.581 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.581 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.582 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'event_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.590 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.590 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.591 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'eda_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.596 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.596 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.597 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ecg_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.602 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.603 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.603 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'quest_preprocessor': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.609 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.609 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.610 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ic_analyzer': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.616 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.617 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.618 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'fnirs_epoching': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.624 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.624 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.625 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'eda_epoching': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.632 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.632 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.633 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ecg_epoching': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.639 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.639 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.640 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'eeg_epoching': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.646 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Oct-10 14:43:05.646 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-10 14:43:05.646 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'merging_processor': maxForks=0; fair=false; array=0
+Oct-10 14:43:05.651 [main] DEBUG nextflow.script.BindableDef - Bindable invocations=[quest_preprocessor, merging_processor, event_preprocessor, ic_analyzer, stream_extractor, eeg_preprocessor, txt_reader, ecg_preprocessor, eeg_epoching, eda_epoching, fnirs_epoching, ecg_epoching, fnirs_preprocessor, xdf_reader, eda_preprocessor]
+Oct-10 14:43:05.654 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_b72001f7aa5c2e94: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/EV_pipeline.nf
+  Script_f036dff8c1a9b3ed: /mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/python_dispatcher.nf
+Oct-10 14:43:05.654 [main] DEBUG nextflow.Session - Session aborted -- Cause: Process 'merging_processor' has been already used -- If you need to reuse the same component, include it with a different name or include it in a different workflow context
+Oct-10 14:43:05.680 [main] DEBUG nextflow.Session - The following nodes are still active:
+  [operator] filter
+  [operator] mix
+  [operator] filter
+  [operator] map
+  [operator] view
+  [operator] map
+  [operator] view
+  [operator] map
+  [operator] view
+  [operator] map
+  [operator] view
+
+Oct-10 14:43:05.689 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=0; peakCpus=0; peakMemory=0; ]
+Oct-10 14:43:05.742 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+Oct-10 14:43:05.868 [main] ERROR nextflow.cli.Launcher - @unknown
+nextflow.exception.DuplicateProcessInvocation: Process 'merging_processor' has been already used -- If you need to reuse the same component, include it with a different name or include it in a different workflow context
+	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:46)
+	at nextflow.script.ComponentDef.invoke_o(ComponentDef.groovy:40)
+	at nextflow.script.WorkflowBinding.invokeMethod(WorkflowBinding.groovy:105)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokePogoMethod(InvokerHelper.java:651)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokeMethod(InvokerHelper.java:628)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeOnDelegationObjects(ClosureMetaClass.java:392)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:331)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1007)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at Script_b72001f7aa5c2e94$_runScript_closure4$_closure8.doCall(Script_b72001f7aa5c2e94:256)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:280)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1007)
+	at groovy.lang.Closure.call(Closure.java:433)
+	at groovy.lang.Closure.call(Closure.java:412)
+	at nextflow.script.WorkflowDef.run0(WorkflowDef.groovy:205)
+	at nextflow.script.WorkflowDef.run(WorkflowDef.groovy:189)
+	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:51)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.BaseScript.run0(BaseScript.groovy:205)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.BaseScript.run(BaseScript.groovy:216)
+	at nextflow.script.parser.v1.ScriptLoaderV1.runScript(ScriptLoaderV1.groovy:246)
+	at nextflow.script.parser.v1.ScriptLoaderV1.runScript(ScriptLoaderV1.groovy)
+	at nextflow.script.ScriptRunner.run(ScriptRunner.groovy:246)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:139)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:428)
+	at nextflow.cli.Launcher.run(Launcher.groovy:513)
+	at nextflow.cli.Launcher.main(Launcher.groovy:673)

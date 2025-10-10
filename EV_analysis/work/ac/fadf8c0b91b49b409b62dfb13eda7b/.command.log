@@ -1,0 +1,7 @@
+[Nextflow] Plotting started for: bar as /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/e6/b1fdf8121e3fa0bd9f803410021322/EV_004_txt_quest.parquet
+[Nextflow] Plotting errored. Error: No such file or directory (os error 2): bar
+
+This error occurred with the following context stack:
+	[1] 'parquet scan'
+	[2] 'sink'
+

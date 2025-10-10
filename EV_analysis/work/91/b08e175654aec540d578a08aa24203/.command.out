@@ -1,0 +1,5 @@
+[DISPATCHER] Starting: /mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/utils/plotter.py with /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/cf/c8d25e20cd1f0b3ec66a48afbaa7cc/EV_004_txt_quest.parquet
+[Nextflow] Plotting started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/cf/c8d25e20cd1f0b3ec66a48afbaa7cc/EV_004_txt_quest.parquet as bar
+[Nextflow] Parquet file loaded: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/cf/c8d25e20cd1f0b3ec66a48afbaa7cc/EV_004_txt_quest.parquet, shape: (0, 0)
+[Nextflow] Cannot plot: DataFrame is empty or has less than 2 columns. Skipping plot generation.
+[DISPATCHER] Python script completed with exit code: 0

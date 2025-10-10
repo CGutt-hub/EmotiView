@@ -1,0 +1,3 @@
+[Nextflow] TXT Reader started for: /mnt/emotiview/rawData/EV_004/EV_004.txt
+[Nextflow] TXT file loaded: /mnt/emotiview/rawData/EV_004/EV_004.txt, shape: (7424, 1)
+[Nextflow] Parquet file saved: EV_004_txt.parquet

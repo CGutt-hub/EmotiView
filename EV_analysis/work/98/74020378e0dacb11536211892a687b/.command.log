@@ -1,0 +1,5 @@
+[DISPATCHER] Starting: /mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/readers/txt_reader.py with /mnt/emotiview/rawData/EV_003/EV_003.txt
+[Nextflow] TXT Reader started for: /mnt/emotiview/rawData/EV_003/EV_003.txt
+[Nextflow] TXT file loaded: /mnt/emotiview/rawData/EV_003/EV_003.txt, shape: (7424, 1)
+[Nextflow] Parquet file saved: EV_003_txt.parquet
+/mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/98/74020378e0dacb11536211892a687b/.command.sh: line 4: LASTEXITCODE: unbound variable

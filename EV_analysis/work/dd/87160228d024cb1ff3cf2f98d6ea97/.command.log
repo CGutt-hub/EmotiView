@@ -1,0 +1,2 @@
+[Nextflow] Enhanced questionnaire preprocessor started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d7/7d1b7d82060f11ac808f4cecde626f/EV_003_txt.parquet
+[Nextflow] Enhanced questionnaire preprocessing errored. Error: 'utf-16-le' codec can't decode bytes in position 142-143: illegal encoding

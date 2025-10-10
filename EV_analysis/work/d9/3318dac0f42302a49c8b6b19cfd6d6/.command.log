@@ -1,0 +1,15 @@
+/mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d9/3318dac0f42302a49c8b6b19cfd6d6/.command.sh: line 2: rightScaleWord: command not found
+Traceback (most recent call last):
+  File "/mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/analyzers/quest_analyzer.py", line 124, in <module>
+    run(input_parquet, question_pattern, response_pattern, scale_pattern)
+  File "/mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/analyzers/quest_analyzer.py", line 6, in <lambda>
+    print(f"[Nextflow] Questionnaire analysis started for: {input_parquet}") or (
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/analyzers/quest_analyzer.py", line 126, in <module>
+    print(f"[Nextflow] Questionnaire analysis errored. Error: {e}")
+BrokenPipeError: [Errno 32] Broken pipe

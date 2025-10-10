@@ -1,0 +1,2 @@
+[Nextflow] TXT Reader started for: /mnt/emotiview/rawData/EV_003/EV_003.txt
+[Nextflow] TXT Reader errored. Error: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte

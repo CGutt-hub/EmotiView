@@ -1,0 +1,3 @@
+[DISPATCHER] Starting: /mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/readers/xdf_reader.py with /mnt/emotiview/rawData/EV_003/EV_003.xdf
+[Nextflow] XDF Reader started for: /mnt/emotiview/rawData/EV_003/EV_003.xdf
+[Nextflow] Loading XDF file: /mnt/emotiview/rawData/EV_003/EV_003.xdf

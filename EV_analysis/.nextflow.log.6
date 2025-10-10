@@ -1,0 +1,63 @@
+Oct-10 14:42:48.379 [main] DEBUG nextflow.cli.Launcher - $> nextflow EV_pipeline.nf
+Oct-10 14:42:48.559 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.09.0-beta
+Oct-10 14:42:48.645 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/root/.nextflow/plugins; core-plugins: nf-amazon@3.2.0,nf-azure@1.20.0,nf-cloudcache@0.5.0,nf-codecommit@0.4.0,nf-console@1.3.0,nf-google@1.23.0,nf-k8s@1.2.0,nf-tower@1.15.0,nf-wave@1.15.0
+Oct-10 14:42:48.678 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Oct-10 14:42:48.679 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Oct-10 14:42:48.682 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Oct-10 14:42:48.695 [main] DEBUG nextflow.util.RetryConfig - Missing nextflow session - using default retry config
+Oct-10 14:42:48.858 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Oct-10 14:42:48.860 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Oct-10 14:42:48.861 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Oct-10 14:42:48.878 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /root/.nextflow/secrets/store.json
+Oct-10 14:42:48.891 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6c65860d] - activable => nextflow.secret.LocalSecretsProvider@6c65860d
+Oct-10 14:42:48.908 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+Oct-10 14:42:48.925 [main] DEBUG nextflow.cli.CmdRun - Launching `EV_pipeline.nf` [evil_leavitt] DSL2 - revision: cd428287ed
+Oct-10 14:42:49.000 [main] DEBUG nextflow.Session - Session UUID: 2f80fc71-6ef3-4058-8d06-0b1adfe72010
+Oct-10 14:42:49.000 [main] DEBUG nextflow.Session - Run name: evil_leavitt
+Oct-10 14:42:49.001 [main] DEBUG nextflow.Session - Executor pool size: 16
+Oct-10 14:42:49.008 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Oct-10 14:42:49.012 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=48; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Oct-10 14:42:49.028 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.09.0-beta build 5957
+  Created: 23-09-2025 20:20 UTC 
+  System: Linux 6.8.0-84-generic
+  Runtime: Groovy 4.0.28 on OpenJDK 64-Bit Server VM 21.0.8+9-Ubuntu-0ubuntu124.04.1
+  Encoding: UTF-8 (UTF-8)
+  Process: 125202@ubuntults24 [127.0.1.1]
+  CPUs: 16 - Mem: 30.6 GB (19.8 GB) - Swap: 8 GB (8 GB)
+Oct-10 14:42:49.060 [main] DEBUG nextflow.Session - Work-dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work [smb2]
+Oct-10 14:42:49.062 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/bin
+Oct-10 14:42:49.069 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Oct-10 14:42:49.078 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Oct-10 14:42:49.082 [main] DEBUG nextflow.Session - Observer factory (v2): DefaultObserverFactory
+Oct-10 14:42:49.121 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Oct-10 14:42:49.142 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 17; maxThreads: 1000
+Oct-10 14:42:49.282 [main] DEBUG nextflow.Session - Session start
+Oct-10 14:42:50.690 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Oct-10 14:42:50.713 [main] WARN  nextflow.script.ScriptBinding - `params.fai_band_name` is defined multiple times -- Assignments following the first are ignored
+Oct-10 14:42:50.717 [main] WARN  nextflow.script.ScriptBinding - `params.electrode_pairs` is defined multiple times -- Assignments following the first are ignored
+Oct-10 14:42:50.849 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_f036dff8c1a9b3ed: /mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/python_dispatcher.nf
+  Script_01f50f86ee952da8: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/EV_pipeline.nf
+Oct-10 14:42:50.850 [main] DEBUG nextflow.Session - Session aborted -- Cause: A process named 'filtering_processor' is already defined or included in script: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/EV_pipeline.nf
+Oct-10 14:42:50.870 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=0; peakCpus=0; peakMemory=0; ]
+Oct-10 14:42:50.907 [main] ERROR nextflow.cli.Launcher - @unknown
+nextflow.exception.DuplicateModuleFunctionException: A process named 'filtering_processor' is already defined or included in script: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/EV_pipeline.nf
+	at nextflow.script.ScriptMeta.checkComponentName(ScriptMeta.groovy:171)
+	at nextflow.script.ScriptMeta.addModule0(ScriptMeta.groovy:342)
+	at nextflow.script.ScriptMeta.addModule(ScriptMeta.groovy:335)
+	at nextflow.script.ScriptMeta.addModule(ScriptMeta.groovy:325)
+	at nextflow.script.IncludeDef.load0(IncludeDef.groovy:116)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at Script_01f50f86ee952da8.runScript(Script_01f50f86ee952da8:168)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.BaseScript.run0(BaseScript.groovy:174)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.BaseScript.run(BaseScript.groovy:216)
+	at nextflow.script.parser.v1.ScriptLoaderV1.runScript(ScriptLoaderV1.groovy:246)
+	at nextflow.script.parser.v1.ScriptLoaderV1.runScript(ScriptLoaderV1.groovy)
+	at nextflow.script.ScriptRunner.run(ScriptRunner.groovy:246)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:139)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:428)
+	at nextflow.cli.Launcher.run(Launcher.groovy:513)
+	at nextflow.cli.Launcher.main(Launcher.groovy:673)

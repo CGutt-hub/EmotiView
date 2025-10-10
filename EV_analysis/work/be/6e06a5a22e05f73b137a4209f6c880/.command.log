@@ -1,0 +1,8 @@
+[DISPATCHER] Starting: /mnt/emotiview/repoShaggy/PsyAnalysisToolbox/Python/analyzers/quest_analyzer.py with /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/21/69f86f6519f7b9f4e4ebf889bc9df7/EV_001_txt.parquet
+[Nextflow] Questionnaire analysis started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/21/69f86f6519f7b9f4e4ebf889bc9df7/EV_001_txt.parquet
+[Nextflow] Loaded questionnaire DataFrame shape: (7424, 1)
+[Nextflow] Found answer key columns: []
+[Nextflow] Found tick columns: []
+[Nextflow] Extracted data shape: (0, 0)
+[Nextflow] Questionnaire analysis finished. Output: EV_001_txt_quest.parquet
+[DISPATCHER] Python script completed with exit code: 0

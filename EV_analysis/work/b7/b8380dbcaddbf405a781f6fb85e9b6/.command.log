@@ -1,0 +1,4 @@
+[Nextflow] Plotting started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/f7/bcd612b56cf273e01f0cb2cebd259b/EV_003_txt_quest.parquet as bar
+[Nextflow] Parquet file loaded: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/f7/bcd612b56cf273e01f0cb2cebd259b/EV_003_txt_quest.parquet, shape: (0, 0)
+[Nextflow] Cannot plot: DataFrame is empty or has less than 2 columns. Creating placeholder file.
+[Nextflow] Plotting errored. Error: [Errno 2] No such file or directory: '/mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_results/EV_003/empty_plot_bar.txt'

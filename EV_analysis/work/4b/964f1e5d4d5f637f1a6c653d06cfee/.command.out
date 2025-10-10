@@ -1,0 +1,3 @@
+[Nextflow] Questionnaire analysis started for: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/a1/0c17a3c594fd6ae4bb2d39ffba6699/EV_002_txt.parquet
+[Nextflow] Loaded questionnaire DataFrame shape: (7424, 1)
+[Nextflow] Error: Expected key-value format with 'key' column not found
