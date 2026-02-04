@@ -1,0 +1,511 @@
+=== Analysis started for EV_002: 2026-02-04 11:34:21 ===
+Workflow: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis
+Session: 70e07d98-32a3-4127-b3ad-a5322d6f191d
+Launch dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis
+Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002
+Expected terminal modules: 17
+2026-02-04 11:34:22 [txt_reader] Processing: EV_002.txt
+2026-02-04 11:34:22 [txt_reader] Output: EV_002_txt.parquet
+2026-02-04 11:34:24 [tree] Processing: EV_002_txt.parquet
+2026-02-04 11:34:24 [tree] Processing 7426 entries
+2026-02-04 11:34:24 [tree] Built tree: root with 2 children
+2026-02-04 11:34:24 [tree] Added Level: 1 property to first entity
+2026-02-04 11:34:24 [tree] Found levels: [1, 2, 3], max=3
+2026-02-04 11:34:24 [tree] Warning: Skipping Level 1 - 2 children have no timestamps
+2026-02-04 11:34:24 [tree] Level 2: sibling sort (54 children)
+2026-02-04 11:34:24 [tree] Level 3: temporal reparenting (180 children)
+2026-02-04 11:34:24 [tree] Globally reordered 3 levels by temporal onset
+2026-02-04 11:34:24 [tree] Output: EV_002_txt_tree.parquet
+2026-02-04 11:34:37 [quest] Processing: EV_002_txt_tree.parquet
+2026-02-04 11:34:37 [quest] No condition patterns - extracting data
+2026-02-04 11:34:37 [quest] Found 41 nodes with data
+2026-02-04 11:34:37 [quest] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/99/e2f164807ff7084bebb96d64f6e6fa/EV_002_txt_tree_panas.parquet | 41 values, 20 categories
+2026-02-04 11:34:37 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/99/e2f164807ff7084bebb96d64f6e6fa/EV_002_txt_tree_panas.parquet
+2026-02-04 11:34:38 [quest] Processing: EV_002_txt_tree.parquet
+2026-02-04 11:34:38 [quest] Condition patterns: ['POS*', 'NEG*', 'NEU*']
+2026-02-04 11:34:38 [quest]   'POS*' -> POS: 3 parents, 60 nephews
+2026-02-04 11:34:38 [quest]   Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/a1/90e3c8153f160e13e7b108efe2571a/EV_002_txt_tree_sam/EV_002_txt_tree_sam1.parquet | 6 values, 2 categories | POS
+2026-02-04 11:34:38 [quest]   'NEG*' -> NEG: 3 parents, 60 nephews
+2026-02-04 11:34:38 [quest]   Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/a1/90e3c8153f160e13e7b108efe2571a/EV_002_txt_tree_sam/EV_002_txt_tree_sam2.parquet | 6 values, 2 categories | NEG
+2026-02-04 11:34:38 [quest]   'NEU*' -> NEU: 3 parents, 60 nephews
+2026-02-04 11:34:38 [quest]   Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/a1/90e3c8153f160e13e7b108efe2571a/EV_002_txt_tree_sam/EV_002_txt_tree_sam3.parquet | 6 values, 2 categories | NEU
+2026-02-04 11:34:38 [quest] Processing: EV_002_txt_tree.parquet
+2026-02-04 11:34:38 [quest] Signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/a1/90e3c8153f160e13e7b108efe2571a/EV_002_txt_tree_sam.parquet | 3 conditions
+2026-02-04 11:34:38 [quest] Condition patterns: ['POS*', 'NEG*', 'NEU*']
+2026-02-04 11:34:38 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/a1/90e3c8153f160e13e7b108efe2571a/EV_002_txt_tree_sam.parquet
+2026-02-04 11:34:38 [quest]   'POS*' -> POS: 3 parents, 60 nephews
+2026-02-04 11:34:39 [quest]   Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c4/d3ec70d34ec9c448927c117db771a2/EV_002_txt_tree_be7/EV_002_txt_tree_be71.parquet | 21 values, 7 categories | POS
+2026-02-04 11:34:39 [quest]   'NEG*' -> NEG: 3 parents, 60 nephews
+2026-02-04 11:34:39 [quest]   Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c4/d3ec70d34ec9c448927c117db771a2/EV_002_txt_tree_be7/EV_002_txt_tree_be72.parquet | 21 values, 7 categories | NEG
+2026-02-04 11:34:39 [quest]   'NEU*' -> NEU: 3 parents, 60 nephews
+2026-02-04 11:34:39 [quest]   Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c4/d3ec70d34ec9c448927c117db771a2/EV_002_txt_tree_be7/EV_002_txt_tree_be73.parquet | 21 values, 7 categories | NEU
+2026-02-04 11:34:39 [quest] Signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c4/d3ec70d34ec9c448927c117db771a2/EV_002_txt_tree_be7.parquet | 3 conditions
+2026-02-04 11:34:39 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c4/d3ec70d34ec9c448927c117db771a2/EV_002_txt_tree_be7.parquet
+2026-02-04 11:34:40 [quest] Processing: EV_002_txt_tree.parquet
+2026-02-04 11:34:40 [quest] No condition patterns - extracting data
+2026-02-04 11:34:40 [quest] Found 49 nodes with data
+2026-02-04 11:34:40 [quest] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/ea/a946133625a420f6d5de6356c39fb4/EV_002_txt_tree_bisbas.parquet | 49 values, 24 categories
+2026-02-04 11:34:40 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/ea/a946133625a420f6d5de6356c39fb4/EV_002_txt_tree_bisbas.parquet
+2026-02-04 11:34:40 [quest] Processing: EV_002_txt_tree.parquet
+2026-02-04 11:34:40 [quest] Condition patterns: ['POS*', 'NEG*', 'NEU*']
+2026-02-04 11:34:40 [quest]   'POS*' -> POS: 3 parents, 60 nephews
+2026-02-04 11:34:41 [quest]   Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/25/ff6bba6880a4afb77629716273affe/EV_002_txt_tree_ea11/EV_002_txt_tree_ea111.parquet | 33 values, 11 categories | POS
+2026-02-04 11:34:41 [quest]   'NEG*' -> NEG: 3 parents, 60 nephews
+2026-02-04 11:34:41 [quest]   Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/25/ff6bba6880a4afb77629716273affe/EV_002_txt_tree_ea11/EV_002_txt_tree_ea112.parquet | 33 values, 11 categories | NEG
+2026-02-04 11:34:41 [quest]   'NEU*' -> NEU: 3 parents, 60 nephews
+2026-02-04 11:34:41 [quest]   Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/25/ff6bba6880a4afb77629716273affe/EV_002_txt_tree_ea11/EV_002_txt_tree_ea113.parquet | 33 values, 11 categories | NEU
+2026-02-04 11:34:41 [quest] Signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/25/ff6bba6880a4afb77629716273affe/EV_002_txt_tree_ea11.parquet | 3 conditions
+2026-02-04 11:34:41 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/25/ff6bba6880a4afb77629716273affe/EV_002_txt_tree_ea11.parquet
+2026-02-04 11:35:28 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/a1/90e3c8153f160e13e7b108efe2571a/EV_002_txt_tree_sam
+2026-02-04 11:35:28 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d8/fe0ad8f8256e546e476b83c6039164/EV_002_txt_tree_sam3.parquet
+2026-02-04 11:35:29 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/a1/90e3c8153f160e13e7b108efe2571a/EV_002_txt_tree_sam
+2026-02-04 11:35:29 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/73/a308fc781b61dc8740e6d4f0b0b37f/EV_002_txt_tree_sam2.parquet
+2026-02-04 11:35:29 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/a1/90e3c8153f160e13e7b108efe2571a/EV_002_txt_tree_sam
+2026-02-04 11:35:30 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/17/48ec55ff0ab524ed5e9e5f9bd93351/EV_002_txt_tree_sam1.parquet
+2026-02-04 11:35:30 [plotter] Input: EV_002_txt_tree_panas.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_panas
+2026-02-04 11:35:30 [plotter] Plotting started: /tmp/tmpm8qdg2b_.pdf
+2026-02-04 11:35:30 [plotter] Plot type: bar, Concatenated: False (x=False, y=False), Labels: none
+2026-02-04 11:35:30 [plotter] Plotting finished: /tmp/tmpm8qdg2b_.pdf
+2026-02-04 11:35:30 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_panas.pdf
+2026-02-04 11:35:30 [plotter] Signal file: EV_002_panas_plot.parquet
+2026-02-04 11:35:30 EV_002_panas_plot.parquet
+2026-02-04 11:35:30 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c4/d3ec70d34ec9c448927c117db771a2/EV_002_txt_tree_be7
+2026-02-04 11:35:30 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/8b/36c509cd51640864c0a8c9f6a4cc75/EV_002_txt_tree_be73.parquet
+2026-02-04 11:35:31 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c4/d3ec70d34ec9c448927c117db771a2/EV_002_txt_tree_be7
+2026-02-04 11:35:31 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/2c/d40c961ce92ce663d00438ec9edf7b/EV_002_txt_tree_be72.parquet
+2026-02-04 11:35:31 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c4/d3ec70d34ec9c448927c117db771a2/EV_002_txt_tree_be7
+2026-02-04 11:35:31 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/77/169256b2c485697df0f9b57dd8e84b/EV_002_txt_tree_be71.parquet
+2026-02-04 11:35:32 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/25/ff6bba6880a4afb77629716273affe/EV_002_txt_tree_ea11
+2026-02-04 11:35:32 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/f7/5bfaf9bc2dcc1e8cd87eb6dd29cd55/EV_002_txt_tree_ea111.parquet
+2026-02-04 11:35:32 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/25/ff6bba6880a4afb77629716273affe/EV_002_txt_tree_ea11
+2026-02-04 11:35:32 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/e1/d3ad2c2e78c1351b74ae90698901c3/EV_002_txt_tree_ea112.parquet
+2026-02-04 11:35:33 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/25/ff6bba6880a4afb77629716273affe/EV_002_txt_tree_ea11
+2026-02-04 11:35:33 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/69/c5e79a3dfa6634fcb29d1f519f39fe/EV_002_txt_tree_ea113.parquet
+2026-02-04 11:35:34 [plotter] Input: EV_002_txt_tree_bisbas.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_bisbas
+2026-02-04 11:35:34 [plotter] Plotting started: /tmp/tmpy7m5be5i.pdf
+2026-02-04 11:35:34 [plotter] Plot type: bar, Concatenated: False (x=False, y=False), Labels: none
+2026-02-04 11:35:34 [plotter] Plotting finished: /tmp/tmpy7m5be5i.pdf
+2026-02-04 11:35:34 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_bisbas.pdf
+2026-02-04 11:35:34 [plotter] Signal file: EV_002_bisbas_plot.parquet
+2026-02-04 11:35:34 EV_002_bisbas_plot.parquet
+2026-02-04 11:35:47 [concatenating] Concatenating 3 files
+2026-02-04 11:35:47 [concatenating] Labels extracted: ['POS', 'NEG', 'NEU']
+2026-02-04 11:35:47 [concatenating] List fields (to aggregate): ['y_data', 'y_var', 'counts_per_x']
+2026-02-04 11:35:47 [concatenating] Metadata fields: ['y_ticks', 'plot_type', 'count', 'y_labels', 'x_data']
+2026-02-04 11:35:47 [concatenating] Concatenated 3 files -> /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/89/89e537fbd4902cfa303fb58524ee90/EV_002_sam_concat.parquet
+2026-02-04 11:35:47 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/89/89e537fbd4902cfa303fb58524ee90/EV_002_sam_concat.parquet
+2026-02-04 11:35:47 [concatenating] Concatenating 3 files
+2026-02-04 11:35:47 [concatenating] Labels extracted: ['POS', 'NEG', 'NEU']
+2026-02-04 11:35:47 [concatenating] List fields (to aggregate): ['y_data', 'y_var', 'counts_per_x']
+2026-02-04 11:35:47 [concatenating] Concatenating 3 files
+2026-02-04 11:35:47 [concatenating] Metadata fields: ['y_ticks', 'plot_type', 'count', 'y_labels', 'x_data']
+2026-02-04 11:35:47 [concatenating] Labels extracted: ['POS', 'NEG', 'NEU']
+2026-02-04 11:35:47 [concatenating] Concatenated 3 files -> /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/cb/35b8aaca1d4f0bb7a691e042038769/EV_002_be7_concat.parquet
+2026-02-04 11:35:47 [concatenating] List fields (to aggregate): ['y_data', 'y_var', 'counts_per_x']
+2026-02-04 11:35:47 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/cb/35b8aaca1d4f0bb7a691e042038769/EV_002_be7_concat.parquet
+2026-02-04 11:35:47 [concatenating] Metadata fields: ['y_ticks', 'plot_type', 'count', 'y_labels', 'x_data']
+2026-02-04 11:35:47 [concatenating] Concatenated 3 files -> /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/9a/3bfa4895cda79cb54b9733768a29b4/EV_002_ea11_concat.parquet
+2026-02-04 11:35:47 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/9a/3bfa4895cda79cb54b9733768a29b4/EV_002_ea11_concat.parquet
+2026-02-04 11:35:53 [plotter] Input: EV_002_sam_concat.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_sam
+2026-02-04 11:35:53 [plotter] Plotting started: /tmp/tmpbbuzki2u.pdf
+2026-02-04 11:35:53 [plotter] Plot type: grid, Concatenated: True (x=False, y=True), Labels: ['POS', 'NEG', 'NEU']
+2026-02-04 11:35:53 [plotter] Creating grid: 1x3 for 3 conditions
+2026-02-04 11:35:53 [plotter] Plotting finished: /tmp/tmpbbuzki2u.pdf
+2026-02-04 11:35:53 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_sam.pdf
+2026-02-04 11:35:53 [plotter] Signal file: EV_002_sam_plot.parquet
+2026-02-04 11:35:53 EV_002_sam_plot.parquet
+2026-02-04 11:35:54 [plotter] Input: EV_002_ea11_concat.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_ea11
+2026-02-04 11:35:54 [plotter] Plotting started: /tmp/tmp7mkguc28.pdf
+2026-02-04 11:35:54 [plotter] Plot type: grid, Concatenated: True (x=False, y=True), Labels: ['POS', 'NEG', 'NEU']
+2026-02-04 11:35:54 [plotter] Input: EV_002_be7_concat.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_be7
+2026-02-04 11:35:54 [plotter] Creating grid: 1x3 for 3 conditions
+2026-02-04 11:35:54 [plotter] Plotting started: /tmp/tmpuejvzlpf.pdf
+2026-02-04 11:35:54 [plotter] Plotting finished: /tmp/tmp7mkguc28.pdf
+2026-02-04 11:35:54 [plotter] Plot type: grid, Concatenated: True (x=False, y=True), Labels: ['POS', 'NEG', 'NEU']
+2026-02-04 11:35:54 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_ea11.pdf
+2026-02-04 11:35:54 [plotter] Creating grid: 1x3 for 3 conditions
+2026-02-04 11:35:54 [plotter] Signal file: EV_002_ea11_plot.parquet
+2026-02-04 11:35:54 [plotter] Plotting finished: /tmp/tmpuejvzlpf.pdf
+2026-02-04 11:35:54 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_be7.pdf
+2026-02-04 11:35:54 EV_002_ea11_plot.parquet
+2026-02-04 11:35:54 [plotter] Signal file: EV_002_be7_plot.parquet
+2026-02-04 11:35:54 EV_002_be7_plot.parquet
+2026-02-04 11:37:17 [xdf_reader] Loading: EV_002.xdf
+2026-02-04 11:37:17 [xdf_reader] File size: 1233.9 MB - this may take a while...
+2026-02-04 11:37:17 [xdf_reader] Loaded 8 streams in 56.8s
+2026-02-04 11:37:17 [xdf_reader] Warning: Stream 1/8 (Triggers) empty or not suitable for .fif, skipped
+2026-02-04 11:37:17 [xdf_reader] Stream 1/8 (Triggers): (0, 2) -> .parquet
+2026-02-04 11:37:17 [xdf_reader] Warning: Stream 2/8 (Markers) empty or not suitable for .fif, skipped
+2026-02-04 11:37:17 [xdf_reader] Stream 2/8 (Markers): (210, 2) -> .parquet
+2026-02-04 11:37:17 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../../AnalysisToolbox/Python/readers/xdf_reader.py:48: RuntimeWarning: Channel names are not unique, found duplicates for: {'6-6:16', '2-9:6', '3-3:8', '3-10:9', '1-2:2', '7-14:21', '8-15:25', '7-4:19', '2-2:5', '4-3:11', '8-6:24', '7-5:20', '6-13:18', '1-1:1', '8-4:22', '3-2:7', '6-7:17', '4-2:10', '2-1:4', '5-7:14', '5-12:15', '4-11:12', '1-8:3', '8-5:23', '5-6:13'}. Applying running numbers for duplicates.
+2026-02-04 11:37:17   info = mne.create_info(ch_names, sfreq, ch_types=ch_type)
+2026-02-04 11:37:17 [xdf_reader] Stream 3/8 (NIRS): 34544 samples, 101 channels -> .fif
+2026-02-04 11:37:17 [xdf_reader] Stream 3/8 (NIRS): (34544, 27) -> .parquet
+2026-02-04 11:37:17 [xdf_reader] Stream 4/8 (EEG): 4421650 samples, 69 channels -> .fif
+2026-02-04 11:37:17 [xdf_reader] Stream 4/8 (EEG): (4421650, 70) -> .parquet
+2026-02-04 11:37:17 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../../AnalysisToolbox/Python/readers/xdf_reader.py:48: RuntimeWarning: Channel names are not unique, found duplicates for: {'6-6:16', '2-9:6', '3-3:8', '3-10:9', '1-2:2', '7-14:21', '8-15:25', '7-4:19', '2-2:5', '4-3:11', '8-6:24', '7-5:20', '6-13:18', '1-1:1', '8-4:22', '3-2:7', '6-7:17', '4-2:10', '2-1:4', '5-7:14', '5-12:15', '4-11:12', '1-8:3', '8-5:23', '5-6:13'}. Applying running numbers for duplicates.
+2026-02-04 11:37:17   info = mne.create_info(ch_names, sfreq, ch_types=ch_type)
+2026-02-04 11:37:17 [xdf_reader] Stream 5/8 (NIRS): 34505 samples, 101 channels -> .fif
+2026-02-04 11:37:17 [xdf_reader] Stream 5/8 (NIRS): (34505, 27) -> .parquet
+2026-02-04 11:37:17 [xdf_reader] Warning: Stream 6/8 (Triggers) empty or not suitable for .fif, skipped
+2026-02-04 11:37:17 [xdf_reader] Stream 6/8 (Triggers): (0, 2) -> .parquet
+2026-02-04 11:37:17 [xdf_reader] Warning: Stream 7/8 (Markers) empty or not suitable for .fif, skipped
+2026-02-04 11:37:17 [xdf_reader] Stream 7/8 (Markers): (210, 2) -> .parquet
+2026-02-04 11:37:17 [xdf_reader] Stream 8/8 (EEG): 4416650 samples, 69 channels -> .fif
+2026-02-04 11:37:17 [xdf_reader] Stream 8/8 (EEG): (4416650, 70) -> .parquet
+2026-02-04 11:37:17 [xdf_reader] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c2/669d2739c53b25044861a755e2c214/EV_002_xdf.parquet
+2026-02-04 11:37:30 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c2/669d2739c53b25044861a755e2c214/EV_002_xdf
+2026-02-04 11:37:31 [file_finder] Resolved type:NIRS -> stream 3 (NIRS), pattern: *xdf3.fif
+2026-02-04 11:37:31 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/f0/2731516dc9b289e3cab263f3764ce5/EV_002_xdf3.fif
+2026-02-04 11:38:11 [log_transform] Log transform: EV_002_xdf3.fif
+2026-02-04 11:38:12 [log_transform] -log10(x/baseline) on 101 ch, baseline=5.0s
+2026-02-04 11:38:12 [log_transform] Output: EV_002_xdf3_log.fif
+2026-02-04 11:38:14 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c2/669d2739c53b25044861a755e2c214/EV_002_xdf
+2026-02-04 11:38:14 [file_finder] Resolved type:EEG -> stream 4 (EEG), pattern: *xdf4.fif
+2026-02-04 11:38:14 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/f6/196d527ad30ae134f39b9edc0e2a10/EV_002_xdf4.fif
+2026-02-04 11:38:25 [tddr] TDDR correction: EV_002_xdf3_log.fif
+2026-02-04 11:38:25 [tddr] TDDR applied to 101 channels
+2026-02-04 11:38:25 [tddr] Output: EV_002_xdf3_log_tddr.fif
+2026-02-04 11:38:42 [linear_transform] Linear transform: EV_002_xdf3_log_tddr.fif, matrix=mbll
+2026-02-04 11:38:42 [linear_transform] Channel selection '1:101:2': 50/101 channels
+2026-02-04 11:38:43 [linear_transform] Using preset 'mbll' with param=6.0
+2026-02-04 11:38:43 [linear_transform] Output: EV_002_xdf3_log_tddr_lin.fif (50 channels)
+2026-02-04 11:38:58 [filtering] Filtering: EV_002_xdf3_log_tddr_lin.fif
+2026-02-04 11:38:58 [filtering] bandpass filter on 50 channels: 0.01-0.1 Hz
+2026-02-04 11:38:58 [filtering] Output (MNE Raw): EV_002_xdf3_log_tddr_lin_filt.fif
+2026-02-04 11:40:09 [extracting] Processing EV_002_xdf4 with 4 selectors
+2026-02-04 11:40:09 [extracting] EV_002_xdf4_extr1.parquet cols=['time', 'EDA']
+2026-02-04 11:40:09 [extracting] EV_002_xdf4_extr1.fif
+2026-02-04 11:40:09 [extracting] EV_002_xdf4_extr2.parquet cols=['time', 'EKG']
+2026-02-04 11:40:09 [extracting] EV_002_xdf4_extr2.fif
+2026-02-04 11:40:09 [extracting] EV_002_xdf4_extr3.parquet cols=['time', 'triggerStream']
+2026-02-04 11:40:09 [extracting] EV_002_xdf4_extr3.fif
+2026-02-04 11:40:10 [extracting] EV_002_xdf4_extr4.parquet cols=['time', 'EKG', 'Fp1', 'Fp2', 'F7', 'F3', 'Fz', 'F4', 'F8', 'FC5', 'FC1', 'FC2', 'FC6', 'T7', 'C3', 'Cz', 'C4', 'T8', 'TP9', 'CP5', 'CP1', 'CP2', 'CP6', 'TP10', 'P7', 'P3', 'Pz', 'P4', 'P8', 'PO9', 'O1', 'Oz', 'O2', 'PO10', 'AF7', 'AF3', 'AF4', 'AF8', 'F5', 'F1', 'F2', 'F6', 'FT9', 'FT7', 'FC3', 'FC4', 'FT8', 'FT10', 'C5', 'C1', 'C2', 'C6', 'TP7', 'CP3', 'CPz', 'CP4', 'TP8', 'P5', 'POz', 'PO8', 'P6', 'PO7']
+2026-02-04 11:40:10 [extracting] EV_002_xdf4_extr4.fif
+2026-02-04 11:40:10 [extracting] Extraction finished: EV_002_xdf4_extr.parquet
+2026-02-04 11:40:19 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d2/fd7a2c1aa3add584dd1ddd6ac5d595/EV_002_xdf4_extr
+2026-02-04 11:40:20 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/6b/ffc8a308cb332c2b904f16f68809e8/EV_002_xdf4_extr3.parquet
+2026-02-04 11:40:35 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d2/fd7a2c1aa3add584dd1ddd6ac5d595/EV_002_xdf4_extr
+2026-02-04 11:40:36 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/84/49be2e1f3174bd748dfe65d0b03005/EV_002_xdf4_extr1.parquet
+2026-02-04 11:40:43 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d2/fd7a2c1aa3add584dd1ddd6ac5d595/EV_002_xdf4_extr
+2026-02-04 11:40:44 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/92/47aaeba206430b50af9ed5949ea39b/EV_002_xdf4_extr2.parquet
+2026-02-04 11:41:00 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d2/fd7a2c1aa3add584dd1ddd6ac5d595/EV_002_xdf4_extr
+2026-02-04 11:41:00 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/71/9702bd699a4fb46f62e5ce97b8c42d/EV_002_xdf4_extr4.fif
+2026-02-04 11:41:11 [filtering] Filtering: EV_002_xdf4_extr1.parquet
+2026-02-04 11:41:11 [filtering] bandpass filter on EDA: 4421650 samples
+2026-02-04 11:41:11 [filtering] Output: EV_002_xdf4_extr1_filt.parquet
+2026-02-04 11:41:15 [filtering] Filtering: EV_002_xdf4_extr2.parquet
+2026-02-04 11:41:16 [filtering] bandpass filter on EKG: 4421650 samples
+2026-02-04 11:41:16 [filtering] Output: EV_002_xdf4_extr2_filt.parquet
+2026-02-04 11:42:25 [events] Extracted 9 epoch pairs from tree
+2026-02-04 11:42:25 [events]   NEG: 3 epochs
+2026-02-04 11:42:25 [events]   NEU: 3 epochs
+2026-02-04 11:42:25 [events]   POS: 3 epochs
+2026-02-04 11:42:25 [events] Found 2 triggers in recording
+2026-02-04 11:42:25 [events] Global offset: 29227.0 time units
+2026-02-04 11:42:25 [events] Aligned 9 epochs: NEG(3), NEU(3), POS(3)
+2026-02-04 11:42:25 [events] Output: ./EV_002_xdf4_extr3_events.parquet
+2026-02-04 11:42:34 [epoching] Loading: EV_002_xdf3_log_tddr_lin_filt.fif
+2026-02-04 11:42:34 [epoching] Data: 4421650 samples, 2 ch
+2026-02-04 11:42:34 [epoching] MNE Raw: 34544 samples, 50 ch, 7.8125 Hz
+2026-02-04 11:42:34 [epoching] Events: 9 epochs
+2026-02-04 11:42:34 [epoching] Events: 9 epochs
+2026-02-04 11:42:34 [epoching] Events: samples at 960.0 Hz, converting to 7.8 Hz
+2026-02-04 11:42:34 [epoching] Time ranges: data=4421.6, events=4244805.0, scales: 1.0×1000.0
+2026-02-04 11:42:34 [epoching] Epoching: 0-252.2s, 9 valid events
+2026-02-04 11:42:34 [epoching] Output: EV_002_xdf4_extr1_filt_epochs.parquet (2163616 rows)
+2026-02-04 11:42:35 [peak_detection] Peak detection: EV_002_xdf4_extr2_filt.parquet, column=EKG, method=ecg
+2026-02-04 11:42:35 [epoching] Warning: NEU epoch at sample 32626 will be truncated (end 34596 > 34544)
+2026-02-04 11:42:35 [peak_detection] Detecting peaks in ekg: 4421650 samples
+2026-02-04 11:42:35 [peak_detection] Output: EV_002_xdf4_extr2_filt_peaks.parquet (4203 peaks)
+2026-02-04 11:42:35 [epoching] Created: 8 epochs
+2026-02-04 11:42:35 [epoching] Warning: NEU lost 1 epoch(s) (had 3, got 2)
+2026-02-04 11:42:35 [epoching] Output: EV_002_xdf3_log_tddr_lin_filt_epochs.parquet (15768 rows)
+2026-02-04 11:42:50 [referencing] Referencing: EV_002_xdf4_extr4.fif, ref=average
+2026-02-04 11:42:50 [referencing] Applying average reference to 61 channels
+2026-02-04 11:42:50 [referencing] Output: EV_002_xdf4_extr4_reref.fif
+2026-02-04 11:43:01 [amplitude] Amplitude analysis: EV_002_xdf4_extr1_filt_epochs.parquet, method=peak_baseline
+2026-02-04 11:43:02 [amplitude] Processing 3 conditions, signal column: eda
+2026-02-04 11:43:02 [amplitude]   NEG: 725.046 ± 116.408 (3 trials)
+2026-02-04 11:43:02 [amplitude]   NEU: 743.717 ± 53.277 (3 trials)
+2026-02-04 11:43:02 [amplitude]   POS: 622.382 ± 39.624 (3 trials)
+2026-02-04 11:43:03 [amplitude] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/86/67a660efff10270d9f4a48df233006/EV_002_xdf4_extr1_filt_epochs_eda.parquet
+2026-02-04 11:43:07 [epoching] Data: 4203 samples, 2 ch
+2026-02-04 11:43:07 [epoching] Events: 9 epochs
+2026-02-04 11:43:07 [epoching] Time ranges: data=4421.4, events=4244805.0, scales: 1.0×1000.0
+2026-02-04 11:43:07 [epoching] Output: EV_002_xdf4_extr2_filt_peaks_epochs.parquet (2034 rows)
+2026-02-04 11:43:08 [group] Group analysis: EV_002_xdf3_log_tddr_lin_filt_epochs.parquet
+2026-02-04 11:43:08 [group] Groups: ['Left PFC', 'Right PFC'], Conditions: ['NEG', 'NEU', 'POS']
+2026-02-04 11:43:08 [group] Baseline: 5.0s (39 samples)
+2026-02-04 11:43:08 [group]   NEG: 3 epochs, 2 groups
+2026-02-04 11:43:08 [group]   NEU: 2 epochs, 2 groups
+2026-02-04 11:43:08 [group]   POS: 3 epochs, 2 groups
+2026-02-04 11:43:08 [group] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/04/421b7b7e09970cabb127cc326f298a/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc.parquet
+2026-02-04 11:43:32 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/86/67a660efff10270d9f4a48df233006/EV_002_xdf4_extr1_filt_epochs_eda
+2026-02-04 11:43:32 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/60/54780c6900ca773e14213d9012d16b/EV_002_xdf4_extr1_filt_epochs_eda1.parquet
+2026-02-04 11:43:34 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/86/67a660efff10270d9f4a48df233006/EV_002_xdf4_extr1_filt_epochs_eda
+2026-02-04 11:43:35 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c9/b5f20c7009ca262b371eaec7605bd5/EV_002_xdf4_extr1_filt_epochs_eda2.parquet
+2026-02-04 11:43:38 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/86/67a660efff10270d9f4a48df233006/EV_002_xdf4_extr1_filt_epochs_eda
+2026-02-04 11:43:38 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c4/6c807e19fb78bc5eb6a72912545187/EV_002_xdf4_extr1_filt_epochs_eda3.parquet
+2026-02-04 11:43:41 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/04/421b7b7e09970cabb127cc326f298a/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc
+2026-02-04 11:43:41 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/5e/973015d7e799c89ce2599c6ef76822/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc3.parquet
+2026-02-04 11:43:41 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/04/421b7b7e09970cabb127cc326f298a/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc
+2026-02-04 11:43:41 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/67/93e9bf8dd265da0d0e3d0be3bc6e01/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc1.parquet
+2026-02-04 11:43:41 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/04/421b7b7e09970cabb127cc326f298a/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc
+2026-02-04 11:43:41 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/06/90d863500c6c15593ecc4211fcb0e4/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc2.parquet
+2026-02-04 11:43:41 [interval] Interval analysis: EV_002_xdf4_extr2_filt_peaks_epochs.parquet
+2026-02-04 11:43:41 [interval] Using event column: peak_sample
+2026-02-04 11:43:41 [interval] Processing 3 conditions (sfreq=1000.0 Hz)
+2026-02-04 11:43:41 [interval]   NEG: SDNN=781.83±98.48, RMSSD=1007.77±111.86 (3 epochs)
+2026-02-04 11:43:41 [interval]   NEU: SDNN=333.38±90.63, RMSSD=405.32±110.37 (3 epochs)
+2026-02-04 11:43:41 [interval]   POS: SDNN=1317.37±385.65, RMSSD=1562.01±435.93 (3 epochs)
+2026-02-04 11:43:41 [interval] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d3/8de19dae4c14ebb1ecaee97003b395/EV_002_xdf4_extr2_filt_peaks_epochs_hrv.parquet
+2026-02-04 11:43:42 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/04/421b7b7e09970cabb127cc326f298a/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc
+2026-02-04 11:43:42 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/b9/af793ab0ce94cdf7534e9057237fa7/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc3.parquet
+2026-02-04 11:43:42 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/04/421b7b7e09970cabb127cc326f298a/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc
+2026-02-04 11:43:42 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/96/57bb19826e6687333740692d503cf0/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc1.parquet
+2026-02-04 11:43:44 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/04/421b7b7e09970cabb127cc326f298a/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc
+2026-02-04 11:43:44 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/75/5e89856f65d354f6e970dee915af8a/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc2.parquet
+2026-02-04 11:43:50 [concatenating] Concatenating 3 files
+2026-02-04 11:43:50 [concatenating] Labels extracted: ['NEG', 'NEU', 'POS']
+2026-02-04 11:43:50 [concatenating] List fields (to aggregate): ['y_data', 'y_var']
+2026-02-04 11:43:50 [concatenating] Metadata fields: ['plot_type', 'x_label', 'y_label', 'y_ticks', 'count', 'x_data']
+2026-02-04 11:43:50 [concatenating] Concatenated 3 files -> /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c9/484b8c4bfd71aa5e321b7d28699cec/EV_002_eda_concat.parquet
+2026-02-04 11:43:50 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/c9/484b8c4bfd71aa5e321b7d28699cec/EV_002_eda_concat.parquet
+2026-02-04 11:43:59 [asymmetry] Asymmetry analysis: EV_002_xdf3_log_tddr_lin_filt_epochs_hbc2.parquet, pairs=[('Left PFC', 'Right PFC')], mode=diff
+2026-02-04 11:43:59 [asymmetry] Plot data: 2 regions
+2026-02-04 11:43:59 [asymmetry] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/23/0ba27a8691eb382bf9f0b22a0e5e7b/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc2_fnirs_fai.parquet
+2026-02-04 11:43:59 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d3/8de19dae4c14ebb1ecaee97003b395/EV_002_xdf4_extr2_filt_peaks_epochs_hrv
+2026-02-04 11:43:59 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/9d/8fd422b6eeeece291f6550d3b4be1f/EV_002_xdf4_extr2_filt_peaks_epochs_hrv2.parquet
+2026-02-04 11:44:07 [filtering] Filtering: EV_002_xdf4_extr4_reref.fif
+2026-02-04 11:44:07 [filtering] bandpass filter on 61 channels: 1.0-40.0 Hz
+2026-02-04 11:44:07 [filtering] Output (MNE Raw): EV_002_xdf4_extr4_reref_filt.fif
+2026-02-04 11:44:18 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d3/8de19dae4c14ebb1ecaee97003b395/EV_002_xdf4_extr2_filt_peaks_epochs_hrv
+2026-02-04 11:44:18 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/aa/329bf65d74e3e7b5c98e7d17a00527/EV_002_xdf4_extr2_filt_peaks_epochs_hrv1.parquet
+2026-02-04 11:44:18 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d3/8de19dae4c14ebb1ecaee97003b395/EV_002_xdf4_extr2_filt_peaks_epochs_hrv
+2026-02-04 11:44:18 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/63/546102cbee01ad6ee7b0f428cebf98/EV_002_xdf4_extr2_filt_peaks_epochs_hrv3.parquet
+2026-02-04 11:44:18 [asymmetry] Asymmetry analysis: EV_002_xdf3_log_tddr_lin_filt_epochs_hbc1.parquet, pairs=[('Left PFC', 'Right PFC')], mode=diff
+2026-02-04 11:44:18 [asymmetry] Plot data: 2 regions
+2026-02-04 11:44:18 [asymmetry] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/3f/9ae96cb2f17af6772d96197610748f/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc1_fnirs_fai.parquet
+2026-02-04 11:44:19 [asymmetry] Asymmetry analysis: EV_002_xdf3_log_tddr_lin_filt_epochs_hbc3.parquet, pairs=[('Left PFC', 'Right PFC')], mode=diff
+2026-02-04 11:44:19 [asymmetry] Plot data: 2 regions
+2026-02-04 11:44:19 [asymmetry] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/69/c4b9a986b8cc67c105b6b6423b15d8/EV_002_xdf3_log_tddr_lin_filt_epochs_hbc3_hbc_fai.parquet
+2026-02-04 11:44:19 [concatenating] Concatenating 3 files
+2026-02-04 11:44:19 [concatenating] Labels extracted: ['NEG', 'NEU', 'POS']
+2026-02-04 11:44:19 [concatenating] List fields (to aggregate): ['y_data', 'y_var']
+2026-02-04 11:44:19 [concatenating] Metadata fields: ['plot_type', 'x_label', 'y_label', 'y_ticks', 'x_data']
+2026-02-04 11:44:19 [concatenating] Concatenated 3 files -> /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/4d/8ac3e2d385d8858b5b028b4f02ed92/EV_002_hbc_concat.parquet
+2026-02-04 11:44:19 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/4d/8ac3e2d385d8858b5b028b4f02ed92/EV_002_hbc_concat.parquet
+2026-02-04 11:44:22 [concatenating] Concatenating 3 files
+2026-02-04 11:44:22 [concatenating] Labels extracted: ['NEG', 'NEU', 'POS']
+2026-02-04 11:44:22 [concatenating] List fields (to aggregate): ['y_data', 'y_var']
+2026-02-04 11:44:22 [concatenating] Metadata fields: ['plot_type', 'x_label', 'y_label', 'y_ticks', 'x_data']
+2026-02-04 11:44:22 [concatenating] Concatenated 3 files -> /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/05/67294c4fb27d24da390dde9336242f/EV_002_hrv_concat.parquet
+2026-02-04 11:44:22 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/05/67294c4fb27d24da390dde9336242f/EV_002_hrv_concat.parquet
+2026-02-04 11:44:22 [concatenating] Concatenating 3 files
+2026-02-04 11:44:22 [concatenating] Labels extracted: ['NEG', 'NEU', 'POS']
+2026-02-04 11:44:22 [concatenating] List fields (to aggregate): ['y_data', 'y_var']
+2026-02-04 11:44:22 [concatenating] Metadata fields: ['plot_type', 'x_label', 'y_label', 'x_data']
+2026-02-04 11:44:22 [concatenating] Concatenated 3 files -> /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/7a/a366131eb3b25f42d162665b383592/EV_002_hbc_fai_concat.parquet
+2026-02-04 11:44:22 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/7a/a366131eb3b25f42d162665b383592/EV_002_hbc_fai_concat.parquet
+2026-02-04 11:44:22 [relative] Loading: EV_002_hbc_concat.parquet
+2026-02-04 11:44:22 [relative] Baseline condition: NEU (index 1)
+2026-02-04 11:44:22 [relative] Baseline values: ['-9.71', '-0.24']
+2026-02-04 11:44:22 [relative] Normalized 2 conditions relative to NEU (baseline excluded):
+2026-02-04 11:44:22 [relative]   NEG: mean Δ+7.658
+2026-02-04 11:44:22 [relative]   POS: mean Δ-0.673
+2026-02-04 11:44:22 [relative] Output: ./EV_002_hbc_concat_rel.parquet
+2026-02-04 11:44:24 [plotter] Input: EV_002_hbc_concat.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_hbc
+2026-02-04 11:44:24 [plotter] Plotting started: /tmp/tmpmd0hlxvy.pdf
+2026-02-04 11:44:24 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'NEU', 'POS']
+2026-02-04 11:44:24 [plotter] Plotting finished: /tmp/tmpmd0hlxvy.pdf
+2026-02-04 11:44:24 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_hbc.pdf
+2026-02-04 11:44:24 [plotter] Signal file: EV_002_hbc_plot.parquet
+2026-02-04 11:44:24 EV_002_hbc_plot.parquet
+2026-02-04 11:44:45 [relative] Loading: EV_002_eda_concat.parquet
+2026-02-04 11:44:45 [relative] Baseline condition: NEU (index 1)
+2026-02-04 11:44:45 [relative] Baseline values: ['743.72']
+2026-02-04 11:44:45 [relative] Normalized 2 conditions relative to NEU (baseline excluded):
+2026-02-04 11:44:45 [relative]   NEG: mean Δ-18.670
+2026-02-04 11:44:45 [relative]   POS: mean Δ-121.335
+2026-02-04 11:44:45 [relative] Output: ./EV_002_eda_concat_rel.parquet
+2026-02-04 11:44:46 [plotter] Input: EV_002_eda_concat.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_eda
+2026-02-04 11:44:46 [plotter] Plotting started: /tmp/tmpld5ou3ax.pdf
+2026-02-04 11:44:46 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'NEU', 'POS']
+2026-02-04 11:44:46 [plotter] Plotting finished: /tmp/tmpld5ou3ax.pdf
+2026-02-04 11:44:46 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_eda.pdf
+2026-02-04 11:44:46 [plotter] Signal file: EV_002_eda_plot.parquet
+2026-02-04 11:44:46 EV_002_eda_plot.parquet
+2026-02-04 11:45:12 [relative] Loading: EV_002_hrv_concat.parquet
+2026-02-04 11:45:12 [relative] Baseline condition: NEU (index 1)
+2026-02-04 11:45:12 [relative] Baseline values: ['333.38', '405.32']
+2026-02-04 11:45:12 [relative] Normalized 2 conditions relative to NEU (baseline excluded):
+2026-02-04 11:45:12 [relative]   NEG: mean Δ+525.447
+2026-02-04 11:45:12 [relative]   POS: mean Δ+1070.339
+2026-02-04 11:45:12 [relative] Output: ./EV_002_hrv_concat_rel.parquet
+2026-02-04 11:45:13 [plotter] Input: EV_002_hbc_concat_rel.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_hbc_rel
+2026-02-04 11:45:13 [plotter] Plotting started: /tmp/tmp4wue55y_.pdf
+2026-02-04 11:45:13 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'POS']
+2026-02-04 11:45:13 [plotter] Plotting finished: /tmp/tmp4wue55y_.pdf
+2026-02-04 11:45:13 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_hbc_rel.pdf
+2026-02-04 11:45:13 [plotter] Signal file: EV_002_hbc_rel_plot.parquet
+2026-02-04 11:45:13 EV_002_hbc_rel_plot.parquet
+2026-02-04 11:45:13 [plotter] Input: EV_002_hrv_concat.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_hrv
+2026-02-04 11:45:13 [plotter] Plotting started: /tmp/tmpa0xn23yb.pdf
+2026-02-04 11:45:13 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'NEU', 'POS']
+2026-02-04 11:45:13 [plotter] Plotting finished: /tmp/tmpa0xn23yb.pdf
+2026-02-04 11:45:14 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_hrv.pdf
+2026-02-04 11:45:14 [plotter] Signal file: EV_002_hrv_plot.parquet
+2026-02-04 11:45:14 EV_002_hrv_plot.parquet
+2026-02-04 11:45:14 [relative] Loading: EV_002_hbc_fai_concat.parquet
+2026-02-04 11:45:14 [relative] Baseline condition: NEU (index 1)
+2026-02-04 11:45:14 [relative] Baseline values: ['9.47']
+2026-02-04 11:45:14 [relative] Normalized 2 conditions relative to NEU (baseline excluded):
+2026-02-04 11:45:14 [relative]   NEG: mean Δ-14.861
+2026-02-04 11:45:14 [relative]   POS: mean Δ-11.680
+2026-02-04 11:45:14 [relative] Output: ./EV_002_hbc_fai_concat_rel.parquet
+2026-02-04 11:45:17 [plotter] Input: EV_002_hbc_fai_concat.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_hbc_fai
+2026-02-04 11:45:17 [plotter] Plotting started: /tmp/tmpw76j32u8.pdf
+2026-02-04 11:45:17 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'NEU', 'POS']
+2026-02-04 11:45:18 [plotter] Plotting finished: /tmp/tmpw76j32u8.pdf
+2026-02-04 11:45:18 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_hbc_fai.pdf
+2026-02-04 11:45:18 [plotter] Signal file: EV_002_hbc_fai_plot.parquet
+2026-02-04 11:45:19 EV_002_hbc_fai_plot.parquet
+2026-02-04 11:45:35 [plotter] Input: EV_002_eda_concat_rel.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_eda_rel
+2026-02-04 11:45:35 [plotter] Plotting started: /tmp/tmp5uvco6oo.pdf
+2026-02-04 11:45:35 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'POS']
+2026-02-04 11:45:35 [plotter] Plotting finished: /tmp/tmp5uvco6oo.pdf
+2026-02-04 11:45:35 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_eda_rel.pdf
+2026-02-04 11:45:35 [plotter] Signal file: EV_002_eda_rel_plot.parquet
+2026-02-04 11:45:35 EV_002_eda_rel_plot.parquet
+2026-02-04 11:45:46 [plotter] Input: EV_002_hrv_concat_rel.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_hrv_rel
+2026-02-04 11:45:46 [plotter] Plotting started: /tmp/tmppz4795hx.pdf
+2026-02-04 11:45:46 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'POS']
+2026-02-04 11:45:47 [plotter] Plotting finished: /tmp/tmppz4795hx.pdf
+2026-02-04 11:45:47 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_hrv_rel.pdf
+2026-02-04 11:45:47 [plotter] Signal file: EV_002_hrv_rel_plot.parquet
+2026-02-04 11:45:47 EV_002_hrv_rel_plot.parquet
+2026-02-04 11:45:55 [plotter] Input: EV_002_hbc_fai_concat_rel.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_hbc_fai_rel
+2026-02-04 11:45:55 [plotter] Plotting started: /tmp/tmp_kup621o.pdf
+2026-02-04 11:45:55 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'POS']
+2026-02-04 11:45:55 [plotter] Plotting finished: /tmp/tmp_kup621o.pdf
+2026-02-04 11:45:55 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_hbc_fai_rel.pdf
+2026-02-04 11:45:55 [plotter] Signal file: EV_002_hbc_fai_rel_plot.parquet
+2026-02-04 11:45:55 EV_002_hbc_fai_rel_plot.parquet
+2026-02-04 11:51:36 [ic] ICA analysis: EV_002_xdf4_extr4_reref_filt.fif, n_components=0.99
+2026-02-04 11:51:36 [ic] Loaded: 61 channels, sfreq=1000.0 Hz
+2026-02-04 11:51:36 Fitting ICA to data using 61 channels (please be patient, this may take a while)
+2026-02-04 11:51:36 Selecting by explained variance: 32 components
+2026-02-04 11:51:36 Fitting ICA took 66.6s.
+2026-02-04 11:51:36 [ic] Fitted: 32 components
+2026-02-04 11:51:36 Applying ICA to Raw instance
+2026-02-04 11:51:36     Transforming to ICA space (32 components)
+2026-02-04 11:51:36     Zeroing out 0 ICA components
+2026-02-04 11:51:36     Projecting back using 61 PCA components
+2026-02-04 11:51:36 [ic] Cleaned: EV_002_xdf4_extr4_reref_filt_ica_cleaned.fif
+2026-02-04 11:51:36 [ic] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/25/0107c938784ba7bf91a5fdf5051203/EV_002_xdf4_extr4_reref_filt_ica.parquet
+2026-02-04 11:51:41 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/25/0107c938784ba7bf91a5fdf5051203/EV_002_xdf4_extr4_reref_filt_ica
+2026-02-04 11:51:41 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/9b/86e07ce57c620c1753d3b32ee59a5f/EV_002_xdf4_extr4_reref_filt_ica_cleaned.fif
+2026-02-04 11:52:23 [epoching] Loading: EV_002_xdf4_extr4_reref_filt_ica_cleaned.fif
+2026-02-04 11:52:23 [epoching] MNE Raw: 4421650 samples, 61 ch, 1000.0 Hz
+2026-02-04 11:52:23 [epoching] Events: 9 epochs
+2026-02-04 11:52:23 [epoching] Events: samples at 960.0 Hz, converting to 1000.0 Hz
+2026-02-04 11:52:23 [epoching] Epoching: 0-252.1s, 9 valid events
+2026-02-04 11:52:23 [epoching] Warning: NEU epoch at sample 4176179 will be truncated (end 4428292 > 4421650)
+2026-02-04 11:52:23 [epoching] Created: 8 epochs
+2026-02-04 11:52:23 [epoching] Warning: NEU lost 1 epoch(s) (had 3, got 2)
+2026-02-04 11:52:23 [epoching] Output: EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs.parquet (2016912 rows)
+2026-02-04 11:52:55 [psd] Loading: EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs.parquet
+2026-02-04 11:52:55 [psd] Data: 8 epochs, 61 ch, 1000.0 Hz, Bands: ['alpha', 'beta', 'theta']
+2026-02-04 11:52:55 [psd] Processing 3 conditions
+2026-02-04 11:52:55 [psd]   NEG: EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd1.parquet
+2026-02-04 11:52:55 [psd]   NEU: EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd2.parquet
+2026-02-04 11:52:55 [psd]   POS: EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd3.parquet
+2026-02-04 11:52:55 [psd] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/26/2b0a23072f74a23620a8444972f249/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd.parquet
+2026-02-04 11:52:56 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/26/2b0a23072f74a23620a8444972f249/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd
+2026-02-04 11:52:56 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/26/27c7d7baf9d2af2f1adba616041323/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd3.parquet
+2026-02-04 11:52:56 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/26/2b0a23072f74a23620a8444972f249/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd
+2026-02-04 11:52:56 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/5c/98c57d9f93082faf4e349e5cc5c680/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd2_plot.parquet
+2026-02-04 11:52:56 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/26/2b0a23072f74a23620a8444972f249/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd
+2026-02-04 11:52:56 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d1/6e2fd4c5b5f5dffa9d0f8e5219274c/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd1.parquet
+2026-02-04 11:52:56 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/26/2b0a23072f74a23620a8444972f249/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd
+2026-02-04 11:52:56 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/38/3b9fec62bbd760444afe0705e37a4e/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd2.parquet
+2026-02-04 11:52:56 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/26/2b0a23072f74a23620a8444972f249/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd
+2026-02-04 11:52:56 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/e9/fc1d7104bc652f6a4e6bf1087f99f9/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd1_plot.parquet
+2026-02-04 11:52:57 [file_finder] Using folder from signal: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/26/2b0a23072f74a23620a8444972f249/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd
+2026-02-04 11:52:57 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/fb/61e1fe424feef44e23d2a3004abec2/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd3_plot.parquet
+2026-02-04 11:52:57 [asymmetry] Asymmetry analysis: EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd3.parquet, pairs=[('F3', 'F4')], mode=log
+2026-02-04 11:52:57 [asymmetry] Raw data detected
+2026-02-04 11:52:57 [asymmetry] Available channels: ['CP1', 'Fz', 'AF4', 'F3', 'T8', 'PO9', 'AF8', 'FT9', 'P8', 'F8', 'PO7', 'CP5', 'C2', 'P7', 'F6', 'O1', 'PO8', 'CP3', 'O2', 'P4', 'FT8', 'FC2', 'FT10', 'CP6', 'TP7', 'TP8', 'FC6', 'C4', 'Oz', 'FC3', 'F2', 'T7', 'FT7', 'C3', 'TP9', 'Fp1', 'F1', 'FC4', 'C5', 'C6', 'P3', 'PO10', 'Pz', 'POz', 'FC5', 'Fp2', 'P5', 'AF3', 'CPz', 'AF7', 'F5', 'Cz', 'CP4', 'FC1', 'F7', 'P6', 'F4', 'C1', 'EKG', 'CP2', 'TP10']
+2026-02-04 11:52:57 [asymmetry] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/50/91b1a3a03cba2ff3afbb75e3673a71/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd3_psd_fai.parquet
+2026-02-04 11:52:57 [asymmetry] Asymmetry analysis: EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd1.parquet, pairs=[('F3', 'F4')], mode=log
+2026-02-04 11:52:57 [asymmetry] Raw data detected
+2026-02-04 11:52:57 [asymmetry] Available channels: ['PO8', 'P4', 'O2', 'F3', 'Fp1', 'Oz', 'FT9', 'FC6', 'AF3', 'F8', 'C1', 'TP9', 'EKG', 'O1', 'POz', 'CP4', 'FC4', 'P8', 'CPz', 'PO9', 'F1', 'TP8', 'Fp2', 'TP7', 'Cz', 'P7', 'FT7', 'C5', 'P6', 'PO10', 'AF8', 'FC2', 'Fz', 'CP1', 'AF4', 'C6', 'F5', 'FC3', 'CP3', 'F2', 'AF7', 'C4', 'F7', 'C3', 'F4', 'CP6', 'C2', 'T8', 'P5', 'PO7', 'FT8', 'FC5', 'Pz', 'P3', 'TP10', 'FC1', 'CP2', 'CP5', 'FT10', 'T7', 'F6']
+2026-02-04 11:52:57 [asymmetry] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/ba/ed2e4a9dccf8b9c1100a1cd7f2f7ae/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd1_psd_fai.parquet
+2026-02-04 11:52:57 [asymmetry] Asymmetry analysis: EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd2.parquet, pairs=[('F3', 'F4')], mode=log
+2026-02-04 11:52:57 [asymmetry] Raw data detected
+2026-02-04 11:52:57 [asymmetry] Available channels: ['FC5', 'FC1', 'F7', 'CP1', 'TP10', 'CP6', 'T7', 'FT8', 'F4', 'AF3', 'AF7', 'FC6', 'F2', 'FT7', 'P6', 'FC3', 'FC2', 'PO9', 'P4', 'T8', 'EKG', 'P8', 'F3', 'C2', 'CP5', 'Pz', 'FT10', 'CP2', 'Fp2', 'TP7', 'Fp1', 'TP9', 'PO8', 'F8', 'PO7', 'C6', 'P3', 'FT9', 'C5', 'FC4', 'C1', 'F1', 'AF8', 'C3', 'CP4', 'P7', 'Oz', 'O2', 'P5', 'O1', 'Cz', 'POz', 'Fz', 'F5', 'C4', 'AF4', 'CPz', 'TP8', 'PO10', 'F6', 'CP3']
+2026-02-04 11:52:57 [asymmetry] Output: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/53/5160e83e8c36804dc9b030121dae22/EV_002_xdf4_extr4_reref_filt_ica_cleaned_epochs_psd2_psd_fai.parquet
+2026-02-04 11:52:58 [concatenating] Concatenating 3 files
+2026-02-04 11:52:58 [concatenating] Labels extracted: ['NEG', 'NEU', 'POS']
+2026-02-04 11:52:58 [concatenating] List fields (to aggregate): ['y_data', 'y_var']
+2026-02-04 11:52:58 [concatenating] Metadata fields: ['plot_type', 'x_label', 'y_label', 'y_ticks', 'x_data']
+2026-02-04 11:52:58 [concatenating] Concatenated 3 files -> /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/51/0431df77cfacef4787cc13f5d06d62/EV_002_psd_concat.parquet
+2026-02-04 11:52:58 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/51/0431df77cfacef4787cc13f5d06d62/EV_002_psd_concat.parquet
+2026-02-04 11:52:58 [concatenating] Concatenating 3 files
+2026-02-04 11:52:58 [concatenating] Labels extracted: ['NEG', 'NEU', 'POS']
+2026-02-04 11:52:58 [concatenating] List fields (to aggregate): ['y_data', 'y_var']
+2026-02-04 11:52:58 [concatenating] Metadata fields: ['plot_type', 'x_label', 'y_label', 'y_ticks', 'x_data']
+2026-02-04 11:52:58 [concatenating] Concatenated 3 files -> /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d4/93320d1686567ed114ce5936550d5b/EV_002_psd_fai_concat.parquet
+2026-02-04 11:52:58 /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/work/d4/93320d1686567ed114ce5936550d5b/EV_002_psd_fai_concat.parquet
+2026-02-04 11:52:59 [relative] Loading: EV_002_psd_concat.parquet
+2026-02-04 11:52:59 [relative] Baseline condition: NEU (index 1)
+2026-02-04 11:52:59 [relative] Baseline values: ['50.96', '28.90', '118.30']
+2026-02-04 11:52:59 [relative] Normalized 2 conditions relative to NEU (baseline excluded):
+2026-02-04 11:52:59 [relative]   NEG: mean Δ+11.340
+2026-02-04 11:52:59 [relative]   POS: mean Δ+47.235
+2026-02-04 11:52:59 [relative] Output: ./EV_002_psd_concat_rel.parquet
+2026-02-04 11:52:59 [relative] Loading: EV_002_psd_fai_concat.parquet
+2026-02-04 11:52:59 [relative] Baseline condition: NEU (index 1)
+2026-02-04 11:52:59 [relative] Baseline values: ['-0.23']
+2026-02-04 11:52:59 [relative] Normalized 2 conditions relative to NEU (baseline excluded):
+2026-02-04 11:52:59 [relative]   NEG: mean Δ-0.005
+2026-02-04 11:52:59 [relative]   POS: mean Δ+0.066
+2026-02-04 11:52:59 [relative] Output: ./EV_002_psd_fai_concat_rel.parquet
+2026-02-04 11:53:00 [plotter] Input: EV_002_psd_concat.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_psd
+2026-02-04 11:53:00 [plotter] Plotting started: /tmp/tmp6icwomcx.pdf
+2026-02-04 11:53:00 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'NEU', 'POS']
+2026-02-04 11:53:00 [plotter] Plotting finished: /tmp/tmp6icwomcx.pdf
+2026-02-04 11:53:00 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_psd.pdf
+2026-02-04 11:53:00 [plotter] Signal file: EV_002_psd_plot.parquet
+2026-02-04 11:53:00 EV_002_psd_plot.parquet
+2026-02-04 11:53:00 [plotter] Input: EV_002_psd_fai_concat.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_psd_fai
+2026-02-04 11:53:00 [plotter] Plotting started: /tmp/tmp0zf22y7j.pdf
+2026-02-04 11:53:00 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'NEU', 'POS']
+2026-02-04 11:53:00 [plotter] Plotting finished: /tmp/tmp0zf22y7j.pdf
+2026-02-04 11:53:00 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_psd_fai.pdf
+2026-02-04 11:53:00 [plotter] Signal file: EV_002_psd_fai_plot.parquet
+2026-02-04 11:53:00 EV_002_psd_fai_plot.parquet
+2026-02-04 11:53:01 [plotter] Input: EV_002_psd_concat_rel.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_psd_rel
+2026-02-04 11:53:01 [plotter] Plotting started: /tmp/tmp7g7httih.pdf
+2026-02-04 11:53:01 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'POS']
+2026-02-04 11:53:01 [plotter] Plotting finished: /tmp/tmp7g7httih.pdf
+2026-02-04 11:53:01 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_psd_rel.pdf
+2026-02-04 11:53:01 [plotter] Signal file: EV_002_psd_rel_plot.parquet
+2026-02-04 11:53:01 EV_002_psd_rel_plot.parquet
+2026-02-04 11:53:01 [plotter] Input: EV_002_psd_fai_concat_rel.parquet, Output dir: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002, Prefix: EV_002_psd_fai_rel
+2026-02-04 11:53:01 [plotter] Plotting started: /tmp/tmpawlf44fu.pdf
+2026-02-04 11:53:01 [plotter] Plot type: bar, Concatenated: True (x=False, y=True), Labels: ['NEG', 'POS']
+2026-02-04 11:53:01 [plotter] Plotting finished: /tmp/tmpawlf44fu.pdf
+2026-02-04 11:53:01 [plotter] Output PDF: /mnt/emotiview/repoShaggy/EmotiViewPrivate/EV_analysis/../EV_results/EV_002/EV_002_psd_fai_rel.pdf
+2026-02-04 11:53:01 [plotter] Signal file: EV_002_psd_fai_rel_plot.parquet
+2026-02-04 11:53:01 EV_002_psd_fai_rel_plot.parquet
+
+=== Analysis completed for EV_002: 2026-02-04 11:53:03 ===
+Terminal modules completed: 17/17
+
+=== Finalization complete for EV_002: 2026-02-04 11:53:03 ===
+Session: 70e07d98-32a3-4127-b3ad-a5322d6f191d
+Duration: 1.092s
+Files processed: 17
+2026-02-04 11:53:03 [wrapper] Git sync initialized for EV_results/EV_002
