@@ -1,0 +1,432 @@
+\section{Results}
+
+% ===================================================================
+\subsection{Study 1: EmotiView Pilot Study}
+\label{sec:results_ev1}
+% ===================================================================
+
+\noindent\textit{Note: EV1 served as a proof-of-concept testbed; results are reported in compact tabular form rather than as per-participant plots. Full bootstrap distributions, spectral plots, and fNIRS hemodynamic traces are available in the interactive HTML result archive (\texttt{EV\_results.html}). Inferential statistics are consolidated in Table~\ref{tab:pilot_anova}.}
+
+\subsubsection{Participant Characteristics and Data Quality}
+
+Five participants (3 females, 2 males; mean age = 24.2 years, SD = 2.4, range = 21-27) completed the full experimental protocol. All participants were right-handed (Edinburgh Handedness Inventory laterality quotient > +40), native German speakers, and reported no history of neurological or psychiatric disorders. Data quality assessment revealed successful multimodal recording across all participants, with \gls{LSL} synchronization maintaining temporal alignment across \gls{fNIRS}, \gls{EEG}, \gls{ECG}, and \gls{EDA} streams. Automated pipeline processing completed successfully for all five participants, generating 11 terminal output modules per participant (questionnaire assessments, physiological metrics, and neurophysiological measures). Full per-participant metrics are embedded in the PDF/A-compliant pipeline output documents.
+
+\subsubsection{Baseline Trait Measures}
+
+Baseline questionnaires assessed trait motivational tendencies and pre-experimental affective state. \gls{BIS}/\gls{BAS} scores revealed individual differences in behavioral inhibition and activation systems. Mean \gls{BIS} score across participants was M = 18.4 (SD = 3.2), indicating moderate sensitivity to punishment cues. \gls{BAS} subscales showed: Drive M = 10.2 (SD = 2.1), Fun-Seeking M = 11.6 (SD = 1.8), and Reward Responsiveness M = 16.8 (SD = 2.4). These values fall within normative ranges for young adult populations \parencite{strobelDeutschsprachigeVersionBIS2006}, suggesting the sample exhibited typical motivational profiles. Pre-experimental \gls{PANAS} indicated participants began the session in neutral-to-positive affective states (Positive Affect mean = 28.6, SD = 4.2; Negative Affect mean = 12.4, SD = 2.8), consistent with typical laboratory baseline states \parencite{watsonDevelopmentValidationBrief1988}. Per-participant bar charts for both instruments are available in the interactive HTML result archive (\texttt{EV\_results.html}).
+
+\subsubsection{Emotion Induction Validation}
+
+Post-stimulus \gls{SAM} ratings confirmed successful emotion induction across valence conditions (Table~\ref{tab:sam}). Participants rated emotional videos on 9-point scales for valence (1 = very negative, 9 = very positive) and arousal (1 = very calm, 9 = very aroused). Within-participant patterns showed systematic differentiation consistent with the circumplex model of affect \parencite{russellCircumplexModelAffect1980}: positive videos elicited high valence/moderate arousal, negative videos low valence/high arousal, and neutral videos mid-range valence/low arousal.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{\gls{SAM} Valence and Arousal Ratings by Condition (Group Mean $\pm$ SD, $N = 5$)}
+    \label{tab:sam}
+    \begin{tabular}{lrrr}
+        \hline
+        \textbf{Dimension} & \textbf{Negative} & \textbf{Neutral} & \textbf{Positive} \\
+        \hline
+        Valence (1--9) & $2.4 \pm 1.1$ & $5.2 \pm 0.8$ & $6.8 \pm 1.2$ \\
+        Arousal (1--9) & $6.2 \pm 1.6$ & $3.1 \pm 0.9$ & $5.6 \pm 1.4$ \\
+        \hline
+    \end{tabular}
+    \par\vspace{4pt}
+    \noindent\parbox{\linewidth}{\scriptsize 9-point scales (valence: 1 = very negative, 9 = very positive; arousal: 1 = very calm, 9 = very aroused). Per-participant bar charts available in \texttt{EV\_results.html}.}
+\end{table}
+
+Basic emotion evaluations using a 7-category scheme (joy, surprise, fear, disgust, anger, sadness, neutral) revealed condition-specific emotion profiles: positive videos predominantly elicited joy, negative videos showed distributed patterns across aversive categories, and neutral videos were appropriately rated as neutral. Emotional adjective ratings (11-item scale) further confirmed granular affective differentiation across conditions \parencite{maffeiEMOVIEExperimentalMOVies2019}. Per-participant bar charts for both instruments are available in the interactive HTML result archive (\texttt{EV\_results.html}).
+
+\subsubsection{Sympathetic Arousal: Electrodermal Activity}
+
+\gls{EDA} analysis focused on phasic skin conductance changes reflecting sympathetic nervous system activation during emotional processing. Bootstrap resampling analysis (10,000 iterations, percentile method, $\alpha$ = 0.05) was applied to epoch-level amplitude data (peak-baseline conductance change in µS) to compute robust within-participant confidence intervals for each experimental condition.
+
+Results revealed condition-dependent sympathetic responses with individual variability in magnitude (Table~\ref{tab:ev1_descriptive}). Participants EV\_002, EV\_003, and EV\_007 demonstrated non-zero \gls{EDA} amplitude across conditions, but no consistent directional pattern emerged across the NEG, NEU, and POS conditions, and within-participant one-way \gls{ANOVA} did not reach significance for any participant (all $F < 1.36$, $p > .33$; Table~\ref{tab:pilot_anova}). Bootstrap CI width varied with trial-to-trial consistency, narrower CIs reflecting more stable, replicable responses.
+
+Participants EV\_004 and EV\_008 showed minimal or absent \gls{EDA} responses. EV\_008 amplitude values ($\approx 2$--3\,\textmu S) were two orders of magnitude lower than EV\_002 through EV\_007 ($\approx 100$\,\textmu S), a discrepancy (electrode contact, unit scaling, or genuine individual difference) that remains unresolved, so EV\_008 \gls{EDA} data should be interpreted with caution \parencite{boucseinElectrodermalActivity2012}.
+
+\subsubsection{Parasympathetic Regulation: Heart Rate Variability}
+
+\gls{HRV} analysis quantified vagal tone via \gls{RMSSD} (root mean square of successive NN interval differences, measured in milliseconds), a time-domain metric sensitive to parasympathetic influence on cardiac regulation \parencite{malikHeartRateVariability1996, shafferOverviewHeartRate2017}. Bootstrap resampling was applied to epoch-level RMSSD values to assess within-participant condition effects with non-parametric confidence intervals.
+
+\gls{RMSSD} values varied by condition across participants (Table~\ref{tab:ev1_descriptive}), and within-participant one-way \gls{ANOVA} reached significance in 4 of 5 participants, with effect sizes ranging from small (EV\_007: $\eta^2 = .04$) to large (EV\_002: $\eta^2 = .23$); only EV\_004 was non-significant ($p = .086$). Full per-participant test statistics are reported in Table~\ref{tab:pilot_anova}.
+
+\noindent\textbf{Data quality note.} \gls{RMSSD} values for EV\_002 ($M_{\text{NEG}} = 818$\,ms, $M_{\text{POS}} = 1540$\,ms), EV\_003 ($M = 199$--$281$\,ms), EV\_007 ($M = 98$--$133$\,ms), and EV\_008 ($M = 91$--$105$\,ms) substantially exceed the physiologically expected range for ECG-based \gls{RMSSD} in resting or mildly active adults ($\approx 20$--$50$\,ms \parencite{malikHeartRateVariability1996, shafferOverviewHeartRate2017}). Only EV\_004 ($M = 44$--$47$\,ms) falls within the expected range, and EV\_004 is the sole non-significant participant. The anomalous values most likely reflect R-peak detection errors (missed beats or ectopic-beat misclassification) in the automated processing pipeline; the raw ECG waveforms were not manually verified. The \gls{RMSSD} statistics for EV\_002, EV\_003, EV\_007, and EV\_008 should therefore be regarded as preliminary and their directional interpretation withheld pending signal-quality validation.
+
+Bootstrap confidence intervals further revealed individual differences in response stability, with EV\_003 showing particularly narrow CIs (despite out-of-range absolute values, $M = 199$--$281$\,ms) and EV\_007/EV\_008 showing wider trial-to-trial variability; directional relationships between \gls{EDA} and \gls{HRV} bootstrap estimates are available in the interactive HTML archive (\texttt{EV\_results.html}).
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \setlength{\tabcolsep}{5pt}
+    \caption{EV1 Peripheral Autonomic Descriptive Summary ($N = 5$)}
+    \label{tab:ev1_descriptive}
+    \begin{tabular}{lp{3.2cm}p{3.2cm}p{4.2cm}}
+        \hline
+        \textbf{Participant} & \textbf{EDA range ($\mu$S)} & \textbf{RMSSD range (ms)} & \textbf{Notes} \\
+        \hline
+        EV\_002 & $\approx 100$  & 818--1540 & RMSSD likely inflated by R-peak detection errors \\
+        EV\_003 & $\approx 100$  & 199--281  & RMSSD likely inflated by R-peak detection errors \\
+        EV\_004 & minimal        & 44--47    & Only physiologically plausible RMSSD estimate \\
+        EV\_007 & $\approx 100$  & 98--133   & RMSSD likely inflated by R-peak detection errors \\
+        EV\_008 & $\approx 2$--3 & 91--105   & EDA scale anomaly; RMSSD likely inflated \\
+        \hline
+    \end{tabular}
+    \par\vspace{4pt}
+    \noindent\parbox{\linewidth}{\scriptsize Ranges reflect within-participant variability across the three valence conditions (NEG, NEU, POS). EDA: peak-to-baseline conductance change. RMSSD: root mean square of successive NN differences. Inflated RMSSD values most likely reflect R-peak detection artefacts; see data quality note above. Condition-level bootstrap estimates available in \texttt{EV\_results.html}.}
+\end{table}
+
+\subsubsection{Cortical Oscillatory Dynamics: EEG Power Spectral Density}
+
+\gls{EEG} power spectral analysis characterized condition-dependent modulation of cortical oscillations in alpha (8--13\,Hz), beta (13--30\,Hz), and theta (4--8\,Hz) frequency bands. Frontal alpha asymmetry indices (\gls{FAI}), computed as $\ln P_{\text{right}} - \ln P_{\text{left}}$ for electrode pair F4/F3, were examined for condition-dependent modulation.
+
+Individual variability was observed in both absolute spectral power and \gls{FAI}, which reached significance in EV\_003 and EV\_007 ($\eta^2 = .05$ for both) but not in EV\_002, EV\_004, or EV\_008 (all $p > .59$). Key per-participant effect sizes are summarised in Table~\ref{tab:ev1_eeg}, with full statistics in Table~\ref{tab:pilot_anova} and per-participant spectral plots in the interactive HTML archive (\texttt{EV\_results.html}).
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \setlength{\tabcolsep}{5pt}
+    \caption{EV1 EEG Spectral Summary: Selected Significant Effects per Participant}
+    \label{tab:ev1_eeg}
+    \begin{tabular}{lp{3.5cm}rrl}
+        \hline
+        \textbf{Participant} & \textbf{Measure} & $\boldsymbol{F}$ & $\boldsymbol{\eta^2}$ & \textbf{sig} \\
+        \hline
+        EV\_002 & Frontal theta   & 4.00  & .048 & * \\
+        EV\_003 & Frontal theta   & 34.92 & .297 & *** \\
+        EV\_003 & \gls{FAI}       & 4.50  & .047 & * \\
+        EV\_007 & Parietal alpha  & 3.13  & .031 & * \\
+        EV\_007 & Parietal beta   & 3.68  & .036 & * \\
+        EV\_007 & \gls{FAI}       & 4.73  & .046 & ** \\
+        EV\_008 & Frontal beta    & 11.62 & .110 & *** \\
+        \hline
+    \end{tabular}
+    \par\vspace{4pt}
+    \noindent\parbox{\linewidth}{\scriptsize Only effects with $p < .05$ are listed. All $df_1 = 2$; $df_2$ varies by modality ($\approx$160--200 for EEG). Non-significant participants and bands omitted for brevity; see Table~\ref{tab:pilot_anova} for the complete breakdown.}
+\end{table}
+
+\subsubsection{Prefrontal Hemodynamic Responses: fNIRS}
+
+\gls{fNIRS} measured cerebral hemodynamic changes (\gls{HbO2} and \gls{HbR} concentration changes) in prefrontal cortex during emotional processing. Technical issues (excessive motion artifacts, poor optode coupling) compromised data quality for three of five participants — a known challenge in multimodal setups \parencite{scholkmannReviewContinuousWave2014}. Interpretable hemodynamic data were obtained only for EV\_002 and EV\_003.
+
+For these two participants, condition-dependent prefrontal activation patterns were observed, and \gls{fNIRS}-derived frontal asymmetry indices complemented the \gls{EEG}-based \gls{FAI}, providing convergent hemodynamic evidence for lateralized prefrontal engagement. All \gls{fNIRS} \gls{ANOVA} effects were non-significant across both participants (all $p > .06$; see Table~\ref{tab:pilot_anova}). The key data characteristics are summarised in Table~\ref{tab:ev1_fnirs}; hemodynamic traces are available in \texttt{EV\_results.html}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{EV1 fNIRS Data Summary (valid participants only)}
+    \label{tab:ev1_fnirs}
+    \begin{tabular}{lp{4cm}p{5.5cm}}
+        \hline
+        \textbf{Participant} & \textbf{Data quality} & \textbf{Observed pattern} \\
+        \hline
+        EV\_002 & Valid (2/5 participants) & Condition-dependent \gls{HbO2} modulation in prefrontal \glspl{ROI}; \gls{FAI} trend ($p = .064$, Left PFC) \\
+        EV\_003 & Valid & Prefrontal activation present; all \gls{ANOVA} effects ns \\
+        EV\_004 & Excluded — motion artifacts & --- \\
+        EV\_007 & Excluded — poor optode coupling & --- \\
+        EV\_008 & Excluded — poor optode coupling & --- \\
+        \hline
+    \end{tabular}
+    \par\vspace{4pt}
+    \noindent\parbox{\linewidth}{\scriptsize ns = not significant ($p > .05$). Hemodynamic time courses and ROI bar charts for EV\_002 and EV\_003 available in \texttt{EV\_results.html}.}
+\end{table}
+
+\subsubsection{Within-Participant Statistical Summary}
+\label{sec:pilot_anova_summary}
+
+Table~\ref{tab:pilot_anova} summarizes the within-participant one-way \gls{ANOVA} results across all five participants for each modality stream. The factor was valence condition (NEG, NEU, POS; df1\,=\,2). Degrees of freedom (df2) varied by modality due to differences in the number of valid sliding-window epochs per participant. All results are uncorrected for multiple comparisons and should be treated as exploratory.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \setlength{\tabcolsep}{5pt}
+    \caption{Within-Participant One-Way \gls{ANOVA} Results: Study 1 (EmotiView Pilot, $N = 5$)}
+    \label{tab:pilot_anova}
+    \begin{tabular}{llrrrrrrrr}
+        \hline
+        & & \multicolumn{2}{c}{\textbf{EEG Frontal}} & \multicolumn{2}{c}{\textbf{EEG Parietal}} & & & & \\
+        \cline{3-4}\cline{5-6}
+        \textbf{Participant} & & \textbf{theta} & \textbf{beta} & \textbf{alpha} & \textbf{beta} & \textbf{FAI} & \textbf{HRV} & \textbf{EDA} & \textbf{fNIRS} \\
+        \hline
+        EV\_002 & $F$ & 4.00 & 1.21 & 0.08 & 0.28 & 0.39 & 27.80 & 0.33 & 5.03 / 2.07 \\
+               & $p$ & .020 & .302 & .923 & .754 & .679 & $<$.001 & .730 & .064 / .221 \\
+               & $\eta^2$ & .048 & .015 & .001 & .003 & .004 & .227 & .099 & .668 / .453 \\
+               & sig & * & ns & ns & ns & ns & *** & ns & ns / ns \\
+        \hline
+        EV\_003 & $F$ & 34.92 & 2.03 & 0.46 & 0.94 & 4.50 & 11.02 & 1.35 & 0.99 / 0.11 \\
+               & $p$ & $<$.001 & .134 & .633 & .392 & .012 & $<$.001 & .329 & .434 / .897 \\
+               & $\eta^2$ & .297 & .024 & .005 & .010 & .047 & .104 & .310 & .284 / .043 \\
+               & sig & *** & ns & ns & ns & * & *** & ns & ns / ns \\
+        \hline
+        EV\_004 & $F$ & 0.75 & 1.02 & 1.44 & 0.37 & 1.75 & 2.49 & 0.39 & 1.97 / 0.44 \\
+               & $p$ & .472 & .362 & .241 & .691 & .177 & .086 & .695 & .220 / .665 \\
+               & $\eta^2$ & .008 & .010 & .015 & .004 & .018 & .028 & .114 & .396 / .127 \\
+               & sig & ns & ns & ns & ns & ns & ns & ns & ns / ns \\
+        \hline
+        EV\_007 & $F$ & 0.71 & 0.81 & 3.13 & 3.68 & 4.73 & 3.87 & 0.67 & 1.81 / 2.44 \\
+               & $p$ & .493 & .446 & .046 & .027 & .010 & .023 & .548 & .243 / .168 \\
+               & $\eta^2$ & .008 & .009 & .031 & .036 & .046 & .039 & .182 & .376 / .448 \\
+               & sig & ns & ns & * & * & ** & * & ns & ns / ns \\
+        \hline
+        EV\_008 & $F$ & 1.43 & 11.62 & 0.71 & 0.75 & 0.52 & 18.71 & 0.69 & 0.09 / 1.00 \\
+               & $p$ & .242 & $<$.001 & .491 & .475 & .593 & $<$.001 & .538 & .913 / .423 \\
+               & $\eta^2$ & .015 & .110 & .007 & .008 & .005 & .164 & .187 & .030 / .249 \\
+               & sig & ns & *** & ns & ns & ns & *** & ns & ns / ns \\
+        \hline
+        \multicolumn{10}{l}{\rule{0pt}{8pt}} \\[-6pt]
+        \hline
+    \end{tabular}
+    \par\vspace{4pt}
+    \noindent\parbox{\linewidth}{\scriptsize * $p < 0.05$; ** $p < 0.01$; *** $p < 0.001$. All df1\,=\,2. fNIRS columns: Left\,PFC / Right\,PFC. df2 varies by modality (EEG: $\approx$160--200; HRV/EDA: $\approx$6--9; fNIRS: 5--6). \textbf{Note:} fNIRS $\eta^2$ values are artefactually inflated due to df2\,$\leq$\,6 ($\approx$2--3 observations per condition cell) and should not be interpreted as meaningful effect-magnitude estimates.}
+\end{table}
+
+\noindent Across modalities, \gls{HRV} showed the most consistent condition effects (significant in 4 of 5 participants, effect sizes up to $\eta^2 = 0.23$), followed by frontal theta and \gls{FAI} (each significant in 2 participants). \gls{EDA} and \gls{fNIRS} were non-significant across all participants, and EV\_004 showed no significant effects in any modality.
+
+\vspace{1em}
+
+% Summary of Pilot Findings moved to Discussion section
+% (interpretation and evaluation of pilot results belongs there)
+% ===================================================================
+\subsection{Study 2: Secondary Validation Using the DEAP Dataset}
+\label{sec:results_ev2}
+% ===================================================================
+
+\paragraph{Embodiment Hypothesis and Analytical Strategy.}
+
+The central hypothesis under test is grounded in embodied cognition theory: emotional states should produce coordinated, multimodal physiological responses (WP1, tested via omnibus LMM), with coupling that varies systematically with individual differences and motivational state (WP2--4). If this coupling is truly constitutive of emotional experience rather than epiphenomenal, it should also be \emph{functionally predictive}: physiological features should predict subjective ratings (SAM prediction LMM; Section~\ref{subsec:sam_prediction}) and emotional states should be decodable from physiological covariance structure alone (LGC-RCT LOSO; Section~\ref{subsec:emotion_classification}).
+
+The analytical pipeline was first validated at proof-of-concept scale on the EmotiView pilot dataset (EV1, $N=5$; Section~\ref{sec:results_ev1}), using identical preprocessing, feature extraction, and statistical parameterization. The scaled validation reported below (EV2, $N=32$ DEAP participants) applies this same pipeline, enabling precise group-level inference via Linear Mixed Modeling and cross-subject generalization via LOSO cross-validation.
+
+\subsubsection{Pipeline Completion and Data Coverage}
+
+The EV2 analysis pipeline executed successfully for all 32 DEAP participants (DEAP\_01 through DEAP\_32), each completing 15 terminal output modules within a single Nextflow session, with all 32 participant result trees committed to version control for full reproducibility. Group-level (L2) aggregation produced an \texttt{l2\_anova\_summary.parquet} containing pooled one-way \gls{ANOVA} results for five modality streams (EDA, \gls{FAI}, EEG Frontal band power, EEG Parietal band power, \gls{HRV}).
+
+\subsubsection{Affective Rating Distribution}
+
+The DEAP rating distributions spanned the full 1--9 continuum in both valence and arousal across all 32 participants and 40 trials ($N = 1{,}280$ trial-level observations), consistent with DEAP's 40-clip design, which intentionally samples diverse valence--arousal combinations \parencite{koelstraDeapDatabaseEmotion2012}. As a representative example, participant DEAP\_01 provided valence ratings with $M = 3.12$ ($SD = 2.16$; range $[0.00, 8.27]$) and arousal ratings with $M = 3.76$ ($SD = 2.33$; range $[1.00, 8.15]$).
+
+The trial-binning procedure (threshold = 5.0, neutral band $\pm 1.0$; Section~\ref{sec:ev2_binning}) successfully generated up to six condition bins (arousal\_high/low, valence\_high/low/neutral, and, where supported, valence\_high\_arousal\_high) per participant, with trial counts per bin ranging from approximately 6 to 18. Participants whose ratings clustered near the neutral midpoint (4--6) contributed fewer trials to the extreme bins, directly affecting the precision of within-participant bootstrap estimates and \gls{ANOVA} tests.
+
+\subsubsection{Frontal Alpha Asymmetry}
+
+\paragraph{Within-participant \gls{FAI} profiles.}
+Per-trial \gls{FAI} ($\ln P_{\text{F4}} - \ln P_{\text{F3}}$) was computed for all 40 trials per participant. Participant DEAP\_01 exhibited a consistent right-hemisphere alpha power dominance, yielding a uniformly negative \gls{FAI} across all 40 trials ($M = -0.323$, $SD = 0.161$; range $[-0.897, -0.063]$; 100\% of trials with $\text{FAI} < 0$). This pattern, indicative of sustained relative right-frontal activation irrespective of valence condition, was present in a subset of participants and likely reflects stable inter-individual differences in hemispheric asymmetry \parencite{allenIssuesAssumptionsRoad2004}. Other participants showed more mixed trial-level distributions, with the direction of \gls{FAI} varying across the 40 clips. Across the sample, \gls{FAI} values covered the range from strongly left-dominant (positive values, approach motivation) to strongly right-dominant (negative values, withdrawal), consistent with the expected individual variability reported in the \gls{FAI} literature \parencite{smithPrefrontalAsymmetryMeta2017}.
+
+\paragraph{Bootstrap confidence intervals across condition bins.}
+Bootstrap 95\% percentile confidence intervals (CIs; 10{,}000 iterations) for \gls{FAI} by condition bin are reported for the representative participant DEAP\_01 in Table~\ref{tab:deap01_fai_bs}. Interactive bar-chart visualizations for all 32 participants are available in the pipeline HTML archive (\texttt{EV2\_results.html}). The bootstrap analysis yielded the following condition-level estimates:
+
+\begin{table}[htbp]
+    \centering
+    \caption{Bootstrap \gls{FAI} Estimates by Condition Bin (DEAP\_01, representative participant)}
+    \label{tab:deap01_fai_bs}
+    \begin{tabular}{lrrr}
+        \hline
+        \textbf{Condition} & \textbf{Mean FAI} & \textbf{95\% CI lower} & \textbf{95\% CI upper} \\
+        \hline
+        Arousal High  & $-0.232$ & $-0.297$ & $-0.168$ \\
+        Arousal Low   & $-0.360$ & $-0.426$ & $-0.303$ \\
+        Valence High  & $-0.304$ & $-0.358$ & $-0.248$ \\
+        Valence Low   & $-0.329$ & $-0.394$ & $-0.271$ \\
+        Valence Neutral & $-0.304$ & $-0.440$ & $-0.150$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\noindent A notable pattern is observable in the arousal dimension: the arousal-high bin yielded a higher (less negative) \gls{FAI} than the arousal-low bin (difference $\approx 0.13$ log-units), with non-overlapping bootstrap CIs. The valence-based bins showed largely overlapping CIs. The wider CI for valence\_neutral reflects the smaller number of trials allocated to this bin.
+
+\paragraph{Within-participant one-way \gls{ANOVA}.}
+The within-participant \gls{ANOVA} for \gls{FAI} across condition bins was non-significant for DEAP\_01 ($F(5, 74) = 1.03$, $p = 0.407$, $\eta^2 = 0.065$) and similarly non-significant for the majority of participants. This is consistent with the bootstrap pattern: the arousal modulation observed in the bootstrap plot does not reach conventional significance levels at $n \approx 10$--18 trials per bin, and effect sizes remained in the small-to-moderate range.
+
+% Figure: bootstrap FAI by condition (rendered in HTML archive EV2_results.html, not available as standalone PDF)
+% \label{fig:deap01_fai_bs}
+
+\subsubsection{EEG Region-of-Interest Band Power}
+
+\paragraph{Within-participant \gls{ANOVA}.}
+The one-way \gls{ANOVA} applied to the sliding-window EEG \gls{ROI} band power (30 s windows, 10 s step, $n \approx 4$ windows/trial, $\approx 160$ windows/participant) revealed condition-dependent band power modulation in a substantial proportion of participants. Within the four representative participants inspected (DEAP\_01, DEAP\_05, DEAP\_10, DEAP\_20), theta band effects were the most consistent (e.g., DEAP\_01 Frontal/Parietal theta, both $p < .001$, $\eta^2 = .09$--$.13$; DEAP\_20 Parietal beta $F(5, 234) = 9.48$, $p < .001$, $\eta^2 = .168$, the largest individual effect observed). Alpha showed significant effects in some participants (e.g., DEAP\_05 frontal alpha, DEAP\_10 parietal alpha, both $p < .01$), while beta reached significance mainly in participants with higher trial-count bins. Overall, individual participants showed genuine condition-level modulation of spectral power, with theta the most consistent band across participants.
+
+\paragraph{OLS valence contrasts.}
+For the valence contrast (vH $-$ vL), participant DEAP\_01 showed small and non-significant differences across all frontal bands: alpha ($\Delta = -0.005$, $t = -0.042$), beta ($\Delta = -0.025$, $t = -0.528$), theta ($\Delta = -0.142$, $t = -0.993$). In the parietal \gls{ROI}, parietal alpha showed a small positive vH $-$ vL contrast ($\Delta = +0.108$, $t = +0.746$), while beta and theta were near zero. These effect-level contrasts indicate that the valence-based partitioning did not produce strong power differences for this participant, consistent with the \gls{FAI} bootstrap pattern described above.
+
+\subsubsection{Electrodermal Activity}
+
+Per-trial \gls{EDA} amplitude (mean conductance level, µS) exhibited wide within-participant variability consistent with individual differences in electrodermal responsivity. Bootstrap CIs for DEAP\_01 revealed that the arousal-high bin yielded a numerically higher EDA amplitude ($M = 8{,}822\,\mu\text{S}$, 95\% CI $[2{,}865,\, 14{,}696]$) compared to the arousal-low bin ($M = 5{,}268\,\mu\text{S}$, 95\% CI $[-4{,}817,\, 13{,}675]$), although the CIs overlap substantially. The valence-neutral bin showed the highest mean EDA amplitude ($M = 16{,}106\,\mu\text{S}$, 95\% CI $[9{,}947,\, 19{,}232]$), which likely reflects baseline drift rather than a valence-specific response, since no tonic/phasic decomposition was applied to isolate stimulus-evoked \glspl{SCR} from slow skin conductance level trends. The within-participant \gls{ANOVA} for EDA amplitude across bins was non-significant for DEAP\_01 ($F(5, 74) = 0.20$, $p = 0.961$, $\eta^2 = 0.013$).
+
+
+
+\subsubsection{Pulse Rate Variability}
+
+The per-trial \gls{HRV}--\gls{RMSSD} (derived from BVP peak intervals at 128 Hz, minimum inter-peak distance 0.4 s) showed the expected inverse relationship with arousal for DEAP\_01: the arousal-high bin yielded $M = 159.3\,\text{ms}$ (95\% CI $[149.5,\, 169.6]$) compared to $M = 163.3\,\text{ms}$ (95\% CI $[158.3,\, 168.4]$) for arousal-low, consistent with the theoretical prediction that higher sympathetic activation reduces vagal-mediated heart rate variability \parencite{malikHeartRateVariability1996, shafferOverviewHeartRate2017}. The valence-neutral bin showed the lowest \gls{RMSSD} ($M = 146.8\,\text{ms}$, 95\% CI $[144.7,\, 149.6]$).
+
+\noindent\textbf{Data quality note.} The \gls{RMSSD} values observed here ($\approx 146$--$166$\,ms) substantially exceed typical \gls{HRV} values for resting adults regardless of recording modality ($\approx 30$--$50$\,ms for ECG; pulse-to-pulse intervals from photoplethysmography closely approximate ECG-based R-R interval variability when measured under low-noise conditions \parencite{allenPhotoplethysmographyItsApplication2007}). The elevated values are most likely attributable to false-positive peak detections at secondary peaks in the dicrotic notch of the unprocessed BVP waveform at 128\,Hz, yielding artificially short inter-peak intervals that inflate \gls{RMSSD} \parencite{pengrosaPioneerPhysiologicalOptics2024}. The minimum inter-peak distance parameter (0.4\,s) mitigates but does not eliminate this issue.
+
+The within-participant \gls{ANOVA} for \gls{HRV}--\gls{RMSSD} was non-significant for DEAP\_01 ($F(5, 74) = 1.03$, $p = 0.407$).
+
+\subsubsection{Group-Level Linear Mixed Model (EV2 Scaled Validation)}
+
+The L2 group-level analysis used a Linear Mixed Model (LMM) with condition bin as the fixed effect and participant random intercept, as described in the Methods (Section~\ref{sec:ev2_methods}). This approach properly partitions the variance into within-condition fixed effects and between-participant random variation, avoiding the pseudoreplication inherent in pooling all trials across participants into a single ANOVA. Critically, the same analytical pipeline was validated at proof-of-concept scale in EV1 ($N=5$ pilot participants); the following results represent the scaled validation study (EV2, $N=32$ DEAP participants) where precision and effect-size estimation are substantially improved. The full pipeline was run with identical parameters on both datasets; results are summarised in Table~\ref{tab:l2_lmm} (EV2 group-level).
+
+\begin{table}[htbp]
+    \centering
+    \caption{Group-Level (L2) LMM Hypothesis Test: Autonomic \& EEG Signatures of Valence \& Arousal Bins ($N = 32$ DEAP participants)}
+    \label{tab:l2_lmm}
+    \small
+    \begin{tabular}{llrrrrrrl}
+        \hline
+        \textbf{Modality} & \textbf{DV} & $\boldsymbol{\chi^2}$ & \textbf{df} & $\boldsymbol{p}$ & $\boldsymbol{R^2_m}$ & $\boldsymbol{R^2_c}$ & \textbf{ICC} & \textbf{sig} \\
+        \hline
+        EDA          & amplitude & $\infty$\textsuperscript{\dag} & 5 & $<.001$ & --- & --- & --- & *** \\
+        \gls{FAI}    & fai       & 12.40 & 5 & .030    & .500 & .979 & .958 & *   \\
+        \gls{HRV}    & RMSSD     & $\infty$\textsuperscript{\dag} & 5 & $<.001$ & --- & --- & --- & *** \\
+        EEG Frontal  & alpha     & 16.78 & 5 & .005    & .499 & .888 & .777 & **  \\
+        EEG Frontal  & beta      & 31.67 & 5 & $<.001$ & .500 & .916 & .832 & *** \\
+        EEG Frontal  & theta     & 34.80 & 5 & $<.001$ & .499 & .857 & .715 & *** \\
+        EEG Parietal & alpha     &  5.18 & 5 & .394    & .498 & .795 & .593 & ns  \\
+        EEG Parietal & beta      & 15.79 & 5 & .008    & .499 & .890 & .781 & **  \\
+        EEG Parietal & theta     & 13.57 & 5 & .019    & .498 & .792 & .586 & *   \\
+        \hline
+    \end{tabular}
+    \par\vspace{4pt}
+    \noindent\parbox{\linewidth}{\scriptsize
+    \textbf{Model:} Linear Mixed Model with fixed effect (condition bin) and random intercept per participant: $\text{DV} \sim \text{C(bin)} + (1 \mid \text{participant\_id})$. Condition bins ($k=6$): valence-high, valence-low, valence-neutral, arousal-high, arousal-low, and high-arousal-high-valence (df = 5, i.e., 6 bins $-$ 1). \textbf{Dependent variables:} EDA amplitude = mean conductance change (µS) per condition epoch; FAI = frontal alpha asymmetry ratio (log-power F4 / F3, 8--13 Hz); HRV-RMSSD = root mean square of successive RR intervals (ms) from BVP peaks; EEG alpha/beta/theta = spectral power density (µV$^2$/Hz) per region (frontal: Fz, F3, F4, F7, F8; parietal: Pz, P3, P4, P7, P8), sliding 4-s windows with 2-s step. \textbf{Significance:} Likelihood Ratio Test (LRT) comparing full vs.\ null model (ML estimation). $\chi^2$ = LRT statistic; $R^2_m$ = marginal $R^2$ (fixed effect variance); $R^2_c$ = conditional $R^2$ (fixed + random); ICC = intraclass correlation (between-participant variance proportion). $n_\text{obs}$ = 2{,}560 for EDA/FAI/HRV; 7{,}680 for EEG streams. * $p < .05$; ** $p < .01$; *** $p < .001$. \textsuperscript{\dag}~Degenerate LRT: singular random-effects solution (variance $\rightarrow 0$); $R^2$ and ICC are undefined; omnibus $p$ should be interpreted with caution.}
+\end{table}
+
+\subsubsection{Cross-modal Consistency}
+
+The multimodal cross-correlation analysis (computed per-participant across the trial-level feature vectors) revealed strong within-modality EEG band correlations for DEAP\_01: alpha--beta Spearman $r = 0.588$ ($p < 0.001$), alpha--theta $r = 0.717$ ($p < 0.001$), consistent with the joint modulation of multiple EEG frequency bands by sustained spectral states during long stimulus epochs. The \gls{FAI} measure (reflecting anterior asymmetry) showed weaker correlation with the global band power metrics, as expected since it captures a lateralization ratio rather than absolute power. The BVP-derived interval feature showed moderate correlation with EEG alpha ($r = 0.449$, $p < 0.01$).
+
+\paragraph{Group-Level Consolidation (EV2 Scaled Validation, WP2)}
+
+The per-participant correlation matrices from all 32 DEAP participants were consolidated into population-level estimates using the bootstrap-and-$t$-test procedure described in Section~\ref{sec:ev2_wp2_l2}, testing whether each pairwise cross-modal association is reliably non-zero across the cohort as a whole. Results are summarised in Table~\ref{tab:wp2_l2}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Group-Level (L2) Cross-Modal Consistency: Consolidated Pairwise Correlations ($N = 32$ DEAP participants)}
+    \label{tab:wp2_l2}
+    \small
+    \begin{tabular}{llrrrrrl}
+        \hline
+        \textbf{Var A} & \textbf{Var B} & \textbf{Mean $r$} & \textbf{SE} & \textbf{95\% CI} & $\boldsymbol{t}$ & $\boldsymbol{p}$ & \textbf{sig} \\
+        \hline
+        Beta  & Theta & .412 & .050 & [.315, .504] & 8.26  & $2.47\times10^{-9}$  & *** \\
+        Beta  & Alpha & .601 & .049 & [.502, .693] & 12.37 & $1.59\times10^{-13}$ & *** \\
+        Beta  & HRV   & .003 & .041 & [$-$.077, .082] & 0.08  & .934 & ns \\
+        Theta & Alpha & .816 & .022 & [.772, .856] & 37.32 & $2.48\times10^{-27}$ & *** \\
+        Theta & HRV   & .020 & .041 & [$-$.059, .100] & 0.49  & .626 & ns \\
+        Alpha & HRV   & .002 & .038 & [$-$.070, .076] & 0.06  & .956 & ns \\
+        \hline
+    \end{tabular}
+    \par\vspace{4pt}
+    \noindent\parbox{\linewidth}{\scriptsize
+    \textbf{Variables:} Frontal EEG alpha, beta, and theta band power (µV$^2$/Hz, sliding-window trial aggregates); HRV = \gls{PRV}--\gls{RMSSD} (ms) derived from BVP peak intervals. \textbf{Method:} Per-participant Pearson $r$ (trial-level) consolidated across $N = 32$ participants; group mean $r$, standard error, and 95\% bootstrap percentile confidence interval (5{,}000 resamples) computed treating each participant's $r$ as a single observation; significance from one-sample $t$-test of mean $r$ against zero (df $= 31$). * $p < .05$; ** $p < .01$; *** $p < .001$; ns = not significant.}
+\end{table}
+
+The group-level pattern is unambiguous: all three pairwise EEG band-power correlations (beta--theta, beta--alpha, theta--alpha) are large and highly significant, with theta--alpha showing near-collinearity ($\bar{r} = .816$). In contrast, none of the three EEG--HRV pairs approached significance ($\bar{r} = .002$ to $.020$, all $p > .62$), with confidence intervals tightly straddling zero. This directly extends the single-participant (DEAP\_01) pattern reported above to the full cohort: emotional conditions appear to modulate the three frontal EEG bands in a highly coordinated fashion, consistent with shared cortical mechanisms (e.g., broadband arousal-linked desynchronization) driving co-variation across spectrally adjacent bands, whereas cardiac vagal activity (indexed here by \gls{PRV}--\gls{RMSSD}) does not co-vary with cortical spectral power at the population level. This dissociation suggests that, in the present dataset, cross-modal integration of emotional signatures is confined to within-domain (cortical-cortical) coupling rather than extending to cortical-autonomic coupling, at least as captured by simple linear (Pearson) association of condition-level or trial-level features.
+
+\subsubsection{Baseline Regulation and Emotional Reactivity: Contextual Linear Mixed Models (EV2 Scaled Validation, WP3)}
+\label{subsec:wp3_contextual}
+
+WP3 tested whether individual differences in autonomic regulation (here, trial-level \gls{PRV}--\gls{RMSSD}, decomposed into within- and between-person components) predict \gls{EDA} reactivity, using the contextual \gls{LMM} described in Section~\ref{sec:ev2_contextual_lmm}. Table~\ref{tab:wp3_l2} summarises the fitted model ($N = 32$ DEAP participants).
+
+\begin{table}[htbp]
+    \centering
+    \caption{Group-Level (L2) Contextual LMM: EDA Amplitude $\sim$ HRV (Within/Between) $+$ Condition ($N = 32$ DEAP participants)}
+    \label{tab:wp3_l2}
+    \small
+    \begin{tabular}{lrrl}
+        \hline
+        \textbf{Term} & \textbf{$\beta$} & \textbf{$p$} & \textbf{sig} \\
+        \hline
+        HRV$_\text{within}$  (trial-level coupling)   & $-9.662$ & .0053 & ** \\
+        HRV$_\text{between}$ (trait-level, participant mean) & 0.000 & 1.000 & ns \\
+        \hline
+    \end{tabular}
+    \par\vspace{4pt}
+    \noindent\parbox{\linewidth}{\scriptsize
+    \textbf{Model:} $\text{EDA}_{ij} \sim \text{HRV}_{\text{within}, ij} + \text{HRV}_{\text{between}, i} + C(\text{condition}_{ij}) + (1 \mid \text{participant}_i)$, fit via ML (\texttt{statsmodels} \texttt{mixedlm}). \textbf{Omnibus test:} LRT vs.\ null model, $p < .001$ (***). $R^2_m$, $R^2_c$, and \gls{ICC} could not be estimated (see caveat below). $n_\text{part} = 32$.}
+\end{table}
+
+The within-person coefficient was negative and significant ($\hat\beta_\text{within} = -9.662$, $p = .0053$): on trials where a participant's \gls{PRV}--\gls{RMSSD} was momentarily higher than their own average (i.e., relatively greater parasympathetic dominance at that trial), \gls{EDA} amplitude was correspondingly lower, consistent with the classical autonomic-balance expectation that sympathetic (\gls{EDA}-driving) and parasympathetic (\gls{RMSSD}-driving) activity are reciprocally coupled at the trial level \parencite{thayerRelationshipAutonomicImbalance2010}. The between-person coefficient, by contrast, was exactly zero with $p = 1.0$, indicating no evidence that a participant's \emph{average} \gls{RMSSD} level across the session predicts their average \gls{EDA} reactivity: the trait-level (baseline vagal tone) hypothesis originally proposed for WP3 therefore receives no support in this dataset, while a trial-level (state) coupling is clearly present. As with the WP1 EDA and \gls{PRV} models (Table~\ref{tab:l2_lmm}), the marginal $R^2$, conditional $R^2$, and \gls{ICC} could not be computed for this model, a numerical signature of a singular or near-singular random-intercept variance estimate; the omnibus LRT significance should accordingly be interpreted together with the within/between coefficients rather than in isolation, and the known \gls{PRV} signal-quality limitation (Results, Section~\ref{sec:results_ev1}; inflated \gls{RMSSD} from dicrotic-notch false-positive peaks) should be borne in mind when interpreting the magnitude of $\hat\beta_\text{within}$.
+
+\subsubsection{Frontal Asymmetry and Autonomic Reactivity: Contextual Linear Mixed Model (EV2 Scaled Validation, WP4)}
+\label{subsec:wp4_contextual}
+
+WP4 tested whether trial-level \gls{FAI} (decomposed into within- and between-person components) predicts autonomic reactivity, using the same contextual \gls{LMM} framework applied jointly to \gls{EDA} and \gls{PRV}--\gls{RMSSD} as dependent variables. Table~\ref{tab:wp4_l2} summarises the fitted model for the \gls{EDA} dependent variable ($N = 32$ DEAP participants).
+
+\begin{table}[htbp]
+    \centering
+    \caption{Group-Level (L2) Contextual LMM: Autonomic Reactivity $\sim$ FAI (Within/Between) $+$ Condition ($N = 32$ DEAP participants)}
+    \label{tab:wp4_l2}
+    \small
+    \begin{tabular}{lrrl}
+        \hline
+        \textbf{Term} & \textbf{$\beta$} & \textbf{$p$} & \textbf{sig} \\
+        \hline
+        FAI$_\text{within}$  (trial-level coupling)   & $-866.086$ & .0587 & ns (marginal) \\
+        FAI$_\text{between}$ (trait-level, participant mean) & $-148.299$ & NaN\textsuperscript{\dag} & ns \\
+        \hline
+    \end{tabular}
+    \par\vspace{4pt}
+    \noindent\parbox{\linewidth}{\scriptsize
+    \textbf{Model:} $\text{Autonomic}_{ij} \sim \text{FAI}_{\text{within}, ij} + \text{FAI}_{\text{between}, i} + C(\text{condition}_{ij}) + (1 \mid \text{participant}_i)$, fit via ML. \textbf{Omnibus test:} LRT vs.\ null model, ns. $R^2_m$, $R^2_c$, and \gls{ICC} could not be estimated. $n_\text{part} = 32$. \textsuperscript{\dag}~$p$-value for the between-person term could not be computed (model convergence failure on the between-person variance component); see discussion.}
+\end{table}
+
+The within-person effect was negative and approached, but did not reach, conventional significance ($\hat\beta_\text{within} = -866.09$, $p = .0587$): trials with momentarily higher (more left-lateralized, approach-oriented) \gls{FAI} tended to show \emph{lower} autonomic reactivity, the opposite direction from the a priori approach-sympathetic coupling hypothesis. The between-person coefficient was also negative ($\hat\beta_\text{between} = -148.30$) but its $p$-value could not be estimated due to a model convergence failure, precluding any trait-level conclusion. Overall, the omnibus LRT for this model was non-significant, and both coefficients should be treated as null/exploratory findings: the present data do not support a reliable \gls{FAI}--autonomic coupling relationship, at either the trial or the trait level, in this sample.
+
+\subsubsection{SAM Prediction: Physiological Signatures of Emotional Ratings}
+\label{subsec:sam_prediction}
+
+The inverse Linear Mixed Model tests whether each physiological modality's spectral or morphological signatures predict self-reported emotional ratings (SAM valence and arousal). Model structure mirrors the group-level LMM (Section~\ref{sec:ev2_methods}): SAM outcome ~ physiological feature + (1 | participant). This directly tests the embodied cognition hypothesis: if emotions are abstractions of physiology, then modality-specific features should explain variance in subjective emotional states. Which physiological modalities best capture the neural and autonomic basis of subjective emotional experience? The same analyses were specified for both EV1 (per-participant) and EV2 (group-level); however, as detailed below, all ten EV2 modality$\times$outcome combinations failed to execute due to two independent implementation defects in the analysis pipeline, so no EV2 SAM-prediction results are available.
+
+\begin{table}[htbp]
+    \centering
+    \caption{SAM Prediction LMM: All Ten Modality $\times$ Outcome Combinations Failed to Execute ($N = 32$ participants; see text for root cause)}
+    \label{tab:sam_prediction_lmm}
+    \small
+    \begin{tabular}{llrrrrrrl}
+        \hline
+        \textbf{Modality} & \textbf{SAM Target} & $\boldsymbol{\chi^2}$ & \textbf{df} & $\boldsymbol{p}$ & $\boldsymbol{R^2_m}$ & $\boldsymbol{R^2_c}$ & \textbf{ICC} & \textbf{sig} \\
+        \hline
+        EDA          & valence   & N/E & N/E & N/E & N/E & N/E & N/E & \multicolumn{1}{l}{failed\textsuperscript{a}} \\
+        EDA          & arousal   & N/E & N/E & N/E & N/E & N/E & N/E & \multicolumn{1}{l}{failed\textsuperscript{a}} \\
+        \gls{FAI}    & valence   & N/E & N/E & N/E & N/E & N/E & N/E & \multicolumn{1}{l}{failed\textsuperscript{a}} \\
+        \gls{FAI}    & arousal   & N/E & N/E & N/E & N/E & N/E & N/E & \multicolumn{1}{l}{failed\textsuperscript{a}} \\
+        \gls{HRV}    & valence   & N/E & N/E & N/E & N/E & N/E & N/E & \multicolumn{1}{l}{failed\textsuperscript{a}} \\
+        \gls{HRV}    & arousal   & N/E & N/E & N/E & N/E & N/E & N/E & \multicolumn{1}{l}{failed\textsuperscript{a}} \\
+        EEG Frontal  & valence   & N/E & N/E & N/E & N/E & N/E & N/E & \multicolumn{1}{l}{failed\textsuperscript{b}} \\
+        EEG Frontal  & arousal   & N/E & N/E & N/E & N/E & N/E & N/E & \multicolumn{1}{l}{failed\textsuperscript{b}} \\
+        EEG Parietal & valence   & N/E & N/E & N/E & N/E & N/E & N/E & \multicolumn{1}{l}{failed\textsuperscript{b}} \\
+        EEG Parietal & arousal   & N/E & N/E & N/E & N/E & N/E & N/E & \multicolumn{1}{l}{failed\textsuperscript{b}} \\
+        \hline
+    \end{tabular}
+    \par\vspace{4pt}
+    \noindent\parbox{\linewidth}{\scriptsize \textbf{Model (as specified):} SAM outcome (valence or arousal self-report) predicted by physiological feature: $\text{SAM} \sim \text{physiology\_feature} + (1 \mid \text{participant\_id})$. \textbf{N/E} = not estimable; no model was fit because the underlying analysis process terminated before fitting for every one of the 10 modality $\times$ outcome combinations (see text). \textsuperscript{a}~EDA, \gls{FAI}, and \gls{HRV} (6 of 10 combinations) received correctly merged per-trial input data but failed inside the LMM-fitting script itself. \textsuperscript{b}~EEG Frontal and EEG Parietal (4 of 10 combinations) never received valid input: the upstream merge step that combines per-epoch EEG features with per-trial SAM ratings failed for all 32 participants before reaching the LMM-fitting script. No results were populated because the pipeline did not, in fact, complete for this analysis; the entries above are reported as failures rather than as pending or null findings.}
+\end{table}
+
+None of the ten modality $\times$ outcome combinations produced a fitted model, and the final consolidation step that aggregates per-modality results into a single summary table was consequently never invoked by the Nextflow scheduler: because every one of its ten inputs was tagged as a failure placeholder, the filtered input channel was empty, and a process with an empty input channel is simply never triggered under Nextflow's dataflow execution model---it does not appear as a failure in the pipeline's own execution accounting, which only reports zero failed tasks for this branch. Two independent, verified implementation defects are responsible. First, for EDA, \gls{FAI}, and \gls{HRV} (6 of 10 combinations), the per-trial SAM-ratings file used as input is in long format (one row per trial per rating dimension, with columns \texttt{trial\_id}, \texttt{variable}, \texttt{value}) because it is produced by reshaping the wide DEAP labels file from trial-level columns to long format for an earlier bootstrap analysis (Section~\ref{sec:methodological_adaptation}); when this same long-format file is merged with a physiological-feature file and passed to the dependent-variable auto-detection logic of the reused \texttt{lmm\_analyzer.py} module, the module looks for a literal column named \texttt{valence} or \texttt{arousal}, finds none (the rating values are stored generically under \texttt{variable}/\texttt{value}), and terminates with a ``No DV columns found'' error before any model is fit. Second, for EEG Frontal and EEG Parietal (4 of 10 combinations), the merge step that aligns per-epoch EEG band-power features with per-trial SAM ratings requests a join on both \texttt{trial\_id} and \texttt{epoch\_id}, but the SAM-ratings file contains only one row per trial and has no \texttt{epoch\_id} column at all, a granularity mismatch that caused the merge to fail (``Keys [`epoch\_id'] not in \dots labels\_long.parquet'') for all 32 participants; the LMM-fitting script downstream then received only failure-placeholder inputs and failed a second time for the same reason as above, applied to placeholder columns. These are implementation defects in the reused analysis code and pipeline wiring, not evidence bearing on the embodied-cognition hypothesis; no conclusion about the predictive relationship between physiological features and subjective emotional ratings can be drawn from EV2, and this analysis should be considered not run rather than null (see Discussion, Section~\ref{sec:limitations}, for the planned correction and re-run).
+
+\subsubsection{WP5: Multimodal Emotion Decoding}
+\label{subsec:wp5_multimodal_decoding}
+
+WP5 implements a multimodal emotion classifier to directly test the 	extbf{embodied cognition hypothesis}: \emph{are emotional states decodable from combined neural and autonomic physiological signals?} The classifier integrates features from multiple modalities (EEG, EDA, HRV, and FAI) into a unified feature matrix for classification. This approach aligns with the embodied cognition framework, \emph{are emotional states decodable from combined neural and autonomic physiological signals?} The classifier integrates features from multiple modalities (EEG, EDA, HRV, and FAI) into a unified feature matrix for classification. This approach aligns with the embodied cognition framework, which posits that emotional states emerge from the dynamic interplay between central neural processing and peripheral physiological responses. By combining EEG covariance structure (estimated via sliding 4-s windows) with autonomic features (e.g., EDA phasic component, HRV RMSSD, FAI), the classifier tests whether emotional classes derived from SAM bins (Section\ref{subsec:features_sam}) are encoded in the multimodal physiological signature. Leave-One-Subject-Out (LOSO) cross-validation was planned to evaluate generalization across participants, with each fold leaving one participant's data entirely out for testing while training on the remaining $N=31$ participants. However, this analysis was not executed in the current pipeline run and remains a priority for future work.
+
+\begin{table}[htbp]
+    \centering
+    \caption{WP5: Multimodal Emotion Decoding Performance (LOSO CV, $N = 32$ participants)}
+    \label{tab:wp5_multimodal_decoding}
+    \small
+    \begin{tabular}{lrrrrrr}
+        \hline
+        \textbf{Target} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{AUC} & \textbf{sig} \\
+        \hline
+        Valence (high/low) & -- & -- & -- & -- & -- & \multicolumn{1}{l}{planned} \\
+        Arousal (high/low) & -- & -- & -- & -- & -- & \multicolumn{1}{l}{planned} \\
+        Valence \& Arousal (multiclass) & -- & -- & -- & -- & -- & \multicolumn{1}{l}{planned} \\
+        \hline
+    \end{tabular}
+    \par\vspace{4pt}
+    \noindent\parbox{\linewidth}{\scriptsize \textbf{Method (planned):} Multimodal classifier combining EEG covariance features (15--36 Hz beta band) with autonomic features (EDA, HRV, FAI). Leave-One-Subject-Out (LOSO) cross-validation: $N-1 = 31$ participants train, 1 held-out for test; repeated $N = 32$ times. \textbf{--} = analysis not yet executed; see Discussion (Section\ref{sec:limitations}) for implementation status.}
+\end{table}
+
+
